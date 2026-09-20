@@ -1,0 +1,122 @@
+import React, { useMemo } from 'react';
+import { useCardByteStore } from '../../store/cardByteStore';
+import { NodeItem } from './NodeItem';
+import { MapNode } from '../../types/cardbyte';
+
+export const CardByteGraph: React.FC = () => {
+  const { map, currentNode, selectNode } = useCardByteStore();
+
+  const layers = useMemo(() => {
+    if (!map) return [];
+    const grouped: MapNode[][] = [];
+    for (let d = 0; d < 8; d++) {
+      grouped.push([]);
+    }
+    Object.values(map.nodes).forEach((n) => {
+      grouped[n.depth].push(n);
+    });
+    // Sort by index within layer
+    grouped.forEach((g) => g.sort((a, b) => a.index - b.index));
+    return grouped;
+  }, [map]);
+
+  if (!map) return null;
+
+  // Determine accessible node IDs
+  const accessibleIds = new Set<string>();
+  if (!currentNode) {
+    // Starting nodes at Depth 0
+    layers[0]?.forEach((n) => accessibleIds.add(n.id));
+  } else {
+    currentNode.nextIds.forEach((id) => accessibleIds.add(id));
+  }
+
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-between p-4 relative overflow-hidden select-none">
+      {/* Matrix Header */}
+      <div className="w-full max-w-5xl flex items-center justify-between border-b border-[#1e2c38] pb-2 text-xs font-mono text-slate-400">
+        <div className="flex items-center space-x-2">
+          <span className="text-[#00e5ff] glow-cyan font-bold">CYBERSPACE TOPOLOGY MAP</span>
+          <span>//</span>
+          <span>SELECT HIGHLIGHTED NODE TO INJECT</span>
+        </div>
+        <div>
+          <span>DESTINATION: <strong className="text-rose-400">WINTERMUTE CORE (DEPTH 7)</strong></span>
+        </div>
+      </div>
+
+      {/* Main 8-Layer Horizontal Flow */}
+      <div className="w-full max-w-6xl flex-1 flex items-center justify-between px-6 relative">
+        {/* Render SVG vector connection edges */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          <defs>
+            <linearGradient id="edge-pulse" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#00e5ff" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#00ff66" stopOpacity="0.8" />
+            </linearGradient>
+          </defs>
+          {Object.values(map.nodes).map((node) => {
+            return node.nextIds.map((nextId) => {
+              const target = map.nodes[nextId];
+              if (!target) return null;
+
+              // Normalized coordinates based on depth (8 columns) and index (up to 3 rows)
+              const x1 = ((node.depth + 0.5) / 8) * 100;
+              const y1 = ((node.index + 1) / (layers[node.depth].length + 1)) * 100;
+              const x2 = ((target.depth + 0.5) / 8) * 100;
+              const y2 = ((target.index + 1) / (layers[target.depth].length + 1)) * 100;
+
+              const isEdgeActive = currentNode?.id === node.id && accessibleIds.has(target.id);
+              const strokeColor = isEdgeActive 
+                ? 'url(#edge-pulse)' 
+                : target.revealed 
+                ? 'rgba(0, 229, 255, 0.25)' 
+                : 'rgba(50, 70, 90, 0.2)';
+
+              return (
+                <line
+                  key={`${node.id}->${nextId}`}
+                  x1={`${x1}%`}
+                  y1={`${y1}%`}
+                  x2={`${x2}%`}
+                  y2={`${y2}%`}
+                  stroke={strokeColor}
+                  strokeWidth={isEdgeActive ? 2.5 : 1.5}
+                  strokeDasharray={target.revealed ? undefined : '3,3'}
+                />
+              );
+            });
+          })}
+        </svg>
+
+        {/* Render Layer Columns */}
+        {layers.map((layerNodes, depth) => (
+          <div 
+            key={depth} 
+            className="flex flex-col items-center justify-around h-72 z-10"
+          >
+            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">
+              D.{depth}
+            </span>
+            <div className="flex flex-col items-center justify-center flex-1 space-y-4">
+              {layerNodes.map((node) => (
+                <NodeItem
+                  key={node.id}
+                  node={node}
+                  isAccessible={accessibleIds.has(node.id)}
+                  isCurrent={currentNode?.id === node.id}
+                  onSelect={selectNode}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer Instructions */}
+      <div className="w-full max-w-5xl text-center border-t border-[#1e2c38] pt-2 text-[11px] font-mono text-slate-500">
+        [ SYSTEM NOTICE: Nodes beyond immediate layer are encrypted under cryptographic fog-of-war. Clear layers to decode subroutines. ]
+      </div>
+    </div>
+  );
+};
