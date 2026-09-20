@@ -323,9 +323,10 @@ The client-side state is organized into 3 decoupled slices within `store/cardByt
 - Playing a card with cost $C > \text{currentEnergy}$ must be strictly rejected.
 - Maximum active hand size is strictly capped at 10 subroutines; overflow cards are flushed directly to discard.
 
-### Requirement 4: Responsive Single-Screen Layout
+### Requirement 4: Responsive Single-Screen Layout & Holographic Card Design
 - The viewport must not scroll vertically or horizontally (bounded to `100vh` / `100dvh`).
-- Hand layer displays cards as an interactive lower ribbon with hover elevation.
+- Hand layer displays cards as an interactive lower ribbon with hover elevation contained strictly within hand bounds to prevent telemetry occlusion.
+- Subroutines render within cyberdeck ROM cartridge bezels with dedicated neural telemetry illustrations (`.webp` with graceful vector icon fallback) and dynamic holographic foil sheen on upgraded (`+`) or rare subroutines.
 
 ### Requirement 5: Local Persistence & ROM Dump Portability
 - Active runs must survive browser refresh by hydrating from `localStorage`.

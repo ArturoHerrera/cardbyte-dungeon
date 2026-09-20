@@ -274,6 +274,10 @@ export const en: TranslationDictionary = {
         title: 'Decompression Nodes (Rest Sites)',
         desc: 'Safe terminal nodes that allow you to cool down (+30% HP), patch a subroutine (+ upgrade), or purge an obsolete card from cyberdeck ROM (minimum 4-card buffer safeguard enforced).',
       },
+      holographic_cartridges: {
+        title: 'Holographic ROM Cartridges',
+        desc: 'Subroutines are mounted in tactical cyberdeck ROM chips with dedicated neural telemetry graphics. Upgraded subroutines (UPG+) and rare-tier chips exhibit reactive holographic foil sheen.',
+      },
     },
   },
   tutorial: {

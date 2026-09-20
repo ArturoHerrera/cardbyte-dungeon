@@ -59,7 +59,9 @@ Traversing the matrix requires balancing three fundamental resources:
 - **ICE-Buffer (Block)**: Firewall shielding created by defensive algorithms that absorbs incoming feedback damage before it hits your flesh HP. Resets at the start of your turn.
 - **Deck RAM (Energy)**: Computational cycles available each turn (default: 3 RAM) used to execute subroutines from hand.
 
-### 2. Subroutine Catalog (Deckbuilding)
+### 2. Subroutine Catalog (Holographic Cyberdeck ROMs)
+Subroutines are mounted in tactical cyberdeck ROM cartridges featuring dedicated neural telemetry artworks, glowing hardware chassis, and dynamic holographic foil sheens for upgraded (`+`) and rare-tier chips.
+
 Every deck begins with 8 starter subroutines:
 - **4x Logic Spike**: 1 RAM, Attack dealing 6 neural damage.
 - **3x ICE-Buffer**: 1 RAM, Defend raising a 5-point firewall.
@@ -185,7 +187,9 @@ Si tu buffer biológico colapsa dentro de la matriz, la retroalimentación de al
 - **ICE-Buffer (Defensa / Bloqueo)**: Escudo de firewall generado por tus algoritmos defensivos que absorbe daño antes de tocar tu HP. Se reinicia al inicio de tu turno.
 - **RAM del Ciberdeck (Energía)**: Ciclos de procesamiento disponibles por turno (por defecto: 3 RAM) para ejecutar subrutinas desde la mano.
 
-### 2. Catálogo de Subrutinas (Deckbuilding)
+### 2. Catálogo de Subrutinas (Cartuchos ROM Holográficos)
+Las subrutinas están montadas en cartuchos ROM tácticos de ciberdeck con arte neuronal temático en alta resolución, chasis de hardware brillante y un efecto tornasol foil holográfico en subrutinas mejoradas (`+`) y chips raros.
+
 Tu mazo inicial arranca con 8 subrutinas esenciales:
 - **4x Spike Lógico**: 1 RAM, Ataque que inflige 6 de daño neural.
 - **3x ICE-Buffer**: 1 RAM, Defensa que levanta un firewall de 5 puntos.

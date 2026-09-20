@@ -274,6 +274,10 @@ export const es: TranslationDictionary = {
         title: 'Nodos de Descompresión (Áreas de Descanso)',
         desc: 'Terminales seguras que permiten enfriar procesadores (+30% HP), parchear una subrutina (+ mejora) o depurar una carta obsoleta de la ROM (con salvaguarda obligatoria de al menos 4 cartas).',
       },
+      holographic_cartridges: {
+        title: 'Cartuchos ROM Holográficos',
+        desc: 'Las subrutinas residen en cartuchos ROM tácticos con arte neuronal dedicado. Las subrutinas optimizadas (UPG+) y chips de grado militar (RARE) proyectan un brillo prismático foil holográfico.',
+      },
     },
   },
   tutorial: {

@@ -20,6 +20,7 @@ export const CardView: React.FC<CardViewProps> = ({
   scale = 'normal',
 }) => {
   const { locale } = useCardByteStore();
+  const [imageFailed, setImageFailed] = React.useState(false);
   const isPlayable = !disabled && canAfford;
 
   // Resolve localized card key
@@ -58,13 +59,32 @@ export const CardView: React.FC<CardViewProps> = ({
     ? (card.upgraded ? `[+] ${localizedDesc}` : localizedDesc)
     : card.description;
 
+  // Artwork resolution
+  const getArtworkFilename = (): string => {
+    if (baseKey.startsWith('starter_strike') || card.name.toLowerCase().includes('spike')) return 'logic_spike.webp';
+    if (baseKey.startsWith('starter_defend') || card.name.toLowerCase().includes('buffer')) return 'ice_buffer.webp';
+    if (baseKey.startsWith('starter_bash') || card.name.toLowerCase().includes('breaker')) return 'ice_breaker.webp';
+    if (card.name.toLowerCase().includes('worm')) return 'logic_worm.webp';
+    if (card.name.toLowerCase().includes('jam')) return 'packet_jam.webp';
+    if (card.name.toLowerCase().includes('overclock')) return 'overclock.webp';
+    if (card.name.toLowerCase().includes('purge')) return 'system_purge.webp';
+    if (card.name.toLowerCase().includes('brute')) return 'bruteforce.webp';
+    if (card.name.toLowerCase().includes('execute')) return 'execute.webp';
+    if (card.name.toLowerCase().includes('toxin')) return 'neuro_toxin.webp';
+    if (card.name.toLowerCase().includes('aura')) return 'firewall_aura.webp';
+    return `${baseKey}.webp`;
+  };
+
+  const artworkSrc = `/assets/cards/${getArtworkFilename()}`;
+
   const getTypeTheme = () => {
     switch (card.type) {
       case 'ATTACK':
         return {
           border: 'border-rose-700/80 hover:border-rose-400',
           bg: 'from-rose-950/40 to-[#0c1218]',
-          costBg: 'bg-rose-900 border-rose-500 text-rose-200',
+          headerAccent: 'text-rose-400',
+          costBg: 'bg-rose-950/90 border-rose-500 text-rose-300 shadow-[0_0_10px_rgba(244,63,94,0.4)]',
           glow: 'hover:box-glow-crimson',
           icon: <Swords className="w-5 h-5 text-rose-400" />,
         };
@@ -72,7 +92,8 @@ export const CardView: React.FC<CardViewProps> = ({
         return {
           border: 'border-cyan-700/80 hover:border-cyan-400',
           bg: 'from-cyan-950/40 to-[#0c1218]',
-          costBg: 'bg-cyan-900 border-cyan-500 text-cyan-200',
+          headerAccent: 'text-cyan-400',
+          costBg: 'bg-cyan-950/90 border-cyan-500 text-cyan-300 shadow-[0_0_10px_rgba(0,229,255,0.4)]',
           glow: 'hover:box-glow-cyan',
           icon: <Shield className="w-5 h-5 text-cyan-400" />,
         };
@@ -80,7 +101,8 @@ export const CardView: React.FC<CardViewProps> = ({
         return {
           border: 'border-amber-700/80 hover:border-amber-400',
           bg: 'from-amber-950/40 to-[#0c1218]',
-          costBg: 'bg-amber-900 border-amber-500 text-amber-200',
+          headerAccent: 'text-amber-400',
+          costBg: 'bg-amber-950/90 border-amber-500 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.4)]',
           glow: 'hover:box-glow-amber',
           icon: <Zap className="w-5 h-5 text-amber-400" />,
         };
@@ -88,60 +110,85 @@ export const CardView: React.FC<CardViewProps> = ({
   };
 
   const theme = getTypeTheme();
-  const widthClass = scale === 'compact' ? 'w-36 h-48' : 'w-44 h-60';
+  const widthClass = scale === 'compact' ? 'w-36 h-52' : 'w-44 h-64';
+  const isHolo = card.upgraded || card.rarity === 'RARE';
 
   return (
     <div
       onClick={() => isPlayable && onPlay && onPlay(card.id)}
       className={`
-        ${widthClass} rounded-lg border-2 p-2.5 flex flex-col justify-between select-none
+        ${widthClass} rounded-xl border-2 p-2 flex flex-col justify-between select-none
         bg-gradient-to-b ${theme.bg} ${theme.border} ${theme.glow}
         transition-all duration-200 relative group
+        ${isHolo ? 'holo-foil' : ''}
         ${isPlayable ? 'cursor-pointer hover:-translate-y-2 hover:scale-[1.03] z-10' : 'opacity-50 grayscale cursor-not-allowed'}
       `}
     >
-      {/* Top Header: Cost Orbe & Card Name */}
-      <div className="flex items-center justify-between w-full">
-        <div className={`w-7 h-7 rounded-full border flex items-center justify-center font-bold text-xs shadow-md ${theme.costBg}`}>
+      {/* Top Header: RAM Cost & Cartridge Header */}
+      <div className="flex items-center justify-between w-full relative z-10 mb-1">
+        <div className={`w-7 h-7 rounded-lg border flex items-center justify-center font-mono font-bold text-xs ${theme.costBg}`}>
           {card.cost}
         </div>
-        <div className="text-right flex-1 pl-1">
+        <div className="text-right flex-1 pl-2">
           <div className="text-[11px] font-mono font-bold text-slate-100 truncate tracking-tight">
             {displayName}
           </div>
-          <div className="text-[9px] font-mono text-slate-400 uppercase tracking-tighter">
+          <div className={`text-[8px] font-mono uppercase tracking-widest ${theme.headerAccent} font-semibold`}>
             {card.type}
           </div>
         </div>
       </div>
 
-      {/* Central Cybernetic Graphic Container */}
-      <div className="w-full flex-1 my-2 bg-[#05080b]/80 border border-slate-800 rounded flex flex-col items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 matrix-grid"></div>
-        {theme.icon}
+      {/* Cyberdeck Screen Cartridge Window */}
+      <div className="w-full flex-1 my-1 bg-[#05080b] border border-slate-700/80 rounded-lg flex items-center justify-center relative overflow-hidden shadow-inner">
+        <div className="absolute inset-0 opacity-15 matrix-grid z-0"></div>
+        
+        {!imageFailed ? (
+          <img
+            src={artworkSrc}
+            alt={card.name}
+            onError={() => setImageFailed(true)}
+            className="w-full h-full object-cover object-center z-1 transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center z-1">
+            {theme.icon}
+          </div>
+        )}
+
+        {/* Tactical Scanline & Overlay Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none z-2" />
+
+        {/* UPG+ Status Badge */}
         {card.upgraded && (
-          <span className="absolute top-1 right-1 text-[8px] font-mono font-bold text-[#00ff66] bg-[#00ff66]/20 px-1 rounded border border-[#00ff66]/40">
+          <span className="absolute top-1.5 right-1.5 z-10 text-[8px] font-mono font-bold text-[#00ff66] bg-black/80 px-1.5 py-0.5 rounded border border-[#00ff66]/70 shadow-[0_0_8px_rgba(0,255,102,0.6)]">
             UPG+
+          </span>
+        )}
+
+        {/* Rare Tag Indicator */}
+        {card.rarity === 'RARE' && (
+          <span className="absolute bottom-1.5 left-1.5 z-10 text-[7px] font-mono font-bold text-amber-300 bg-amber-950/80 px-1 rounded border border-amber-500/60 shadow-[0_0_6px_rgba(245,158,11,0.5)]">
+            RARE CHIP
           </span>
         )}
       </div>
 
       {/* Card Description */}
-      <div className="text-[11px] font-mono text-slate-200 leading-snug bg-[#070b0e]/90 p-2 rounded border border-slate-800/80 min-h-[52px] flex items-center">
+      <div className="text-[10px] font-mono text-slate-200 leading-tight bg-[#070b0e]/95 p-2 rounded-lg border border-slate-800/90 min-h-[50px] flex items-center shadow-inner relative z-10">
         {displayDesc}
       </div>
 
-      {/* Action Indicators */}
-      <div className="flex items-center justify-between pt-1 border-t border-slate-800 text-[9px] font-mono text-slate-400">
-        <span className="flex items-center space-x-0.5">
+      {/* Cartridge Bus Footer */}
+      <div className="flex items-center justify-between pt-1 border-t border-slate-800 text-[8px] font-mono text-slate-400 relative z-10">
+        <span className="flex items-center space-x-1">
           <Cpu className="w-2.5 h-2.5 text-slate-500" />
           <span>RAM {card.cost}</span>
         </span>
-        {card.rarity && (
-          <span className={card.rarity === 'RARE' ? 'text-amber-400 font-bold' : 'text-slate-500'}>
-            {card.rarity}
-          </span>
-        )}
+        <span className="text-[7px] text-slate-500 tracking-tighter uppercase">
+          CYBERDECK // ROM
+        </span>
       </div>
     </div>
   );
