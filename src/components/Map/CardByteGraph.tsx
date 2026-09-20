@@ -39,20 +39,29 @@ export const CardByteGraph: React.FC = () => {
 
   // Auto-scroll to active layer on mount or node selection in vertical mode
   useEffect(() => {
-    if (mobileViewMode && activeLayerRef.current) {
-      activeLayerRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+    if (mobileViewMode) {
+      const scrollToActive = () => {
+        if (activeLayerRef.current) {
+          activeLayerRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+        }
+      };
+
+      // Run immediately and also in timeout/RAF to guarantee scroll after DOM layout paint
+      scrollToActive();
+      const timer = setTimeout(scrollToActive, 100);
+      return () => clearTimeout(timer);
     }
   }, [mobileViewMode, currentDepth]);
 
   if (!map) return null;
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-between p-2 sm:p-4 relative overflow-hidden select-none">
+    <div className="w-full h-full flex flex-col items-center justify-between p-1.5 sm:p-4 relative overflow-hidden select-none">
       {/* Matrix Header */}
-      <div className="w-full max-w-5xl flex items-center justify-between border-b border-[#1e2c38] pb-2 text-xs font-mono text-slate-400 shrink-0">
+      <div className="w-full max-w-5xl flex items-center justify-between border-b border-[#1e2c38] pb-1.5 sm:pb-2 text-xs font-mono text-slate-400 shrink-0 px-2">
         <div className="flex items-center space-x-2">
           <span className="text-[#00e5ff] glow-cyan font-bold text-[11px] sm:text-xs">CYBERSPACE MAP</span>
           <span className="hidden sm:inline">//</span>
@@ -76,17 +85,17 @@ export const CardByteGraph: React.FC = () => {
       {/* Main Flow: Conditional Horizontal vs Vertical Spire */}
       {mobileViewMode ? (
         /* Vertical Ascending Spire Layout */
-        <div className="w-full flex-1 overflow-y-auto px-4 py-6 relative flex flex-col-reverse items-center justify-start min-h-0 space-y-reverse space-y-8">
+        <div className="w-full flex-1 overflow-y-auto px-3 py-4 relative flex flex-col-reverse items-center justify-start min-h-0 space-y-reverse space-y-6">
           {layers.map((layerNodes, depth) => {
             const isCurrentLayer = depth === currentDepth;
             return (
               <div
                 key={depth}
                 ref={isCurrentLayer ? activeLayerRef : null}
-                className={`w-full max-w-xs flex flex-col items-center p-3 rounded-xl border transition-all ${
+                className={`w-full max-w-xs flex flex-col items-center p-2.5 rounded-xl border transition-all ${
                   isCurrentLayer 
-                    ? 'bg-cyan-950/20 border-cyan-500/50 shadow-[0_0_20px_rgba(0,229,255,0.15)]' 
-                    : 'border-transparent'
+                    ? 'bg-cyan-950/30 border-cyan-400/70 shadow-[0_0_25px_rgba(0,229,255,0.25)] ring-1 ring-cyan-400/40' 
+                    : 'border-slate-800/40 bg-[#080d12]/50'
                 }`}
               >
                 <div className="w-full flex items-center justify-between border-b border-slate-800/60 pb-1 mb-2">
@@ -94,7 +103,7 @@ export const CardByteGraph: React.FC = () => {
                     DEPTH {depth} {depth === 7 ? '// BOSS' : depth === 0 ? '// ENTRY' : ''}
                   </span>
                   {isCurrentLayer && (
-                    <span className="text-[9px] font-mono uppercase bg-cyan-900/60 text-cyan-200 px-1.5 py-0.2 rounded animate-pulse">
+                    <span className="text-[9px] font-mono uppercase bg-cyan-900/80 text-cyan-200 px-2 py-0.5 rounded font-bold animate-pulse">
                       ACTIVE LAYER
                     </span>
                   )}

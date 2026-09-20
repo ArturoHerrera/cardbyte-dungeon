@@ -27,10 +27,34 @@ export const CombatView: React.FC = () => {
     mobileViewMode,
   } = useCardByteStore();
 
+  const [focusedCardId, setFocusedCardId] = React.useState<string | null>(null);
+
+  // Clear focused card if hand changes or turn changes
+  React.useEffect(() => {
+    setFocusedCardId(null);
+  }, [turnPhase, hand.length]);
+
+  const handlePlayCard = (cardId: string) => {
+    playCard(cardId);
+    setFocusedCardId(null);
+  };
+
+  const handleEndTurn = () => {
+    setFocusedCardId(null);
+    endTurn();
+  };
+
   if (!enemy) return null;
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-2 sm:p-3 select-none overflow-hidden relative">
+    <div 
+      onClick={(e) => {
+        if (!(e.target as HTMLElement).closest('.card-view-wrapper')) {
+          setFocusedCardId(null);
+        }
+      }}
+      className="w-full h-full flex flex-col justify-between p-2 sm:p-3 select-none overflow-hidden relative"
+    >
       {/* Tutorial Scenario HUD Overlay */}
       <TutorialGuideOverlay />
 
@@ -85,7 +109,7 @@ export const CombatView: React.FC = () => {
           <button
             id="btn-end-turn"
             disabled={turnPhase !== 'PLAYER'}
-            onClick={endTurn}
+            onClick={handleEndTurn}
             className={`
               flex items-center space-x-1.5 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg font-mono font-bold text-xs uppercase tracking-wider
               transition-all duration-150 border select-none
@@ -124,20 +148,31 @@ export const CombatView: React.FC = () => {
             ${mobileViewMode ? '-space-x-12 hover:space-x-1 px-6 pb-2' : 'space-x-3 px-4'}
           `}
         >
-          {hand.map((card) => (
-            <div 
-              key={card.id}
-              className={`transition-transform duration-200 ${mobileViewMode ? 'hover:z-30 hover:-translate-y-4' : ''}`}
-            >
-              <CardView
-                card={card}
-                canAfford={card.cost <= playerEnergy}
-                disabled={turnPhase !== 'PLAYER'}
-                onPlay={playCard}
-                scale={mobileViewMode ? 'compact' : 'normal'}
-              />
-            </div>
-          ))}
+          {hand.map((card) => {
+            const isFocused = focusedCardId === card.id;
+            return (
+              <div 
+                key={card.id}
+                className={`card-view-wrapper transition-all duration-200 ${
+                  isFocused 
+                    ? 'z-40' 
+                    : mobileViewMode 
+                    ? 'hover:z-30 hover:-translate-y-4 z-10' 
+                    : 'z-10'
+                }`}
+              >
+                <CardView
+                  card={card}
+                  canAfford={card.cost <= playerEnergy}
+                  disabled={turnPhase !== 'PLAYER'}
+                  onPlay={handlePlayCard}
+                  scale={mobileViewMode ? 'compact' : 'normal'}
+                  isFocused={isFocused}
+                  onFocus={(id) => setFocusedCardId(id)}
+                />
+              </div>
+            );
+          })}
           {hand.length === 0 && (
             <div className="text-slate-400 font-mono text-xs py-8">
               [ RAM EMPTY - CLICK {t(locale, 'combat.endCycle')} ]

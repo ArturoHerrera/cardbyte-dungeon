@@ -78,10 +78,10 @@ export const TopBar: React.FC = () => {
 
       {/* Right: Actions */}
       <div className="flex items-center space-x-1.5">
-        {/* Desktop Mobile View Toggle */}
+        {/* Desktop Mobile View Toggle (Hidden strictly on mobile phone screens) */}
         <button
           onClick={toggleMobileViewMode}
-          className={`p-1.5 rounded transition-all border ${
+          className={`hidden md:flex p-1.5 rounded transition-all border ${
             mobileViewMode 
               ? 'bg-cyan-950/80 border-cyan-400 text-cyan-300 shadow-[0_0_8px_rgba(0,229,255,0.4)]' 
               : 'bg-[#0c1218] border-[#1e2c38] text-slate-400 hover:text-slate-200'

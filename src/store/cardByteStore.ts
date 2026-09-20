@@ -106,13 +106,18 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
   activeModal: 'NONE',
   inspectedCard: null,
   sysAssistEnabled: (typeof window !== 'undefined' && localStorage.getItem('cardbyte_sys_assist') !== 'false'),
-  mobileViewMode: (typeof window !== 'undefined' && localStorage.getItem('cardbyte_mobile_view') === 'true'),
+  mobileViewMode: (typeof window !== 'undefined' && (window.innerWidth < 768 || localStorage.getItem('cardbyte_mobile_view') === 'true')),
   combatLog: [],
   setScreen: (screen) => set({ currentScreen: screen }),
   openModal: (modal) => set({ activeModal: modal }),
   openCardInspect: (card) => set({ inspectedCard: card, activeModal: 'CARD_INSPECT' }),
   closeModal: () => set({ activeModal: 'NONE', inspectedCard: null }),
   toggleMobileViewMode: () => {
+    // If on a physical mobile screen (<768px), keep it strictly locked to mobile view
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      set({ mobileViewMode: true });
+      return;
+    }
     set((s) => {
       const next = !s.mobileViewMode;
       try {

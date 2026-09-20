@@ -10,6 +10,8 @@ interface CardViewProps {
   canAfford?: boolean;
   onPlay?: (cardId: string) => void;
   scale?: 'normal' | 'compact';
+  isFocused?: boolean;
+  onFocus?: (cardId: string) => void;
 }
 
 export const CardView: React.FC<CardViewProps> = ({
@@ -18,16 +20,16 @@ export const CardView: React.FC<CardViewProps> = ({
   canAfford = true,
   onPlay,
   scale = 'normal',
+  isFocused = false,
+  onFocus,
 }) => {
   const { locale, mobileViewMode, openCardInspect } = useCardByteStore();
   const [imageFailed, setImageFailed] = React.useState(false);
-  const [isSelected, setIsSelected] = React.useState(false);
   const isPlayable = !disabled && canAfford;
 
   // Touch gesture state refs
   const longPressTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartPosRef = React.useRef<{ x: number; y: number } | null>(null);
-  const lastTapTimeRef = React.useRef<number>(0);
   const isLongPressTriggeredRef = React.useRef<boolean>(false);
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -55,7 +57,7 @@ export const CardView: React.FC<CardViewProps> = ({
     const touch = e.touches[0];
     const dx = Math.abs(touch.clientX - touchStartPosRef.current.x);
     const dy = Math.abs(touch.clientY - touchStartPosRef.current.y);
-    // If movement > 10px, it is a scroll/drag gesture: cancel long press
+    // If movement > 10px, it is a scroll gesture: cancel long press
     if (dx > 10 || dy > 10) {
       if (longPressTimerRef.current) {
         clearTimeout(longPressTimerRef.current);
@@ -71,30 +73,39 @@ export const CardView: React.FC<CardViewProps> = ({
     }
 
     if (isLongPressTriggeredRef.current) {
-      return; // Already inspected
+      return; // Already triggered modal
     }
 
-    const now = Date.now();
-    const timeSinceLastTap = now - lastTapTimeRef.current;
-
-    // Double tap detected (< 300ms) -> execute subroutine
-    if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
-      lastTapTimeRef.current = 0;
-      if (isPlayable && onPlay) {
-        onPlay(card.id);
+    // In mobile mode: tap to focus or tap focused card to execute
+    if (mobileViewMode) {
+      if (isFocused) {
+        if (isPlayable && onPlay) {
+          onPlay(card.id);
+        }
+      } else {
+        if (onFocus) {
+          onFocus(card.id);
+        }
       }
-    } else {
-      // Single tap -> toggle selection focus
-      lastTapTimeRef.current = now;
-      setIsSelected((prev) => !prev);
     }
   };
 
   const handleClick = () => {
-    // In standard desktop mode without simulated mobile: single click to play
+    // Desktop click handling
     if (!mobileViewMode) {
       if (isPlayable && onPlay) {
         onPlay(card.id);
+      }
+    } else {
+      // In mobile view (e.g. mouse test): focus then play
+      if (isFocused) {
+        if (isPlayable && onPlay) {
+          onPlay(card.id);
+        }
+      } else {
+        if (onFocus) {
+          onFocus(card.id);
+        }
       }
     }
   };
@@ -205,10 +216,17 @@ export const CardView: React.FC<CardViewProps> = ({
         bg-gradient-to-b ${theme.bg} ${theme.border} ${theme.glow}
         transition-all duration-200 relative group
         ${isHolo ? 'holo-foil' : ''}
-        ${isSelected ? '-translate-y-4 scale-[1.05] ring-2 ring-cyan-400 z-20 shadow-[0_0_20px_rgba(0,229,255,0.5)]' : ''}
+        ${isFocused ? '-translate-y-6 scale-[1.08] ring-2 ring-cyan-400 z-40 shadow-[0_0_25px_rgba(0,229,255,0.7)]' : ''}
         ${isPlayable ? 'cursor-pointer hover:-translate-y-2 hover:scale-[1.03] z-10' : 'opacity-50 grayscale cursor-not-allowed'}
       `}
     >
+      {/* Inline Tap to Inject confirmation badge on focused card in mobile */}
+      {mobileViewMode && isFocused && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-50 bg-rose-900 border border-rose-400 text-rose-100 px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-wider animate-pulse shadow-lg pointer-events-none flex items-center space-x-1 whitespace-nowrap">
+          <Zap className="w-2.5 h-2.5 fill-current text-rose-300" />
+          <span>{isPlayable ? 'TAP TO INJECT' : 'NO RAM'}</span>
+        </div>
+      )}
       {/* Cyberdeck ROM Header: Neon RAM Badge & Subroutine Identity */}
       <div className="flex items-center justify-between w-full relative z-10 mb-1">
         {/* Prominent RAM Energy Cell Badge */}

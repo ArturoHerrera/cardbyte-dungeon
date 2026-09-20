@@ -101,6 +101,22 @@ The cyberspace map consists of 8 procedural layers generated from a single deter
 
 ---
 
+## 📱 Mobile Cyberdeck Interface (Handheld Mode)
+
+*CardByte Dungeon* provides a first-class vertical mobile experience designed specifically for smartphone browsers:
+- **Strict Portrait Protocol**: Mobile screens automatically lock into an optimized vertical cyberdeck view, hiding desktop-only orientation toggles.
+- **Symmetric Balanced Controls**: Zero wasted screen margins with centered action buttons and persistent run statistics (`[INCURSIONES] [VICTORIAS] [FLATLINES]`) positioned cleanly above mobile browser address bars.
+- **Vertical Cyberspace Spire**: The 8-layer procedural matrix map renders in an upward vertical progression that fills 100% of the screen height, auto-scrolling to the operator's active layer upon connection.
+- **Tap-to-Focus Hand Ribbon**: Overlapping cards prevent misclicks. Tapping a card once elevates it (`z-40`, neon cyber-ring, `-translate-y-6`) and displays an inline `[TAP TO INJECT]` badge; a second tap fires the subroutine.
+- **Tactile Long-Press Inspection**: Long-pressing any card (~350ms) triggers a sensory haptic vibration and opens the detailed full-screen Card Inspect modal.
+
+| Title Screen | Matrix Spire | Focused Combat |
+| :---: | :---: | :---: |
+| ![Mobile Title](docs/assets/mobile-title.png) | ![Mobile Map](docs/assets/mobile-map.png) | ![Mobile Combat](docs/assets/mobile-combat.png) |
+
+
+---
+
 ## 🌐 Type-Safe Internationalization (i18n)
 
 *CardByte Dungeon* features an instant in-memory localization system between **English** and **Spanish**:
@@ -234,6 +250,21 @@ El mapa de infiltración se genera proceduralmente con una semilla **HEX**:
 - **Apex ICE**: Nodos élite con afijos de combate hostiles (*Blindado*, *Volátil*, *Maldito*), otorgando subrutinas raras.
 - **Nodos de Caché (Descanso)**: Permite ejecutar un **Enfriamiento** (+15 HP de integridad), una **Refactorización** (mejora permanente `+` a una subrutina) o una **Depuración de Subrutina** (eliminar permanentemente una carta obsoleta del mazo, con salvaguarda de $\ge 4$ cartas).
 - **Bóvedas de Datos (Tesoro)**: Extracción directa de subrutinas militares.
+
+---
+
+## 📱 Interfaz Cyberdeck Móvil (Modo Portátil)
+
+*CardByte Dungeon* incluye una experiencia móvil vertical de primer nivel diseñada meticulosamente para navegadores en teléfonos inteligentes:
+- **Bloqueo Estricto en Modo Vertical**: Los dispositivos móviles bloquean automáticamente el ciberespacio en vista vertical adaptada, ocultando el selector de modo de escritorio para evitar deformaciones.
+- **Controles Simétricos y Balanceados**: Cero desperdicio de márgenes verticales, con botones de acción centrados y barra de estadísticas (`[INCURSIONES] [VICTORIAS] [FLATLINES]`) visible limpiamente sobre la barra de navegación del navegador móvil.
+- **Aguja Vertical del Ciberespacio**: El mapa procedural de 8 capas se organiza en una aguja vertical ascendente que aprovecha el 100% de la altura de la pantalla, haciendo auto-scroll instantáneo a la capa activa del operador al ingresar.
+- **Protocolo Toque de Enfoque**: Las cartas superpuestas no provocan errores al pulsar. Un primer toque eleva la subrutina (`z-40`, anillo cian de fijación, `-translate-y-6`) y muestra la etiqueta `[TAP TO INJECT]`; un segundo toque ejecuta la carta.
+- **Inspección Táctil por Pulsación Prolongada**: Mantener presionada cualquier carta (~350ms) genera una vibración háptica sensorial y abre el modal completo de inspección de la subrutina.
+
+| Pantalla de Título | Aguja de la Matriz | Combate Enfocado |
+| :---: | :---: | :---: |
+| ![Título Móvil](docs/assets/mobile-title.png) | ![Mapa Móvil](docs/assets/mobile-map.png) | ![Combate Móvil](docs/assets/mobile-combat.png) |
 
 ---
 

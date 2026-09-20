@@ -10,7 +10,7 @@ interface EnemyCardProps {
 }
 
 export const EnemyCard: React.FC<EnemyCardProps> = ({ enemy }) => {
-  const { locale } = useCardByteStore();
+  const { locale, mobileViewMode } = useCardByteStore();
   const [imageFailed, setImageFailed] = useState(false);
 
   const isElite = enemy.affixes.length > 0 && !enemy.affixes.includes('SIMULATED') && enemy.archetype !== 'WINTERMUTE';
@@ -133,26 +133,28 @@ export const EnemyCard: React.FC<EnemyCardProps> = ({ enemy }) => {
   const hpPercent = Math.max(0, Math.min(100, (enemy.hp / enemy.maxHp) * 100));
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 select-none relative">
+    <div className={`flex flex-col items-center justify-center ${mobileViewMode ? 'p-1' : 'p-2'} select-none relative`}>
       {/* Intent Balloon Floating Above Construct with Telemetry Anchor */}
-      <div className="mb-2 flex flex-col items-center">
-        <div className="flex items-center space-x-1 text-[10px] font-mono text-slate-400 tracking-wider mb-1">
-          <Crosshair className="w-3 h-3 text-cyan-400 animate-spin-slow" />
+      <div className={`${mobileViewMode ? 'mb-1' : 'mb-2'} flex flex-col items-center`}>
+        <div className="flex items-center space-x-1 text-[9px] sm:text-[10px] font-mono text-slate-400 tracking-wider mb-0.5">
+          <Crosshair className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-cyan-400 animate-spin-slow" />
           <span>{t(locale, 'combat.targetHostile')}:</span>
         </div>
         <SysAssistAnchor id="enemy_intent" position="top">
           {getIntentDisplay()}
         </SysAssistAnchor>
-        <span className="text-[10px] font-mono text-slate-400 mt-1 max-w-xs text-center truncate">
+        <span className="text-[9px] sm:text-[10px] font-mono text-slate-400 mt-0.5 max-w-xs text-center truncate">
           {enemy.intent.description}
         </span>
       </div>
 
       {/* Main Construct Telemetry Viewport Chassis */}
       <div
-        className={`w-44 h-44 md:w-52 md:h-52 rounded-lg border-2 ${
-          isElite ? 'elite-breach-glow border-amber-500' : isBoss ? 'boss-threat-glow border-rose-500' : theme.border
-        } bg-[#060a0f] flex flex-col items-center justify-center relative overflow-hidden group ${theme.glow}`}
+        className={`
+          ${mobileViewMode ? 'w-32 h-32' : 'w-44 h-44 md:w-52 md:h-52'} rounded-lg border-2
+          ${isElite ? 'elite-breach-glow border-amber-500' : isBoss ? 'boss-threat-glow border-rose-500' : theme.border}
+          bg-[#060a0f] flex flex-col items-center justify-center relative overflow-hidden group ${theme.glow}
+        `}
       >
         {/* Background Cyber Grid */}
         <div className="absolute inset-0 matrix-grid opacity-25"></div>
@@ -221,11 +223,11 @@ export const EnemyCard: React.FC<EnemyCardProps> = ({ enemy }) => {
       </div>
 
       {/* Construct Title & Classification */}
-      <div className="mt-2.5 text-center">
-        <div className="text-sm font-mono font-bold text-slate-100 glow-cyan tracking-wide">
+      <div className={`${mobileViewMode ? 'mt-1.5' : 'mt-2.5'} text-center`}>
+        <div className={`${mobileViewMode ? 'text-xs' : 'text-sm'} font-mono font-bold text-slate-100 glow-cyan tracking-wide`}>
           {getLocalizedEnemyName()}
         </div>
-        <div className="text-[10px] font-mono text-slate-400 flex items-center justify-center space-x-1 mt-0.5">
+        <div className="text-[9px] sm:text-[10px] font-mono text-slate-400 flex items-center justify-center space-x-1 mt-0.5">
           <span className="text-slate-500">[</span>
           <span className={theme.accent}>{enemy.archetype}</span>
           <span className="text-slate-500">]</span>
@@ -233,12 +235,12 @@ export const EnemyCard: React.FC<EnemyCardProps> = ({ enemy }) => {
       </div>
 
       {/* HP Bar */}
-      <div className="w-48 md:w-56 mt-2">
-        <div className="flex justify-between text-[11px] font-mono text-slate-300 mb-1">
-          <span className="text-slate-400 text-[10px] uppercase">{t(locale, 'topbar.integrity')}</span>
-          <span className="font-bold text-rose-400 text-xs font-mono">{enemy.hp} / {enemy.maxHp}</span>
+      <div className={`${mobileViewMode ? 'w-40 mt-1' : 'w-48 md:w-56 mt-2'}`}>
+        <div className="flex justify-between text-[10px] sm:text-[11px] font-mono text-slate-300 mb-0.5">
+          <span className="text-slate-400 text-[9px] uppercase">{t(locale, 'topbar.integrity')}</span>
+          <span className="font-bold text-rose-400 text-[11px] font-mono">{enemy.hp} / {enemy.maxHp}</span>
         </div>
-        <div className="w-full h-2.5 bg-slate-950 rounded-full border border-slate-700/80 overflow-hidden p-0.5 shadow-inner">
+        <div className="w-full h-2 bg-slate-950 rounded-full border border-slate-700/80 overflow-hidden p-0.5 shadow-inner">
           <div
             className="h-full bg-gradient-to-r from-rose-700 via-rose-500 to-rose-400 rounded-full transition-all duration-300"
             style={{ width: `${hpPercent}%` }}

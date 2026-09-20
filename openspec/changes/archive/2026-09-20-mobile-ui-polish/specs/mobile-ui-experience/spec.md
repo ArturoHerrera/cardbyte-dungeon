@@ -1,17 +1,4 @@
-# mobile-ui-experience Specification
-
-## Purpose
-Governs responsive vertical viewport adaptation, desktop mobile-view emulation toggling, touch-first card interaction protocols, and thumb-zone ergonomics for mobile web browsers.
-
-## Requirements
-
-### Requirement: Responsive Mobile Viewport Enforcement
-The system SHALL lock layout presentation to a vertical orientation on mobile screens and viewport widths below 768px using dynamic viewport height (`100dvh`) and safe-area environment insets.
-
-#### Scenario: Mobile browser loading
-- **WHEN** the application loads in a browser viewport with width < 768px or on a detected mobile user agent
-- **THEN** the root viewport fills `100dvh` without unwanted horizontal scrollbars or URL-bar layout jumps
-- **AND** interactive elements respect `env(safe-area-inset-top)` and `env(safe-area-inset-bottom)`.
+## MODIFIED Requirements
 
 ### Requirement: Desktop Mobile Viewport Emulation Toggle
 The system SHALL provide a manual toggle strictly in desktop landscape viewports allowing operators to switch into a centered vertical mobile viewport simulation, while completely hiding this control on mobile viewports.
