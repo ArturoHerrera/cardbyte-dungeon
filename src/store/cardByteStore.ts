@@ -30,13 +30,16 @@ interface CardByteStore {
   locale: 'en' | 'es';
   setLocale: (locale: 'en' | 'es') => void;
   currentScreen: ScreenState;
-  activeModal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE' | 'CODEX' | 'TUTORIAL_VICTORY';
+  activeModal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE' | 'CODEX' | 'TUTORIAL_VICTORY' | 'CARD_INSPECT';
+  inspectedCard: Card | null;
   sysAssistEnabled: boolean;
+  mobileViewMode: boolean;
   combatLog: string[];
   setScreen: (screen: ScreenState) => void;
-  openModal: (modal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE' | 'CODEX' | 'TUTORIAL_VICTORY') => void;
-
+  openModal: (modal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE' | 'CODEX' | 'TUTORIAL_VICTORY' | 'CARD_INSPECT') => void;
+  openCardInspect: (card: Card) => void;
   closeModal: () => void;
+  toggleMobileViewMode: () => void;
   toggleSysAssist: () => void;
   addLog: (msg: string) => void;
 
@@ -101,11 +104,25 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
   },
   currentScreen: 'TITLE',
   activeModal: 'NONE',
+  inspectedCard: null,
   sysAssistEnabled: (typeof window !== 'undefined' && localStorage.getItem('cardbyte_sys_assist') !== 'false'),
+  mobileViewMode: (typeof window !== 'undefined' && localStorage.getItem('cardbyte_mobile_view') === 'true'),
   combatLog: [],
   setScreen: (screen) => set({ currentScreen: screen }),
   openModal: (modal) => set({ activeModal: modal }),
-  closeModal: () => set({ activeModal: 'NONE' }),
+  openCardInspect: (card) => set({ inspectedCard: card, activeModal: 'CARD_INSPECT' }),
+  closeModal: () => set({ activeModal: 'NONE', inspectedCard: null }),
+  toggleMobileViewMode: () => {
+    set((s) => {
+      const next = !s.mobileViewMode;
+      try {
+        localStorage.setItem('cardbyte_mobile_view', String(next));
+      } catch {
+        // ignore
+      }
+      return { mobileViewMode: next };
+    });
+  },
   toggleSysAssist: () => {
     set((s) => {
       const next = !s.sysAssistEnabled;

@@ -9,7 +9,19 @@
 
   body {
     font-family: var(--font-mono);
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
   }
+}
+
+/* Mobile Safe Areas and Viewport Support */
+.mobile-viewport-container {
+  height: 100vh;
+  height: 100dvh;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 /* CRT Scanlines Overlay */

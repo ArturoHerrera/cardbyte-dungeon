@@ -19,9 +19,85 @@ export const CardView: React.FC<CardViewProps> = ({
   onPlay,
   scale = 'normal',
 }) => {
-  const { locale } = useCardByteStore();
+  const { locale, mobileViewMode, openCardInspect } = useCardByteStore();
   const [imageFailed, setImageFailed] = React.useState(false);
+  const [isSelected, setIsSelected] = React.useState(false);
   const isPlayable = !disabled && canAfford;
+
+  // Touch gesture state refs
+  const longPressTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStartPosRef = React.useRef<{ x: number; y: number } | null>(null);
+  const lastTapTimeRef = React.useRef<number>(0);
+  const isLongPressTriggeredRef = React.useRef<boolean>(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    const touch = e.touches[0];
+    touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+    isLongPressTriggeredRef.current = false;
+
+    // Start 350ms long press inspection timer
+    longPressTimerRef.current = setTimeout(() => {
+      isLongPressTriggeredRef.current = true;
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        try {
+          navigator.vibrate(40);
+        } catch {
+          // ignore vibration errors
+        }
+      }
+      openCardInspect(card);
+    }, 350);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartPosRef.current || e.touches.length !== 1) return;
+    const touch = e.touches[0];
+    const dx = Math.abs(touch.clientX - touchStartPosRef.current.x);
+    const dy = Math.abs(touch.clientY - touchStartPosRef.current.y);
+    // If movement > 10px, it is a scroll/drag gesture: cancel long press
+    if (dx > 10 || dy > 10) {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = null;
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+
+    if (isLongPressTriggeredRef.current) {
+      return; // Already inspected
+    }
+
+    const now = Date.now();
+    const timeSinceLastTap = now - lastTapTimeRef.current;
+
+    // Double tap detected (< 300ms) -> execute subroutine
+    if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
+      lastTapTimeRef.current = 0;
+      if (isPlayable && onPlay) {
+        onPlay(card.id);
+      }
+    } else {
+      // Single tap -> toggle selection focus
+      lastTapTimeRef.current = now;
+      setIsSelected((prev) => !prev);
+    }
+  };
+
+  const handleClick = () => {
+    // In standard desktop mode without simulated mobile: single click to play
+    if (!mobileViewMode) {
+      if (isPlayable && onPlay) {
+        onPlay(card.id);
+      }
+    }
+  };
 
   // Resolve localized card key
   const baseKey = card.id.startsWith('starter_strike')
@@ -119,12 +195,17 @@ export const CardView: React.FC<CardViewProps> = ({
 
   return (
     <div
-      onClick={() => isPlayable && onPlay && onPlay(card.id)}
+      onClick={handleClick}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onContextMenu={(e) => e.preventDefault()}
       className={`
         ${widthClass} rounded-xl border-2 p-2 flex flex-col justify-between select-none
         bg-gradient-to-b ${theme.bg} ${theme.border} ${theme.glow}
         transition-all duration-200 relative group
         ${isHolo ? 'holo-foil' : ''}
+        ${isSelected ? '-translate-y-4 scale-[1.05] ring-2 ring-cyan-400 z-20 shadow-[0_0_20px_rgba(0,229,255,0.5)]' : ''}
         ${isPlayable ? 'cursor-pointer hover:-translate-y-2 hover:scale-[1.03] z-10' : 'opacity-50 grayscale cursor-not-allowed'}
       `}
     >
