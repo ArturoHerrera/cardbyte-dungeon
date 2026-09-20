@@ -211,4 +211,123 @@ export const es: TranslationDictionary = {
       wipeConfirmPrompt: '¿Seguro que deseas borrar todos los datos locales? Esto reiniciará las incursiones y estadísticas de perfil.',
     },
   },
+  codex: {
+    title: 'CÓDICE DEL OPERADOR // MANUAL ONO-SENDAI',
+    subtitle: 'MANUAL DE REFERENCIA TÁCTICA PARA COMBATE EN EL CIBERESPACIO Y NAVEGACIÓN EN LA MATRIZ',
+    categories: {
+      basics: 'FUNDAMENTOS',
+      combat: 'COMBATE Y ACCIONES',
+      status: 'ESTADOS ALTERADOS',
+      matrix: 'NAVEGACIÓN EN LA MATRIZ',
+    },
+    entries: {
+      deck_ram: {
+        title: 'RAM del Ciberdeck (Energía de Ejecución)',
+        desc: 'En cada ciclo de combate, tu consola repone 3 unidades de RAM. Cada subrutina consume un costo exacto de RAM para ejecutarse. La RAM no utilizada se disipa al concluir el turno a menos que cuentes con hardware especializado.',
+      },
+      neural_integrity: {
+        title: 'Integridad Neural (Salud del Jugador)',
+        desc: 'Mide la resistencia biológica y neurosináptica de tu organismo. Si la integridad llega a 0, la sobrecarga neural provoca un flatline terminal, abortando la incursión.',
+      },
+      turn_cycle: {
+        title: 'Estructura del Ciclo de Turnos',
+        desc: 'Cada turno consta de una Fase del Jugador seguida por una Fase del Enemigo. Juega subrutinas y finaliza con TERMINAR CICLO. El nodo hostil ejecutará de inmediato su intención telegrafiada.',
+      },
+      ice_buffer: {
+        title: 'Buffer ICE (Cortafuegos Defensivo)',
+        desc: 'Los escudos ICE generan un buffer temporal. Todo daño entrante es absorbido por el buffer antes de dañar tu Integridad Neural. ¡Atención: el buffer ICE se reinicia a 0 al inicio de tu turno!',
+      },
+      card_pipeline: {
+        title: 'Canal de Ejecución de Subrutinas',
+        desc: 'Las cartas resuelven sus efectos de forma atómica y ordenada: impactos de daño, despliegue de escudos e inyección de debuffs. Si una carta recarga RAM o roba rutinas adicionales, se reflejan al instante en la mano.',
+      },
+      hostile_intents: {
+        title: 'Telemetría Hostil (Intenciones del Enemigo)',
+        desc: 'Los constructos ICE transmiten su próxima acción calculada sobre su chasis. Utiliza esta predicción para sopesar la defensa preventiva frente a ráfagas ofensivas.',
+      },
+      vulnerable: {
+        title: 'Vulnerable (Debuff de Blanco)',
+        desc: 'Las entidades vulnerables reciben un 50% de daño adicional por ataques (Math.floor(DMG * 1.5)). Las acumulaciones se reducen en 1 al terminar la ronda.',
+      },
+      weak: {
+        title: 'Débil / Weak (Atenuación de Ataque)',
+        desc: 'Las entidades debilitadas infligen un 25% menos de daño de ataque (Math.floor(DMG * 0.75)). Las acumulaciones disminuyen en 1 al concluir el ciclo.',
+      },
+      poison_corruption: {
+        title: 'Corrupción por Veneno (Fuga Lógica)',
+        desc: 'Fuga de código que inflige daño directo a los puntos de integridad igual a las cargas de veneno al iniciar el turno, ¡traspasando por completo cualquier escudo ICE! Se reduce en 1 por turno.',
+      },
+      matrix_topology: {
+        title: 'Topología de Sectores en la Matriz',
+        desc: 'El ciberespacio está estructurado como un grafo dirigido de 8 capas. Solo puedes avanzar a nodos adyacentes conectados. Planifica tu ruta para equilibrar riesgos de combate y recompensas.',
+      },
+      data_caches: {
+        title: 'Cachés de Datos y Recompensas',
+        desc: 'Neutralizar un nodo hostil permite desencriptar cachés con nuevas subrutinas para expandir y perfeccionar tu mazo principal.',
+      },
+      decompression_nodes: {
+        title: 'Nodos de Descompresión (Áreas de Descanso)',
+        desc: 'Terminales seguras que te permiten enfriar los procesadores recuperando 30% de Integridad Neural o parchear y optimizar una subrutina existente para elevarla a su versión mejorada (+).',
+      },
+    },
+  },
+  tutorial: {
+    startSimulation: 'PROTOCOLO DE SIMULACIÓN [TUTORIAL]',
+    simTitle: 'PROTOCOLO DE SIMULACIÓN // SECUENCIA DE ARRANQUE',
+    simBadge: 'ENTORNO DE PRUEBAS // SANDBOX',
+    droneName: 'DRON DE ENTRENAMIENTO // PROTO_0',
+    objective: 'OBJETIVO:',
+    steps: {
+      step1: {
+        instruction: 'Ejecuta tu subrutina [Buffer Strike] para infligir daño al Dron de Entrenamiento.',
+        tip: 'Dispones de 3 RAM. Jugar Buffer Strike cuesta 1 RAM e inflige 6 de daño.',
+      },
+      step2: {
+        instruction: '¡El dron va a atacar con 6 DMG! Juega [ICE Shield] para absorber el impacto y pulsa TERMINAR CICLO.',
+        tip: 'ICE Shield genera 5 de buffer defensivo. El remanente afectará tu integridad si no lo bloqueas.',
+      },
+      step3: {
+        instruction: 'Inyecta debuffs: Juega [Glitch Inject] para hacer Vulnerable al dron, ¡luego ataca con fuerza!',
+        tip: 'El estado Vulnerable amplifica todo daño recibido por 1.5x.',
+      },
+      step4: {
+        instruction: 'Combina tus subrutinas restantes y neutraliza al Dron de Entrenamiento.',
+        tip: 'Al destruir el dron completarás la certificación del operador.',
+      },
+    },
+    victoryTitle: 'SIMULACIÓN COMPLETADA CON ÉXITO',
+    victorySubtitle: 'TODOS LOS SUBSISTEMAS VERIFICADOS // OPERADOR CERTIFICADO',
+    startRealRun: 'CONECTARSE A LA MATRIZ REAL [INICIAR]',
+    returnToMenu: 'VOLVER AL TERMINAL DE TÍTULO',
+  },
+  sysAssist: {
+    toggleLabel: 'HUD SYS_ASSIST',
+    hints: {
+      ram: {
+        title: 'CICLOS DE RAM DEL CIBERDECK',
+        body: 'Energía disponible para ejecutar subrutinas. Se recarga automáticamente a 3 al inicio de cada turno.',
+      },
+      ice: {
+        title: 'BUFFER ICE (CORTAFUEGOS)',
+        body: 'Escudo protector activo. Absorbe el daño de ataques enemigos antes de tu integridad. Se reinicia a 0 cada turno.',
+      },
+      intent: {
+        title: 'TELEMETRÍA DE INTENCIÓN HOSTIL',
+        body: 'Acción calculada que el enemigo ejecutará de forma inevitable cuando finalices tu ciclo.',
+      },
+      hand: {
+        title: 'SUBRUTINAS EN MEMORIA RAM (MANO)',
+        body: 'Cartas extraídas de tu mazo. Pasa el cursor para inspeccionar sus parámetros y costos.',
+      },
+      endCycle: {
+        title: 'CONTROL DE FIN DE CICLO',
+        body: 'Concluye tu fase de acción y da paso a la resolución del vector de ataque enemigo.',
+      },
+      discard: {
+        title: 'BUFFER DE DESCARTE',
+        body: 'Subrutinas ejecutadas o descartadas. Se reciclan de vuelta a la pila de robo cuando se vacía.',
+      },
+    },
+  },
 };
+

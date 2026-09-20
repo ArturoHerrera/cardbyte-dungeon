@@ -12,8 +12,12 @@ import { GameOverScreen } from './components/UI/GameOverScreen';
 import { RomDumpModal } from './components/UI/RomDumpModal';
 import { DeckViewModal } from './components/UI/DeckViewModal';
 import { ProfileModal } from './components/UI/ProfileModal';
+import { OperatorCodexModal } from './components/Tutorial/OperatorCodexModal';
+import { TutorialVictoryModal } from './components/Tutorial/TutorialVictoryModal';
 
 export default function App() {
+
+
   const { currentScreen, loadProfileFromStorage } = useCardByteStore();
 
   useEffect(() => {
@@ -60,6 +64,10 @@ export default function App() {
       <RomDumpModal />
       <DeckViewModal />
       <ProfileModal />
+      <OperatorCodexModal />
+      <TutorialVictoryModal />
     </div>
   );
 }
+
+

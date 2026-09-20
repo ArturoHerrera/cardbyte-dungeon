@@ -138,4 +138,59 @@ export interface TranslationDictionary {
       wipeConfirmPrompt: string;
     };
   };
+  codex: {
+    title: string;
+    subtitle: string;
+    categories: {
+      basics: string;
+      combat: string;
+      status: string;
+      matrix: string;
+    };
+    entries: Record<string, {
+      title: string;
+      desc: string;
+    }>;
+  };
+  tutorial: {
+    startSimulation: string;
+    simTitle: string;
+    simBadge: string;
+    droneName: string;
+    objective: string;
+    steps: {
+      step1: {
+        instruction: string;
+        tip: string;
+      };
+      step2: {
+        instruction: string;
+        tip: string;
+      };
+      step3: {
+        instruction: string;
+        tip: string;
+      };
+      step4: {
+        instruction: string;
+        tip: string;
+      };
+    };
+    victoryTitle: string;
+    victorySubtitle: string;
+    startRealRun: string;
+    returnToMenu: string;
+  };
+  sysAssist: {
+    toggleLabel: string;
+    hints: {
+      ram: { title: string; body: string };
+      ice: { title: string; body: string };
+      intent: { title: string; body: string };
+      hand: { title: string; body: string };
+      endCycle: { title: string; body: string };
+      discard: { title: string; body: string };
+    };
+  };
 }
+

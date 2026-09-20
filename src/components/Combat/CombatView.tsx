@@ -2,8 +2,13 @@ import React from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
 import { EnemyCard } from './EnemyCard';
 import { CardView } from './CardView';
-import { Play, RotateCcw } from 'lucide-react';
+import { Play, RotateCcw, BookOpen } from 'lucide-react';
+import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
+import { TutorialGuideOverlay } from '../Tutorial/TutorialGuideOverlay';
+
 import { t } from '../../locales';
+
+
 
 export const CombatView: React.FC = () => {
   const {
@@ -18,14 +23,20 @@ export const CombatView: React.FC = () => {
     combatLog,
     playCard,
     endTurn,
+    openModal,
   } = useCardByteStore();
+
 
   if (!enemy) return null;
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-3 select-none overflow-hidden relative">
+      {/* Tutorial Scenario HUD Overlay */}
+      <TutorialGuideOverlay />
+
       {/* Top Arena Header: Telemetry & Enemy Construct */}
       <div className="flex-1 flex flex-col items-center justify-center relative min-h-0">
+
         <EnemyCard enemy={enemy} />
 
         {/* Floating Combat Console Log Snippet */}
@@ -46,15 +57,30 @@ export const CombatView: React.FC = () => {
         <div className="flex items-center space-x-4">
           <span>RAM: <strong className="text-cyan-400">{hand.length}/10</strong></span>
           <span>DRAW: <strong className="text-slate-300">{drawPile.length}</strong></span>
-          <span>{t(locale, 'combat.discardBuffer')}: <strong className="text-slate-300">{discardPile.length}</strong></span>
+          <SysAssistAnchor id="discard_pile" position="top">
+            <span className="cursor-help">{t(locale, 'combat.discardBuffer')}: <strong className="text-slate-300">{discardPile.length}</strong></span>
+          </SysAssistAnchor>
           {Object.entries(playerStatusEffects).map(([k, v]) => (
+
             <span key={k} className="text-rose-400 uppercase font-bold">
               [{k}: {v}]
             </span>
           ))}
         </div>
 
-        {/* End Turn Button */}
+        {/* Right side: Codex manual & End Turn */}
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={() => openModal('CODEX')}
+            className="flex items-center space-x-1 px-2.5 py-1.5 bg-[#0c1218] border border-cyan-800/80 hover:border-cyan-400 text-cyan-300 rounded transition-colors text-[11px]"
+            title="Open Operator Codex"
+          >
+            <BookOpen className="w-3 h-3 text-cyan-400" />
+            <span className="hidden sm:inline">CODEX</span>
+          </button>
+
+          {/* End Turn Button */}
+
         <button
           id="btn-end-turn"
           disabled={turnPhase !== 'PLAYER'}
@@ -80,8 +106,10 @@ export const CombatView: React.FC = () => {
               <span>{t(locale, 'combat.enemyTurnBanner')}</span>
             </>
           )}
-        </button>
+          </button>
+        </div>
       </div>
+
 
       {/* Bottom: Hand Layer Ribbon */}
       <div className="w-full shrink-0 flex items-end justify-center pt-8 pb-2 overflow-x-auto min-h-[265px] relative z-10">

@@ -1,10 +1,21 @@
 import React, { useEffect } from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
-import { Terminal, Play, RotateCcw, HardDrive, BarChart3 } from 'lucide-react';
+import { Terminal, Play, RotateCcw, HardDrive, BarChart3, BookOpen, Sparkles } from 'lucide-react';
+
 import { t } from '../../locales';
 
 export const TitleScreen: React.FC = () => {
-  const { locale, hasActiveRun, profile, checkExistingRun, initNewRun, resumeRun, openModal } = useCardByteStore();
+  const { 
+    locale, 
+    hasActiveRun, 
+    profile, 
+    checkExistingRun, 
+    initNewRun, 
+    resumeRun, 
+    openModal,
+    startTutorialCombat,
+  } = useCardByteStore();
+
 
   useEffect(() => {
     checkExistingRun();
@@ -48,7 +59,24 @@ export const TitleScreen: React.FC = () => {
             <span>{t(locale, 'titleScreen.jackIn')}</span>
           </button>
 
-          <div className="grid grid-cols-2 gap-3 pt-2">
+          <button
+            onClick={() => startTutorialCombat()}
+            className="flex items-center justify-center space-x-2 w-full py-2.5 bg-[#0a1622] hover:bg-[#0f2438] text-cyan-300 border border-cyan-500/80 rounded-xl font-mono text-xs font-bold tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] hover:scale-[1.02] cursor-pointer"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>{t(locale, 'tutorial.startSimulation')}</span>
+          </button>
+
+
+          <div className="grid grid-cols-3 gap-2 pt-2">
+            <button
+              onClick={() => openModal('CODEX')}
+              className="flex items-center justify-center space-x-1.5 py-2 bg-[#070b0e] border border-cyan-800 hover:border-cyan-400 text-cyan-300 rounded-lg font-mono text-xs uppercase tracking-wider transition-colors"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <span>CODEX</span>
+            </button>
+
             <button
               onClick={() => openModal('ROM_DUMP')}
               className="flex items-center justify-center space-x-1.5 py-2 bg-[#070b0e] border border-amber-800 hover:border-amber-500 text-amber-400 rounded-lg font-mono text-xs uppercase tracking-wider transition-colors"
@@ -66,6 +94,7 @@ export const TitleScreen: React.FC = () => {
             </button>
           </div>
         </div>
+
 
         {/* Console Jockey Meta-Stats Footer */}
         <div className="border-t border-slate-800 pt-4 flex items-center justify-around text-[11px] font-mono text-slate-400">

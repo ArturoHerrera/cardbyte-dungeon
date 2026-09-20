@@ -12,6 +12,8 @@ import { spawnEnemy } from '../engine/enemyAi';
 import { executePlayerCard, executeEnemyTurn, CombatStateSnapshot } from '../engine/combatEngine';
 import { localStorageAdapter, defaultProfile } from '../engine/storageAdapter';
 import { createPRNG, shuffleArray } from '../engine/random';
+import { TRAINING_DRONE, TUTORIAL_STARTER_DECK } from '../data/tutorialScenario';
+
 
 export type ScreenState = 
   | 'TITLE' 
@@ -28,12 +30,16 @@ interface CardByteStore {
   locale: 'en' | 'es';
   setLocale: (locale: 'en' | 'es') => void;
   currentScreen: ScreenState;
-  activeModal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE';
+  activeModal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE' | 'CODEX' | 'TUTORIAL_VICTORY';
+  sysAssistEnabled: boolean;
   combatLog: string[];
   setScreen: (screen: ScreenState) => void;
-  openModal: (modal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE') => void;
+  openModal: (modal: 'NONE' | 'DECK_VIEW' | 'ROM_DUMP' | 'PROFILE' | 'CODEX' | 'TUTORIAL_VICTORY') => void;
+
   closeModal: () => void;
+  toggleSysAssist: () => void;
   addLog: (msg: string) => void;
+
 
   // === Profile & Meta ===
   profile: PlayerProfile;
@@ -60,6 +66,8 @@ interface CardByteStore {
 
   // === CombatSlice ===
   inCombat: boolean;
+  isTutorial: boolean;
+  tutorialStepIndex: number;
   enemy: Enemy | null;
   playerEnergy: number;
   playerMaxEnergy: number;
@@ -71,9 +79,12 @@ interface CardByteStore {
   turnPhase: 'PLAYER' | 'ENEMY';
 
   startCombat: (node: MapNode) => void;
+  startTutorialCombat: () => void;
+  setTutorialStepIndex: (step: number) => void;
   playCard: (cardId: string) => void;
   endTurn: () => void;
 }
+
 
 export const useCardByteStore = create<CardByteStore>((set, get) => ({
   // === UISlice ===
@@ -88,11 +99,24 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
   },
   currentScreen: 'TITLE',
   activeModal: 'NONE',
+  sysAssistEnabled: (typeof window !== 'undefined' && localStorage.getItem('cardbyte_sys_assist') !== 'false'),
   combatLog: [],
   setScreen: (screen) => set({ currentScreen: screen }),
   openModal: (modal) => set({ activeModal: modal }),
   closeModal: () => set({ activeModal: 'NONE' }),
+  toggleSysAssist: () => {
+    set((s) => {
+      const next = !s.sysAssistEnabled;
+      try {
+        localStorage.setItem('cardbyte_sys_assist', String(next));
+      } catch {
+        // ignore
+      }
+      return { sysAssistEnabled: next };
+    });
+  },
   addLog: (msg) => set((s) => ({ combatLog: [...s.combatLog, msg] })),
+
 
   // === Profile ===
   profile: { ...defaultProfile },
@@ -238,6 +262,8 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
 
   // === CombatSlice ===
   inCombat: false,
+  isTutorial: false,
+  tutorialStepIndex: 1,
   enemy: null,
   playerEnergy: 3,
   playerMaxEnergy: 3,
@@ -248,8 +274,43 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
   discardPile: [],
   turnPhase: 'PLAYER',
 
+  startTutorialCombat: () => {
+    // Structured tutorial starting hand: 2 attacks, 1 defend, 1 glitch
+    const tutDeck = [...TUTORIAL_STARTER_DECK];
+    const hand = tutDeck.slice(0, 4);
+    const drawPile = tutDeck.slice(4);
+
+    set({
+      inCombat: true,
+      isTutorial: true,
+      tutorialStepIndex: 1,
+      currentScreen: 'COMBAT',
+      enemy: { ...TRAINING_DRONE, hp: TRAINING_DRONE.maxHp, block: 0, statusEffects: {} },
+      playerFleshHp: 30,
+      playerMaxHp: 30,
+      playerEnergy: 3,
+      playerMaxEnergy: 3,
+      playerBlock: 0,
+      playerStatusEffects: {},
+      hand,
+      drawPile,
+      discardPile: [],
+      turnPhase: 'PLAYER',
+      combatLog: [
+        '> PROTOCOL INITIATED: SIMULATION SANDBOX v1.0',
+        '> HOSTILE SIMULATION TARGET: TRAINING_DRONE // PROTO_0',
+        '> SYS_AID: Observe tutorial directives above the arena.',
+      ],
+    });
+  },
+
+  setTutorialStepIndex: (step: number) => {
+    set({ tutorialStepIndex: step });
+  },
+
   startCombat: (node: MapNode) => {
     const { seed, masterDeck } = get();
+
     const prng = createPRNG(seed + node.depth * 31 + node.index * 7);
 
     const isElite = node.type === 'ELITE';
@@ -303,8 +364,18 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
 
     // Check enemy defeat
     if (nextState.enemy.hp <= 0) {
+      if (s.isTutorial) {
+        set({
+          activeModal: 'TUTORIAL_VICTORY',
+          combatLog: [...nextState.combatLog, '> TRAINING DRONE NEUTRALIZED // SIMULATION PROTOCOL VERIFIED.'],
+        });
+        return;
+      }
+
+
       const isBoss = nextState.enemy.archetype === 'WINTERMUTE';
       const updatedMap = decryptMapProgress(s.map!, s.currentNode!.id);
+
 
       if (isBoss) {
         // VICTORY

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
-import { Shield, Heart, Zap, Database, Terminal, HardDrive } from 'lucide-react';
+import { Shield, Heart, Zap, Database, Terminal, HardDrive, BookOpen, HelpCircle } from 'lucide-react';
+import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
+
 import { t } from '../../locales';
 
 export const TopBar: React.FC = () => {
@@ -17,8 +19,11 @@ export const TopBar: React.FC = () => {
     currentScreen,
     openModal,
     setScreen,
-    masterDeck 
+    masterDeck,
+    sysAssistEnabled,
+    toggleSysAssist,
   } = useCardByteStore();
+
 
   const floorDisplay = currentNode ? `${currentNode.depth}/7` : '0/7';
   const hexSeed = seed ? `0x${seed.toString(16).toUpperCase()}` : '0x00000';
@@ -50,20 +55,25 @@ export const TopBar: React.FC = () => {
           </div>
 
           {/* ICE-Buffer (Block) */}
-          <div className="flex items-center space-x-1.5 bg-[#0c1218] px-2.5 py-1 border border-cyan-900/50 rounded">
-            <Shield className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
-            <span className="text-slate-300">{t(locale, 'topbar.buffer')}</span>
-            <span className="text-cyan-400 font-bold">{playerBlock}</span>
-          </div>
+          <SysAssistAnchor id="ice_buffer" position="bottom">
+            <div className="flex items-center space-x-1.5 bg-[#0c1218] px-2.5 py-1 border border-cyan-900/50 rounded">
+              <Shield className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400/20" />
+              <span className="text-slate-300">{t(locale, 'topbar.buffer')}</span>
+              <span className="text-cyan-400 font-bold">{playerBlock}</span>
+            </div>
+          </SysAssistAnchor>
 
           {/* Deck RAM (Energy) */}
-          <div className="flex items-center space-x-1.5 bg-[#0c1218] px-2.5 py-1 border border-amber-900/50 rounded">
-            <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20" />
-            <span className="text-slate-300">{t(locale, 'topbar.ram')}</span>
-            <span className="text-amber-400 font-bold">{playerEnergy}/{playerMaxEnergy}</span>
-          </div>
+          <SysAssistAnchor id="ram_counter" position="bottom">
+            <div className="flex items-center space-x-1.5 bg-[#0c1218] px-2.5 py-1 border border-amber-900/50 rounded">
+              <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20" />
+              <span className="text-slate-300">{t(locale, 'topbar.ram')}</span>
+              <span className="text-amber-400 font-bold">{playerEnergy}/{playerMaxEnergy}</span>
+            </div>
+          </SysAssistAnchor>
         </div>
       )}
+
 
       {/* Right: Actions (ROM Storage, Deck, Menu, Language Switcher) */}
       <div className="flex items-center space-x-2">
@@ -114,6 +124,30 @@ export const TopBar: React.FC = () => {
           </button>
         )}
 
+        {/* SYS_ASSIST Toggle Button */}
+        <button
+          onClick={toggleSysAssist}
+          className={`flex items-center space-x-1 px-2.5 py-1 rounded transition-colors text-[11px] border ${
+            sysAssistEnabled
+              ? 'bg-cyan-950/80 border-cyan-400 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
+              : 'bg-[#0c1218] border-slate-700/80 text-slate-400 hover:text-slate-200'
+          }`}
+          title={sysAssistEnabled ? 'SYS_ASSIST: ACTIVE (Click to mute)' : 'SYS_ASSIST: MUTED (Click to activate)'}
+        >
+          <HelpCircle className={`w-3 h-3 ${sysAssistEnabled ? 'text-cyan-400' : 'text-slate-500'}`} />
+          <span className="hidden md:inline">{sysAssistEnabled ? 'AID: ON' : 'AID: OFF'}</span>
+        </button>
+
+        <button
+          onClick={() => openModal('CODEX')}
+          className="flex items-center space-x-1 px-2.5 py-1 bg-[#0c1218] border border-cyan-800/80 hover:border-cyan-400 text-cyan-300 rounded transition-colors text-[11px]"
+          title="Open Operator Codex Manual"
+        >
+          <BookOpen className="w-3 h-3 text-cyan-400" />
+          <span>[?] {t(locale, 'codex.categories.basics') ? 'CODEX' : 'MANUAL'}</span>
+        </button>
+
+
         <button
           onClick={() => openModal('ROM_DUMP')}
           className="flex items-center space-x-1 px-2.5 py-1 bg-[#0c1218] border border-amber-800/70 hover:border-amber-500 text-amber-400 rounded transition-colors text-[11px]"
@@ -124,5 +158,6 @@ export const TopBar: React.FC = () => {
         </button>
       </div>
     </header>
+
   );
 };

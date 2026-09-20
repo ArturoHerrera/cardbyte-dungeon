@@ -2,7 +2,9 @@ import React from 'react';
 import { Enemy } from '../../types/cardbyte';
 import { Shield, Swords, Zap, Bug, Server, Flame, Skull, AlertTriangle } from 'lucide-react';
 import { useCardByteStore } from '../../store/cardByteStore';
+import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
 import { t } from '../../locales';
+
 
 interface EnemyCardProps {
   enemy: Enemy;
@@ -77,11 +79,14 @@ export const EnemyCard: React.FC<EnemyCardProps> = ({ enemy }) => {
         <span className="text-[10px] font-mono text-slate-400 tracking-wider mb-0.5">
           {t(locale, 'combat.targetHostile')}:
         </span>
-        {getIntentDisplay()}
+        <SysAssistAnchor id="enemy_intent" position="top">
+          {getIntentDisplay()}
+        </SysAssistAnchor>
         <span className="text-[10px] font-mono text-slate-400 mt-1 max-w-xs text-center truncate">
           {enemy.intent.description}
         </span>
       </div>
+
 
       {/* Main Construct Avatar Frame */}
       <div className="w-48 h-48 rounded-xl border-2 border-slate-700 bg-gradient-to-b from-[#0c1218] to-[#05080b] flex flex-col items-center justify-center relative overflow-hidden box-glow-crimson group">
