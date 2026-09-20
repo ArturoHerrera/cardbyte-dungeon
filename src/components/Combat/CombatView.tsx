@@ -42,11 +42,11 @@ export const CombatView: React.FC = () => {
       </div>
 
       {/* Middle Status Separator */}
-      <div className="w-full max-w-4xl mx-auto flex items-center justify-between border-t border-b border-[#1e2c38] py-1.5 px-4 text-xs font-mono text-slate-300 shrink-0">
+      <div className="w-full max-w-4xl mx-auto flex items-center justify-between border-t border-b border-[#1e2c38] py-2 px-4 text-xs font-mono text-slate-300 shrink-0 relative z-20 bg-[#070b0e]/95 backdrop-blur-sm shadow-md">
         <div className="flex items-center space-x-4">
           <span>RAM: <strong className="text-cyan-400">{hand.length}/10</strong></span>
-          <span>DRAW: <strong className="text-slate-400">{drawPile.length}</strong></span>
-          <span>{t(locale, 'combat.discardBuffer')}: <strong className="text-slate-400">{discardPile.length}</strong></span>
+          <span>DRAW: <strong className="text-slate-300">{drawPile.length}</strong></span>
+          <span>{t(locale, 'combat.discardBuffer')}: <strong className="text-slate-300">{discardPile.length}</strong></span>
           {Object.entries(playerStatusEffects).map(([k, v]) => (
             <span key={k} className="text-rose-400 uppercase font-bold">
               [{k}: {v}]
@@ -60,23 +60,23 @@ export const CombatView: React.FC = () => {
           disabled={turnPhase !== 'PLAYER'}
           onClick={endTurn}
           className={`
-            flex items-center space-x-1.5 px-4 py-1.5 rounded font-mono font-bold text-xs uppercase tracking-wider
-            transition-all duration-150 border
+            flex items-center space-x-2 px-5 py-2 rounded-lg font-mono font-bold text-xs uppercase tracking-wider
+            transition-all duration-150 border select-none
             ${
               turnPhase === 'PLAYER'
-                ? 'bg-rose-950/80 border-rose-500 text-rose-300 hover:bg-rose-900 hover:scale-105 cursor-pointer box-glow-crimson'
-                : 'bg-slate-900 border-slate-700 text-slate-500 cursor-not-allowed'
+                ? 'bg-rose-950/90 border-rose-500 text-rose-200 hover:bg-rose-900 hover:scale-105 cursor-pointer box-glow-crimson active:scale-95'
+                : 'bg-slate-900 border-slate-700 text-slate-400 cursor-not-allowed'
             }
           `}
         >
           {turnPhase === 'PLAYER' ? (
             <>
-              <Play className="w-3.5 h-3.5 fill-rose-300" />
+              <Play className="w-4 h-4 fill-rose-300" />
               <span>{t(locale, 'combat.endCycle')}</span>
             </>
           ) : (
             <>
-              <RotateCcw className="w-3.5 h-3.5 animate-spin" />
+              <RotateCcw className="w-4 h-4 animate-spin" />
               <span>{t(locale, 'combat.enemyTurnBanner')}</span>
             </>
           )}
@@ -84,7 +84,7 @@ export const CombatView: React.FC = () => {
       </div>
 
       {/* Bottom: Hand Layer Ribbon */}
-      <div className="w-full shrink-0 flex items-end justify-center pt-2 pb-1 overflow-x-auto min-h-[250px]">
+      <div className="w-full shrink-0 flex items-end justify-center pt-8 pb-2 overflow-x-auto min-h-[265px] relative z-10">
         <div className="flex items-end space-x-3 px-4">
           {hand.map((card) => (
             <CardView
@@ -96,7 +96,7 @@ export const CombatView: React.FC = () => {
             />
           ))}
           {hand.length === 0 && (
-            <div className="text-slate-500 font-mono text-xs py-8">
+            <div className="text-slate-400 font-mono text-xs py-8">
               [ RAM EMPTY - CLICK {t(locale, 'combat.endCycle')} ]
             </div>
           )}

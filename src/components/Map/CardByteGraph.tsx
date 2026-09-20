@@ -95,7 +95,7 @@ export const CardByteGraph: React.FC = () => {
             key={depth} 
             className="flex flex-col items-center justify-around h-72 z-10"
           >
-            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">
+            <span className="text-[10px] font-mono text-slate-400 font-bold uppercase tracking-widest mb-1">
               D.{depth}
             </span>
             <div className="flex flex-col items-center justify-center flex-1 space-y-4">
@@ -114,7 +114,7 @@ export const CardByteGraph: React.FC = () => {
       </div>
 
       {/* Footer Instructions */}
-      <div className="w-full max-w-5xl text-center border-t border-[#1e2c38] pt-2 text-[11px] font-mono text-slate-500">
+      <div className="w-full max-w-5xl text-center border-t border-[#1e2c38] pt-2 text-[11px] font-mono text-slate-400">
         [ SYSTEM NOTICE: Nodes beyond immediate layer are encrypted under cryptographic fog-of-war. Clear layers to decode subroutines. ]
       </div>
     </div>

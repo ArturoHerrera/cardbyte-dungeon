@@ -97,7 +97,7 @@ export const CardView: React.FC<CardViewProps> = ({
         ${widthClass} rounded-lg border-2 p-2.5 flex flex-col justify-between select-none
         bg-gradient-to-b ${theme.bg} ${theme.border} ${theme.glow}
         transition-all duration-200 relative group
-        ${isPlayable ? 'cursor-pointer hover:-translate-y-3 hover:scale-105 z-10' : 'opacity-50 grayscale cursor-not-allowed'}
+        ${isPlayable ? 'cursor-pointer hover:-translate-y-2 hover:scale-[1.03] z-10' : 'opacity-50 grayscale cursor-not-allowed'}
       `}
     >
       {/* Top Header: Cost Orbe & Card Name */}
@@ -127,7 +127,7 @@ export const CardView: React.FC<CardViewProps> = ({
       </div>
 
       {/* Card Description */}
-      <div className="text-[10px] font-mono text-slate-300 leading-tight bg-[#070b0e]/90 p-1.5 rounded border border-slate-800/80 min-h-[48px] flex items-center">
+      <div className="text-[11px] font-mono text-slate-200 leading-snug bg-[#070b0e]/90 p-2 rounded border border-slate-800/80 min-h-[52px] flex items-center">
         {displayDesc}
       </div>
 

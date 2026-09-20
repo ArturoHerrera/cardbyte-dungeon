@@ -38,3 +38,16 @@ Enemy constructs SHALL broadcast deterministic intents that execute on the Enemy
 #### Scenario: Predictable enemy phase execution
 - **WHEN** the player concludes their turn by ending the cycle
 - **THEN** the enemy executes its broadcasted intent, updates its stats, decrements its status durations, and broadcasts its next round intent according to its archetypal cycle
+
+### Requirement: Non-Obstructive Combat Inspection
+The combat interface SHALL guarantee that hovering, inspecting, or focusing any subroutine in the player's hand does not visually occlude or overlap adjacent telemetry indicators, status counters, or the end-cycle action control.
+
+#### Scenario: Inspecting subroutine on hover
+- **WHEN** the player hovers over any card in their hand
+- **THEN** the card elevations and scale transitions remain completely contained within the hand view ribbon without crossing the upper boundary into the status separator bar
+- **AND** the end-cycle button and telemetry counters remain fully visible and clickable without obstruction.
+
+#### Scenario: Reduced motion preference
+- **WHEN** the user's operating system environment requests reduced motion (`prefers-reduced-motion: reduce`)
+- **THEN** continuous bouncing, shaking, and high-frequency pulsating animations in combat constructs are disabled or simplified.
+
