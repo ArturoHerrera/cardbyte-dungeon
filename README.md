@@ -60,7 +60,7 @@ Traversing the matrix requires balancing three fundamental resources:
 - **Deck RAM (Energy)**: Computational cycles available each turn (default: 3 RAM) used to execute subroutines from hand.
 
 ### 2. Subroutine Catalog (Holographic Cyberdeck ROMs)
-Subroutines are mounted in tactical cyberdeck ROM cartridges featuring dedicated neural telemetry artworks, glowing hardware chassis, and dynamic holographic foil sheens for upgraded (`+`) and rare-tier chips.
+Subroutines are mounted in tactical cyberdeck ROM cartridges featuring dedicated neural telemetry artworks, glowing neon RAM energy badges, instant stat telemetry chips (`[DMG]`, `[BLOCK]`, `[VULN]`), and dynamic holographic foil sheens for upgraded (`+`) and rare-tier chips.
 
 Every deck begins with 8 starter subroutines:
 - **4x Logic Spike**: 1 RAM, Attack dealing 6 neural damage.
@@ -74,9 +74,17 @@ Throughout the run, expand and refine your ROM with draft rewards:
 - **Execute**: Precision attack dealing 8 damage, doubling to 16 if the target is **Decrypted (Vulnerable)**.
 - **Firewall Aura**, **System Purge**, **Bruteforce**, and **Neuro-Toxin**.
 
+### 3. Hostile ICE Constructs & Threat Telemetry
+Hostile entities inhabit dedicated scanner telemetry viewports with custom cyberpunk illustrations, corner reticles, scanline overlays, and predictive intent broadcasting:
+- **Bit-Bug (Trace Daemon)**: Fast, insectoid surveillance construct scouting cyberspace perimeters (`bit_bug.webp`).
+- **Memory-Brute (Black ICE)**: Heavy armored server monolith guarding corporate corridors (`memory_brute.webp`).
+- **Daemon-Cultist (Corrupted Subroutine)**: Arcane ritual malware wielding corrupted violet code leaks (`daemon_cultist.webp`).
+- **Wintermute (Matrix-God AI Core)**: Transcendent super-intelligence boss emanating pulsing crimson signal shimmers and quantum tendrils (`wintermute.webp`).
+- **Apex-ICE Elites**: High-threat variations featuring pulsing amber breach perimeters and volatile combat affixes (*Armored*, *Volatile*, *Cursed*).
+
 ![Combat Screen](docs/assets/combat-screen.png)
 
-### 3. Matrix Topology (Procedural 8-Layer Graph)
+### 4. Matrix Topology (Procedural 8-Layer Graph)
 The cyberspace map consists of 8 procedural layers generated from a single deterministic **HEX Seed**:
 - **Layer 0–2**: Outer perimeter daemons (Bit-Bugs, Trace Daemons).
 - **Layer 3–6**: Intermediate corporate Black ICE and Apex ICE nodes.
@@ -85,7 +93,7 @@ The cyberspace map consists of 8 procedural layers generated from a single deter
 
 ![Matrix Map](docs/assets/matrix-map.png)
 
-### 4. Specialized Matrix Nodes
+### 5. Specialized Matrix Nodes
 - **ICE Nodes**: Standard security daemon combats.
 - **Apex ICE**: High-threat elite nodes with hostile affixes (*Armored*, *Volatile*, *Cursed*), yielding rare subroutines.
 - **Cache Nodes (Rest)**: Execute a **Core Cooldown** (+15 Flesh HP repair), a **Code Refactor** (permanently upgrading a subroutine to `+`), or a **Purge Subroutine** (thinning obsolete cards from cyberdeck ROM, with an automatic $\ge 4$ card safeguard).
@@ -188,7 +196,7 @@ Si tu buffer biológico colapsa dentro de la matriz, la retroalimentación de al
 - **RAM del Ciberdeck (Energía)**: Ciclos de procesamiento disponibles por turno (por defecto: 3 RAM) para ejecutar subrutinas desde la mano.
 
 ### 2. Catálogo de Subrutinas (Cartuchos ROM Holográficos)
-Las subrutinas están montadas en cartuchos ROM tácticos de ciberdeck con arte neuronal temático en alta resolución, chasis de hardware brillante y un efecto tornasol foil holográfico en subrutinas mejoradas (`+`) y chips raros.
+Las subrutinas están montadas en cartuchos ROM tácticos de ciberdeck con arte neuronal temático en alta resolución, celdas de RAM neón de alta visibilidad, chips de impacto estadístico inmediato (`[DMG]`, `[BLOCK]`, `[VULN]`) y un efecto tornasol foil holográfico en subrutinas mejoradas (`+`) y chips raros.
 
 Tu mazo inicial arranca con 8 subrutinas esenciales:
 - **4x Spike Lógico**: 1 RAM, Ataque que inflige 6 de daño neural.
@@ -202,9 +210,17 @@ Conforme superas nodos de seguridad, descubres subrutinas avanzadas:
 - **Ejecutar**: Exploit letal de 8 de daño (se duplica a 16 si el ICE enemigo está Desencriptado/Vulnerable).
 - **Aura Firewall**, **Purga del Sistema**, **Fuerza Bruta**, **Neuro-Toxina**.
 
+### 3. Constructos ICE Hostiles y Telemetría de Amenazas
+Las entidades hostiles habitan en un visor táctico de escaneo con ilustraciones cyberpunk dedicadas, retículas de sensores, líneas de escaneo y telemetría de intenciones:
+- **Bit-Bug (Daemon de Rastreo)**: Constructo insectoide ágil que patrulla los perímetros de la red (`bit_bug.webp`).
+- **Memory-Brute (Black ICE)**: Monolito acorazado estilo servidor pesado que bloquea corredores corporativos (`memory_brute.webp`).
+- **Daemon-Cultist (Subrutina Corrupta)**: Entidad arcana de código que propaga fugas de datos violetas (`daemon_cultist.webp`).
+- **Wintermute (IA Central / Dios de la Matriz)**: Jefe final de inteligencia cósmica que proyecta un aura carmesí y pulsos cuánticos (`wintermute.webp`).
+- **Élites Apex-ICE**: Variantes de alta peligrosidad con perímetros ámbar pulsantes y afijos volátiles (*Blindado*, *Volátil*, *Maldito*).
+
 ![Pantalla de Combate](docs/assets/combat-screen.png)
 
-### 3. Topología de la Matriz (Grafo de 8 Capas)
+### 4. Topología de la Matriz (Grafo de 8 Capas)
 El mapa de infiltración se genera proceduralmente con una semilla **HEX**:
 - **Capas 0 a 2**: Daemons de rastreo perimetrales (Bit-Bugs).
 - **Capas 3 a 6**: Black ICE reforzado y nodos de élite Apex ICE.
@@ -213,7 +229,7 @@ El mapa de infiltración se genera proceduralmente con una semilla **HEX**:
 
 ![Mapa de la Matriz](docs/assets/matrix-map.png)
 
-### 4. Nodos Especiales de la Red
+### 5. Nodos Especiales de la Red
 - **Nodos ICE**: Combates contra programas de seguridad estándar.
 - **Apex ICE**: Nodos élite con afijos de combate hostiles (*Blindado*, *Volátil*, *Maldito*), otorgando subrutinas raras.
 - **Nodos de Caché (Descanso)**: Permite ejecutar un **Enfriamiento** (+15 HP de integridad), una **Refactorización** (mejora permanente `+` a una subrutina) o una **Depuración de Subrutina** (eliminar permanentemente una carta obsoleta del mazo, con salvaguarda de $\ge 4$ cartas).

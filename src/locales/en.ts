@@ -276,7 +276,11 @@ export const en: TranslationDictionary = {
       },
       holographic_cartridges: {
         title: 'Holographic ROM Cartridges',
-        desc: 'Subroutines are mounted in tactical cyberdeck ROM chips with dedicated neural telemetry graphics. Upgraded subroutines (UPG+) and rare-tier chips exhibit reactive holographic foil sheen.',
+        desc: 'Subroutines are mounted in tactical cyberdeck ROM chips with dedicated neural telemetry graphics, high-visibility neon RAM cells, and instant stat telemetry chips ([DMG], [BLOCK], [VULN]). Upgraded subroutines (UPG+) and rare-tier chips exhibit reactive holographic foil sheen.',
+      },
+      hostile_constructs: {
+        title: 'Hostile ICE Telemetry & Viewport',
+        desc: 'Enemy ICE entities are monitored through active scanner viewports with cyberdeck telemetry. Standard constructs include Bit-Bugs, Memory-Brutes, and Daemon-Cultists. Apex-ICE Elites exhibit volatile thermal affixes, while the rogue AI WINTERMUTE manifests as an omnipotent Matrix-God.',
       },
     },
   },
@@ -288,16 +292,16 @@ export const en: TranslationDictionary = {
     objective: 'OBJECTIVE:',
     steps: {
       step1: {
-        instruction: 'Execute your [Buffer Strike] subroutine to inflict damage on the Training Drone.',
-        tip: 'You have 3 RAM. Playing Buffer Strike costs 1 RAM and inflicts 6 DMG.',
+        instruction: 'Execute your [Logic Spike] subroutine to inflict damage on the Training Drone.',
+        tip: 'You have 3 RAM. Playing Logic Spike costs 1 RAM and inflicts 6 DMG.',
       },
       step2: {
-        instruction: 'The drone is broadcasting an attack of 6 DMG! Play [ICE Shield] to absorb the impact, then click END CYCLE.',
-        tip: 'ICE Shield generates 5 buffer. Any remaining damage is absorbed or impacts your integrity.',
+        instruction: 'The drone is broadcasting an attack of 6 DMG! Play [ICE-Buffer] to absorb the impact, then click END CYCLE.',
+        tip: 'ICE-Buffer generates 5 defense buffer. Any remaining damage impacts your integrity.',
       },
       step3: {
-        instruction: 'Inject status effects: Play [Glitch Inject] to make the drone Vulnerable, then strike hard!',
-        tip: 'Vulnerable amplifies all attack damage by 1.5x.',
+        instruction: 'Inject status effects: Play [ICE-Breaker] to make the drone Vulnerable, then strike hard!',
+        tip: 'Vulnerable amplifies all incoming attack damage by 1.5x.',
       },
       step4: {
         instruction: 'Combine your remaining subroutines and neutralize the Training Drone.',

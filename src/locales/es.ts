@@ -276,7 +276,11 @@ export const es: TranslationDictionary = {
       },
       holographic_cartridges: {
         title: 'Cartuchos ROM Holográficos',
-        desc: 'Las subrutinas residen en cartuchos ROM tácticos con arte neuronal dedicado. Las subrutinas optimizadas (UPG+) y chips de grado militar (RARE) proyectan un brillo prismático foil holográfico.',
+        desc: 'Las subrutinas residen en cartuchos ROM tácticos con arte neuronal dedicado, celda de RAM neón de alta visibilidad y chips de impacto estadístico instantáneo ([DMG], [BLOCK], [VULN]). Las subrutinas optimizadas (UPG+) y chips de grado militar (RARE) proyectan un brillo prismático foil holográfico.',
+      },
+      hostile_constructs: {
+        title: 'Telemetría y Viewport de ICE Hostil',
+        desc: 'Las entidades hostiles de la red son monitoreadas mediante un visor de escaneo activo con telemetría ciberdeck. Los constructos regulares abarcan Bit-Bugs, Memory-Brutes y Daemon-Cultists. Las élites Apex-ICE exhiben afijos térmicos volátiles, mientras que la IA renegada WINTERMUTE se manifiesta como una deidad matricial omnipotente.',
       },
     },
   },
@@ -288,15 +292,15 @@ export const es: TranslationDictionary = {
     objective: 'OBJETIVO:',
     steps: {
       step1: {
-        instruction: 'Ejecuta tu subrutina [Buffer Strike] para infligir daño al Dron de Entrenamiento.',
-        tip: 'Dispones de 3 RAM. Jugar Buffer Strike cuesta 1 RAM e inflige 6 de daño.',
+        instruction: 'Ejecuta tu subrutina [Spike Lógico] para infligir daño al Dron de Entrenamiento.',
+        tip: 'Dispones de 3 RAM. Jugar Spike Lógico cuesta 1 RAM e inflige 6 de daño.',
       },
       step2: {
-        instruction: '¡El dron va a atacar con 6 DMG! Juega [ICE Shield] para absorber el impacto y pulsa TERMINAR CICLO.',
-        tip: 'ICE Shield genera 5 de buffer defensivo. El remanente afectará tu integridad si no lo bloqueas.',
+        instruction: '¡El dron va a atacar con 6 DMG! Juega [ICE-Buffer] para absorber el impacto y pulsa TERMINAR CICLO.',
+        tip: 'ICE-Buffer genera 5 de buffer defensivo. El remanente afectará tu integridad si no lo bloqueas.',
       },
       step3: {
-        instruction: 'Inyecta debuffs: Juega [Glitch Inject] para hacer Vulnerable al dron, ¡luego ataca con fuerza!',
+        instruction: 'Inyecta debuffs: Juega [Rompehielos] para hacer Vulnerable al dron, ¡luego ataca con fuerza!',
         tip: 'El estado Vulnerable amplifica todo daño recibido por 1.5x.',
       },
       step4: {

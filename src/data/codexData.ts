@@ -68,6 +68,14 @@ export const CODEX_ENTRIES: CodexEntry[] = [
     icon: '👁️',
     tag: 'TELEMETRY',
   },
+  {
+    id: 'hostile_constructs',
+    category: 'combat',
+    titleKey: 'codex.entries.hostile_constructs.title',
+    descKey: 'codex.entries.hostile_constructs.desc',
+    icon: '👾',
+    tag: 'ICE_VIEWPORT',
+  },
 
   // STATUS EFFECTS
   {
