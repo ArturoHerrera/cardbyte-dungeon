@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
-import { Shield, Heart, Zap, Database, Terminal, HardDrive, BookOpen, HelpCircle, Smartphone, Monitor, Menu, X } from 'lucide-react';
+import { Shield, Heart, Zap, Database, Terminal, HardDrive, BookOpen, HelpCircle, Smartphone, Monitor, Menu, X, Volume2, VolumeX } from 'lucide-react';
 import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
+import { audioManager } from '../../audio/audioManager';
 
 import { t } from '../../locales';
 
@@ -27,6 +28,18 @@ export const TopBar: React.FC = () => {
   } = useCardByteStore();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAudioMuted, setIsAudioMuted] = useState(audioManager.isAudioMuted());
+
+  useEffect(() => {
+    return audioManager.subscribe(() => {
+      setIsAudioMuted(audioManager.isAudioMuted());
+    });
+  }, []);
+
+  const handleToggleAudio = () => {
+    audioManager.playSfx('UI_CLICK');
+    audioManager.toggleMute();
+  };
 
   const floorDisplay = currentNode ? `${currentNode.depth}/7` : '0/7';
   const hexSeed = seed ? `0x${seed.toString(16).toUpperCase()}` : '0x00000';
@@ -78,6 +91,19 @@ export const TopBar: React.FC = () => {
 
       {/* Right: Actions */}
       <div className="flex items-center space-x-1.5">
+        {/* Audio Mute/Unmute Quick Toggle */}
+        <button
+          onClick={handleToggleAudio}
+          className={`p-1.5 rounded transition-all border ${
+            !isAudioMuted 
+              ? 'bg-cyan-950/80 border-cyan-400 text-cyan-300 shadow-[0_0_8px_rgba(0,229,255,0.4)]' 
+              : 'bg-[#0c1218] border-[#1e2c38] text-slate-500 hover:text-slate-300'
+          }`}
+          title={isAudioMuted ? 'Audio: MUTED (Click to Activate)' : 'Audio: ACTIVE (Click to Mute)'}
+        >
+          {!isAudioMuted ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+        </button>
+
         {/* Desktop Mobile View Toggle (Hidden strictly on mobile phone screens) */}
         <button
           onClick={toggleMobileViewMode}
@@ -123,6 +149,20 @@ export const TopBar: React.FC = () => {
                     </button>
                   </div>
                 </div>
+
+                {/* Audio Toggle Item in Mobile Menu */}
+                <button
+                  onClick={handleToggleAudio}
+                  className="w-full flex items-center justify-between px-2 py-1 bg-[#0c1218] hover:bg-slate-800 text-slate-300 rounded text-[10px]"
+                >
+                  <span className="flex items-center space-x-1.5">
+                    {!isAudioMuted ? <Volume2 className="w-3 h-3 text-cyan-400" /> : <VolumeX className="w-3 h-3 text-slate-500" />}
+                    <span>AUDIO</span>
+                  </span>
+                  <span className={!isAudioMuted ? 'text-[#00ff66]' : 'text-slate-500'}>
+                    {!isAudioMuted ? 'ONLINE' : 'MUTED'}
+                  </span>
+                </button>
 
                 {currentScreen !== 'TITLE' && currentScreen !== 'MAP' && (
                   <button

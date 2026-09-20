@@ -3,10 +3,16 @@ import { useCardByteStore } from '../../store/cardByteStore';
 import { NodeItem } from './NodeItem';
 import { MapNode } from '../../types/cardbyte';
 import { BookOpen } from 'lucide-react';
+import { audioManager } from '../../audio/audioManager';
 
 export const CardByteGraph: React.FC = () => {
   const { map, currentNode, selectNode, openModal, mobileViewMode } = useCardByteStore();
   const activeLayerRef = useRef<HTMLDivElement | null>(null);
+
+  const handleSelectNode = (nodeId: string) => {
+    audioManager.playSfx('UI_CLICK');
+    selectNode(nodeId);
+  };
 
   const layers = useMemo(() => {
     if (!map) return [];
@@ -116,7 +122,7 @@ export const CardByteGraph: React.FC = () => {
                       node={node}
                       isAccessible={accessibleIds.has(node.id)}
                       isCurrent={currentNode?.id === node.id}
-                      onSelect={selectNode}
+                      onSelect={handleSelectNode}
                     />
                   ))}
                 </div>
@@ -185,7 +191,7 @@ export const CardByteGraph: React.FC = () => {
                     node={node}
                     isAccessible={accessibleIds.has(node.id)}
                     isCurrent={currentNode?.id === node.id}
-                    onSelect={selectNode}
+                    onSelect={handleSelectNode}
                   />
                 ))}
               </div>

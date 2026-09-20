@@ -7,8 +7,7 @@ import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
 import { TutorialGuideOverlay } from '../Tutorial/TutorialGuideOverlay';
 
 import { t } from '../../locales';
-
-
+import { audioManager } from '../../audio/audioManager';
 
 export const CombatView: React.FC = () => {
   const {
@@ -19,6 +18,7 @@ export const CombatView: React.FC = () => {
     discardPile,
     playerEnergy,
     playerStatusEffects,
+    playerFleshHp,
     turnPhase,
     combatLog,
     playCard,
@@ -28,6 +28,15 @@ export const CombatView: React.FC = () => {
   } = useCardByteStore();
 
   const [focusedCardId, setFocusedCardId] = React.useState<string | null>(null);
+  const prevHpRef = React.useRef(playerFleshHp);
+
+  // Trigger DAMAGE_CRIT on unblocked damage
+  React.useEffect(() => {
+    if (playerFleshHp < prevHpRef.current) {
+      audioManager.playSfx('DAMAGE_CRIT');
+    }
+    prevHpRef.current = playerFleshHp;
+  }, [playerFleshHp]);
 
   // Clear focused card if hand changes or turn changes
   React.useEffect(() => {
@@ -35,11 +44,21 @@ export const CombatView: React.FC = () => {
   }, [turnPhase, hand.length]);
 
   const handlePlayCard = (cardId: string) => {
+    const card = hand.find((c) => c.id === cardId);
+    if (card) {
+      const hasBlock = card.actions.some((a) => a.type === 'BLOCK');
+      if (hasBlock) {
+        audioManager.playSfx('SHIELD_UP');
+      } else {
+        audioManager.playSfx('CARD_INJECT');
+      }
+    }
     playCard(cardId);
     setFocusedCardId(null);
   };
 
   const handleEndTurn = () => {
+    audioManager.playSfx('TURN_END');
     setFocusedCardId(null);
     endTurn();
   };

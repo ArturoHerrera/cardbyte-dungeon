@@ -30,7 +30,7 @@ export const en: TranslationDictionary = {
     activeSessionDetected: 'ACTIVE SESSION DETECTED // MEMORY PERSISTED',
     floorInfo: 'LAYER: {{floor}}/7',
     hpInfo: 'INTEGRITY: {{hp}}/{{maxHp}}',
-    terminalStatus: 'BIOS: ONO-SENDAI v4.02 // HOST: CYBERSPACE MATRIX // AUDIO: OFF',
+    terminalStatus: 'BIOS: ONO-SENDAI v4.02 // HOST: CYBERSPACE MATRIX // AUDIO: {{audioStatus}}',
     version: 'REV 1.0.4 - PROTOCOL GIBSON-84',
     statusReady: 'SYSTEM READY // WAITING FOR USER INPUT',
   },

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from '../../types/cardbyte';
 import { Swords, Shield, Zap, Cpu, Target, ArrowDownCircle, Biohazard } from 'lucide-react';
 import { useCardByteStore } from '../../store/cardByteStore';
+import { audioManager } from '../../audio/audioManager';
 import { t } from '../../locales';
 
 interface CardViewProps {
@@ -83,6 +84,7 @@ export const CardView: React.FC<CardViewProps> = ({
           onPlay(card.id);
         }
       } else {
+        audioManager.playSfx('UI_CLICK');
         if (onFocus) {
           onFocus(card.id);
         }
@@ -103,6 +105,7 @@ export const CardView: React.FC<CardViewProps> = ({
           onPlay(card.id);
         }
       } else {
+        audioManager.playSfx('UI_CLICK');
         if (onFocus) {
           onFocus(card.id);
         }

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useCardByteStore } from './store/cardByteStore';
+import { audioManager } from './audio/audioManager';
 import { TopBar } from './components/UI/TopBar';
 import { TitleScreen } from './components/UI/TitleScreen';
 import { CardByteGraph } from './components/Map/CardByteGraph';
@@ -22,6 +23,27 @@ export default function App() {
   useEffect(() => {
     loadProfileFromStorage();
   }, [loadProfileFromStorage]);
+
+  // Synchronize dynamic background soundtrack with the active game view
+  useEffect(() => {
+    switch (currentScreen) {
+      case 'TITLE':
+      case 'VICTORY':
+      case 'GAME_OVER':
+        audioManager.playBgm('TITLE');
+        break;
+      case 'COMBAT':
+        audioManager.playBgm('COMBAT');
+        break;
+      case 'MAP':
+      case 'REST':
+      case 'TREASURE':
+      case 'CARD_REWARD':
+      default:
+        audioManager.playBgm('MAP');
+        break;
+    }
+  }, [currentScreen]);
 
   const renderActiveScreen = () => {
     switch (currentScreen) {
