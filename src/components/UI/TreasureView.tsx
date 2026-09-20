@@ -8,7 +8,7 @@ import { Card } from '../../types/cardbyte';
 import { t } from '../../locales';
 
 export const TreasureView: React.FC = () => {
-  const { locale, seed, currentNode, addCardToMasterDeck, setScreen } = useCardByteStore();
+  const { locale, seed, currentNode, addCardToMasterDeck, completeNonCombatNode } = useCardByteStore();
 
   const choices = useMemo(() => {
     const prng = createPRNG(seed + (currentNode?.depth || 0) * 317 + 99);
@@ -17,7 +17,7 @@ export const TreasureView: React.FC = () => {
 
   const handleSelectCard = (card: Card) => {
     addCardToMasterDeck(card);
-    setScreen('MAP');
+    completeNonCombatNode();
   };
 
   return (
@@ -45,7 +45,7 @@ export const TreasureView: React.FC = () => {
 
         {/* Skip Action */}
         <button
-          onClick={() => setScreen('MAP')}
+          onClick={() => completeNonCombatNode()}
           className="flex items-center space-x-2 mx-auto px-6 py-2 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-slate-200 rounded font-mono text-xs uppercase tracking-wider transition-colors"
         >
           <span>{t(locale, 'treasure.purgeAndLeave')}</span>

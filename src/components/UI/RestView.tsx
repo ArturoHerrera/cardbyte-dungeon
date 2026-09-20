@@ -13,7 +13,7 @@ export const RestView: React.FC = () => {
     healPlayer, 
     upgradeMasterCard, 
     removeCardFromMasterDeck,
-    setScreen 
+    completeNonCombatNode 
   } = useCardByteStore();
 
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -25,20 +25,20 @@ export const RestView: React.FC = () => {
 
   const handleCooldown = () => {
     healPlayer(healAmount);
-    setScreen('MAP');
+    completeNonCombatNode();
   };
 
   const handleRefactor = () => {
     if (selectedCardId) {
       upgradeMasterCard(selectedCardId);
-      setScreen('MAP');
+      completeNonCombatNode();
     }
   };
 
   const handleExecutePurge = () => {
     if (selectedCardId && canPurge) {
       removeCardFromMasterDeck(selectedCardId);
-      setScreen('MAP');
+      completeNonCombatNode();
     }
   };
 

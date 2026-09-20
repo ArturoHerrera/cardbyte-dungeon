@@ -63,6 +63,7 @@ interface CardByteStore {
   upgradeMasterCard: (cardId: string) => void;
   addCardToMasterDeck: (card: Card) => void;
   removeCardFromMasterDeck: (cardId: string) => void;
+  completeNonCombatNode: () => void;
   saveRunToStorage: () => void;
 
   // === CombatSlice ===
@@ -187,17 +188,31 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
     const saved = await localStorageAdapter.loadActiveRun();
     if (!saved) return false;
 
+    let map = saved.map;
+    let currentNode = map.currentNodeId ? map.nodes[map.currentNodeId] : null;
+
+    // Self-healing reconciliation: if currentNode exists and its next layer nodes are not revealed,
+    // decrypt map progress so the player can immediately navigate forward.
+    if (currentNode) {
+      const hasUnrevealedNext = currentNode.nextIds.some((id) => !map.nodes[id]?.revealed);
+      if (hasUnrevealedNext || !currentNode.completed) {
+        map = decryptMapProgress(map, currentNode.id);
+        currentNode = map.nodes[currentNode.id];
+      }
+    }
+
     set({
       seed: saved.seed,
       playerFleshHp: saved.playerFleshHp,
       playerMaxHp: saved.playerMaxHp,
       masterDeck: saved.masterDeck,
-      map: saved.map,
-      currentNode: saved.map.currentNodeId ? saved.map.nodes[saved.map.currentNodeId] : null,
+      map,
+      currentNode,
       currentScreen: 'MAP',
       hasActiveRun: true,
       combatLog: ['> Resumed Matrix Connection from storage buffer.'],
     });
+    get().saveRunToStorage();
     return true;
   },
 
@@ -225,6 +240,24 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
     } else if (node.type === 'TREASURE') {
       set({ currentScreen: 'TREASURE' });
     }
+  },
+
+  completeNonCombatNode: () => {
+    const { map, currentNode } = get();
+    if (!map || !currentNode) {
+      set({ currentScreen: 'MAP' });
+      return;
+    }
+
+    const updatedMap = decryptMapProgress(map, currentNode.id);
+    const updatedCurrentNode = updatedMap.nodes[currentNode.id];
+
+    set({
+      map: updatedMap,
+      currentNode: updatedCurrentNode,
+      currentScreen: 'MAP',
+    });
+    get().saveRunToStorage();
   },
 
   healPlayer: (amount: number) => {
