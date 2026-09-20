@@ -174,10 +174,11 @@ export interface StorageAdapter {
    - **Progressive Decryption:** Completing a node at Depth $K$ decrypts all connected nodes at Depth $K + 1$ (and their immediate successors at Depth $K + 2$), transitioning from raw hex to clear iconography with a 300ms cipher-resolve animation.
 
 ### 4.2. Non-Combat Node Events
-- **REST (System Purge):**
-  The player chooses one of two operations:
-  1. *Purge (Repair):* Recover 30% of max HP (`Math.floor(maxHp * 0.3)` = +15 HP, capped at `maxHp`).
-  2. *Refactor (Upgrade):* Select one card from current deck to upgrade (`upgraded: true`, values increased, name suffixed with `+`).
+- **REST (Decompression Node // Offline Cache):**
+  The player chooses one of three maintenance operations:
+  1. *Core Cooldown (Repair):* Recover 30% of max HP (`Math.floor(maxHp * 0.3)` = +15 HP, capped at `maxHp`).
+  2. *Code Refactor (Upgrade):* Select one card from current deck to upgrade (`upgraded: true`, values increased, name suffixed with `+`).
+  3. *Purge Subroutine (Sanitize Memory):* Permanently delete a selected card from `masterDeck` to optimize draw consistency. Strictly disabled if `masterDeck.length <= 4` to safeguard against combat draw starvation soft-locks.
 - **TREASURE (Data Cache):**
   Offers a reward draft presenting 3 advanced/rare cards (high-value damage/block, or cards with *Poison* / *Vulnerable*). Player selects 1 card to add to their deck, or clicks *Skip*.
 

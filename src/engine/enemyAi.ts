@@ -6,14 +6,17 @@ import { randomInt, pickRandom } from './random';
  */
 export function calculateNextIntent(enemy: Enemy): EnemyIntent {
   const cycle = enemy.cycleIndex;
+  const depthBonus = Math.floor((enemy.depth || 0) * 0.6);
 
   switch (enemy.archetype) {
     case 'BIT_BUG': {
       // 3-Turn Cycle: Attack 6 -> Attack 8 -> Defend 8
       if (cycle % 3 === 0) {
-        return { type: 'ATTACK', value: 6, description: 'Packet Swarm (6 dmg)' };
+        const dmg = 6 + depthBonus;
+        return { type: 'ATTACK', value: dmg, description: `Packet Swarm (${dmg} dmg)` };
       } else if (cycle % 3 === 1) {
-        return { type: 'ATTACK', value: 8, description: 'Corrupt Bite (8 dmg)' };
+        const dmg = 8 + depthBonus;
+        return { type: 'ATTACK', value: dmg, description: `Corrupt Bite (${dmg} dmg)` };
       } else {
         return { type: 'DEFEND', value: 8, description: 'Hard Shell (+8 block)' };
       }
@@ -27,7 +30,7 @@ export function calculateNextIntent(enemy: Enemy): EnemyIntent {
         return { type: 'BUFF', value: 2, description: 'Overcharge Capacitors' };
       } else {
         const isCharged = (enemy.statusEffects['buff'] || 0) > 0;
-        const dmg = isCharged ? 20 : 16;
+        const dmg = (isCharged ? 20 : 16) + depthBonus;
         return { type: 'ATTACK', value: dmg, description: `Logic Sledge (${dmg} dmg)` };
       }
     }
@@ -43,9 +46,11 @@ export function calculateNextIntent(enemy: Enemy): EnemyIntent {
           description: 'Decrypt Ports (Applies 2 Vulnerable)' 
         };
       } else if (cycle % 3 === 1) {
-        return { type: 'ATTACK', value: 7, description: 'Dark Hex (7 dmg)' };
+        const dmg = 7 + depthBonus;
+        return { type: 'ATTACK', value: dmg, description: `Dark Hex (${dmg} dmg)` };
       } else {
-        return { type: 'ATTACK', value: 9, description: 'Logic Flail (9 dmg)' };
+        const dmg = 9 + depthBonus;
+        return { type: 'ATTACK', value: dmg, description: `Logic Flail (${dmg} dmg)` };
       }
     }
 
@@ -109,6 +114,7 @@ export function spawnEnemy(
       statusEffects: {},
       affixes: ['Matrix-God', 'Autonomous'],
       cycleIndex: 0,
+      depth: 7,
       intent: { type: 'ATTACK', value: 8, status: 'VULNERABLE', statusDuration: 2, description: 'Neural Probe' },
     };
     boss.intent = calculateNextIntent(boss);
@@ -143,6 +149,10 @@ export function spawnEnemy(
     hp = isElite ? randomInt(prng, 34, 38) : randomInt(prng, 26, 32);
   }
 
+  // Depth-based HP scaling (+Math.floor(depth * 2.5))
+  const depthHpBonus = Math.floor(depth * 2.5);
+  hp += depthHpBonus;
+
   // Handle passive starting block from Armored affix
   if (affixes.includes('Armored')) {
     block = 10;
@@ -160,6 +170,7 @@ export function spawnEnemy(
     statusEffects: {},
     affixes,
     cycleIndex: 0,
+    depth,
     intent: { type: 'ATTACK', value: 6, description: '' },
   };
 

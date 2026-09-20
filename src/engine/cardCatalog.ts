@@ -149,8 +149,17 @@ export const CARD_CATALOG: Omit<Card, 'id'>[] = [
     type: 'ATTACK',
     rarity: 'RARE',
     description: 'Targeted exploit. Deals 8 damage (doubled to 16 if target is Decrypted/Vulnerable).',
-    actions: [{ type: 'DAMAGE', value: 8, target: 'ENEMY' }],
+    actions: [
+      {
+        type: 'DAMAGE',
+        value: 8,
+        target: 'ENEMY',
+        condition: 'TARGET_VULNERABLE',
+        conditionMultiplier: 2,
+      },
+    ],
   },
+
   // 7. Neuro-Toxin (Rare Skill)
   {
     name: 'Neuro-Toxin',

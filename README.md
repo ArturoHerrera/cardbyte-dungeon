@@ -86,7 +86,7 @@ The cyberspace map consists of 8 procedural layers generated from a single deter
 ### 4. Specialized Matrix Nodes
 - **ICE Nodes**: Standard security daemon combats.
 - **Apex ICE**: High-threat elite nodes with hostile affixes (*Armored*, *Volatile*, *Cursed*), yielding rare subroutines.
-- **Cache Nodes (Rest)**: Execute either a **System Purge** (+15 Flesh HP cooldown) or a **Code Refactor** (permanently upgrading a subroutine to `+`).
+- **Cache Nodes (Rest)**: Execute a **Core Cooldown** (+15 Flesh HP repair), a **Code Refactor** (permanently upgrading a subroutine to `+`), or a **Purge Subroutine** (thinning obsolete cards from cyberdeck ROM, with an automatic $\ge 4$ card safeguard).
 - **Data Vaults (Treasure)**: Extract high-priority military subroutines.
 
 ---
@@ -212,7 +212,7 @@ El mapa de infiltración se genera proceduralmente con una semilla **HEX**:
 ### 4. Nodos Especiales de la Red
 - **Nodos ICE**: Combates contra programas de seguridad estándar.
 - **Apex ICE**: Nodos élite con afijos de combate hostiles (*Blindado*, *Volátil*, *Maldito*), otorgando subrutinas raras.
-- **Nodos de Caché (Descanso)**: Permite ejecutar un **Enfriamiento** (+15 HP de integridad) o una **Refactorización** (mejora permanente `+` a una subrutina).
+- **Nodos de Caché (Descanso)**: Permite ejecutar un **Enfriamiento** (+15 HP de integridad), una **Refactorización** (mejora permanente `+` a una subrutina) o una **Depuración de Subrutina** (eliminar permanentemente una carta obsoleta del mazo, con salvaguarda de $\ge 4$ cartas).
 - **Bóvedas de Datos (Tesoro)**: Extracción directa de subrutinas militares.
 
 ---

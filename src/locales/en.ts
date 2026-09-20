@@ -163,10 +163,15 @@ export const en: TranslationDictionary = {
     cooldownDesc: 'Vent heatsinks and restore +{{hp}} neural integrity (HP).',
     patchTitle: 'CODE REFACTOR // PATCH SUBROUTINE',
     patchDesc: 'Compile a persistent + upgrade to a selected subroutine in your deck.',
+    purgeTitle: 'PURGE SUBROUTINE // MEMORY SANITIZE',
+    purgeDesc: 'Permanently delete a subroutine from cyberdeck ROM to thin your combat buffer.',
     executeCooldown: 'INITIATE COOLDOWN',
     executePatch: 'SELECT SUBROUTINE TO PATCH',
+    executePurge: 'SELECT SUBROUTINE TO PURGE',
     selectCardPrompt: 'SELECT A SUBROUTINE TO COMPILE (+)',
+    selectPurgePrompt: 'SELECT A SUBROUTINE TO PERMANENTLY PURGE',
     fullyPatched: 'All compatible subroutines are already upgraded.',
+    minBufferWarning: 'MIN BUFFER LOCK: Master deck must retain at least 4 subroutines to avoid terminal freeze.',
   },
   treasure: {
     title: 'UNENCRYPTED MILITARY DATAVAULT',
@@ -255,7 +260,7 @@ export const en: TranslationDictionary = {
       },
       poison_corruption: {
         title: 'Poison Corruption (System Leak)',
-        desc: 'Direct logic corruption that deals HP damage equal to current poison stacks at the start of the entity\'s turn, completely bypassing all ICE-Buffer! Stacks decrement by 1 each turn.',
+        desc: 'Direct logic corruption that deals HP damage equal to current poison stacks at the start of the entity\'s turn, completely bypassing all ICE-Buffer! Stacks decrement by 1 each turn (Bosses and Armored enemies purge 2 stacks per turn via anti-virus countermeasures).',
       },
       matrix_topology: {
         title: 'Matrix Sector Navigation',
@@ -267,7 +272,7 @@ export const en: TranslationDictionary = {
       },
       decompression_nodes: {
         title: 'Decompression Nodes (Rest Sites)',
-        desc: 'Safe terminal nodes that allow you to either cool down and recover 30% Neural Integrity or compile and optimize an existing subroutine into an upgraded variant.',
+        desc: 'Safe terminal nodes that allow you to cool down (+30% HP), patch a subroutine (+ upgrade), or purge an obsolete card from cyberdeck ROM (minimum 4-card buffer safeguard enforced).',
       },
     },
   },

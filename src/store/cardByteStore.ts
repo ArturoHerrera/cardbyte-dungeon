@@ -62,6 +62,7 @@ interface CardByteStore {
   healPlayer: (amount: number) => void;
   upgradeMasterCard: (cardId: string) => void;
   addCardToMasterDeck: (card: Card) => void;
+  removeCardFromMasterDeck: (cardId: string) => void;
   saveRunToStorage: () => void;
 
   // === CombatSlice ===
@@ -244,6 +245,18 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
 
   addCardToMasterDeck: (card: Card) => {
     set((s) => ({ masterDeck: [...s.masterDeck, card] }));
+    get().saveRunToStorage();
+  },
+
+  removeCardFromMasterDeck: (cardId: string) => {
+    set((s) => {
+      // Find the index of the first occurrence of this cardId and remove only that one
+      const index = s.masterDeck.findIndex((c) => c.id === cardId);
+      if (index === -1) return { masterDeck: s.masterDeck };
+      const updated = [...s.masterDeck];
+      updated.splice(index, 1);
+      return { masterDeck: updated };
+    });
     get().saveRunToStorage();
   },
 

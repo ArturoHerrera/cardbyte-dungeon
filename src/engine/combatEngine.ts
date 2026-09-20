@@ -1,5 +1,6 @@
 import { Card, Enemy } from '../types/cardbyte';
 import { calculateNextIntent } from './enemyAi';
+import { shuffleArray } from './random';
 
 export interface CombatStateSnapshot {
   playerHp: number;
@@ -99,9 +100,11 @@ export function executePlayerCard(
   for (const action of card.actions) {
     if (action.type === 'DAMAGE') {
       let dmg = action.value;
-      // Execute card bonus if target decrypted
-      if (card.name.startsWith('Execute') && (enemy.statusEffects['vulnerable'] || 0) > 0) {
-        dmg *= 2;
+      // Declarative condition multiplier (e.g. Execute against Vulnerable target)
+      if (action.condition === 'TARGET_VULNERABLE' && (enemy.statusEffects['vulnerable'] || 0) > 0) {
+        dmg *= action.conditionMultiplier ?? 2;
+      } else if (action.condition === 'TARGET_WEAK' && (enemy.statusEffects['weak'] || 0) > 0) {
+        dmg *= action.conditionMultiplier ?? 2;
       }
       const calculated = calculateDamage(dmg, playerStatus, enemy.statusEffects);
       const res = applyDamageToEntity(calculated, enemy.hp, enemy.block);
@@ -122,8 +125,9 @@ export function executePlayerCard(
     } else if (action.type === 'DRAW') {
       // Draw subroutines adhering to 10-card hand limit
       if (drawPile.length === 0 && discardPile.length > 0) {
-        drawPile = [...discardPile];
+        drawPile = shuffleArray(() => Math.random(), discardPile);
         discardPile = [];
+        log.push(`  ↳ Discard buffer shuffled and recycled into Draw Pile.`);
       }
       if (drawPile.length > 0) {
         const drawnCard = drawPile.shift()!;
@@ -136,8 +140,10 @@ export function executePlayerCard(
         }
       }
     } else if (action.type === 'SELF_DAMAGE') {
-      playerHp = Math.max(1, playerHp - action.value);
-      log.push(`  ↳ Thermal feedback caused -${action.value} core damage!`);
+      const res = applyDamageToEntity(action.value, playerHp, playerBlock);
+      playerHp = Math.max(1, res.finalHp);
+      playerBlock = res.finalBlock;
+      log.push(`  ↳ Thermal feedback caused ${action.value} damage (absorbed by buffer: ${res.absorbed}, flesh hp loss: ${res.hpLoss})!`);
     }
   }
 
@@ -179,6 +185,12 @@ export function executeEnemyTurn(state: CombatStateSnapshot): CombatStateSnapsho
     playerHp = res.finalHp;
     playerBlock = res.finalBlock;
     log.push(`  ↳ Hostile node dealt ${calculated} feedback damage (absorbed: ${res.absorbed}, flesh hp loss: ${res.hpLoss})`);
+
+    // Consume Memory-Brute's attack charge buff upon striking
+    if (enemy.archetype === 'MEMORY_BRUTE' && (enemy.statusEffects['buff'] || 0) > 0) {
+      delete enemy.statusEffects['buff'];
+      log.push(`  ↳ Memory-Brute discharged its capacitor boost!`);
+    }
 
     // Handle Volatile affix recoil
     if (enemy.affixes.includes('Volatile')) {
@@ -243,8 +255,9 @@ export function executeEnemyTurn(state: CombatStateSnapshot): CombatStateSnapsho
 
   for (let i = 0; i < 4; i++) {
     if (drawPile.length === 0 && discardPile.length > 0) {
-      drawPile = [...discardPile];
+      drawPile = shuffleArray(() => Math.random(), discardPile);
       discardPile = [];
+      log.push(`  ↳ Discard buffer shuffled and recycled into Draw Pile.`);
     }
     if (drawPile.length > 0) {
       const drawn = drawPile.shift()!;
@@ -260,11 +273,15 @@ export function executeEnemyTurn(state: CombatStateSnapshot): CombatStateSnapsho
   if ((enemy.statusEffects['poison'] || 0) > 0) {
     const poisonDmg = enemy.statusEffects['poison'];
     enemy.hp = Math.max(0, enemy.hp - poisonDmg);
-    enemy.statusEffects['poison'] -= 1;
+    
+    // Boss & Elite Anti-Virus mitigation: Bosses and Armored constructs purge poison corruption faster
+    const isResistant = enemy.archetype === 'WINTERMUTE' || enemy.affixes.includes('Armored');
+    const poisonDecay = isResistant ? 2 : 1;
+    enemy.statusEffects['poison'] = Math.max(0, enemy.statusEffects['poison'] - poisonDecay);
     if (enemy.statusEffects['poison'] <= 0) {
       delete enemy.statusEffects['poison'];
     }
-    log.push(`  ↳ Corrupted Memory (Poison) ate away -${poisonDmg} HP from ${enemy.name} (Direct HP Loss)`);
+    log.push(`  ↳ Corrupted Memory (Poison) ate away -${poisonDmg} HP from ${enemy.name} (Direct HP Loss)${isResistant ? ' [Anti-Virus accelerated purge]' : ''}`);
   }
 
   log.push(`--- CYCLE REFRESHED: L1 CACHE REFILLED (4 CARDS, ${playerEnergy} RAM) ---`);

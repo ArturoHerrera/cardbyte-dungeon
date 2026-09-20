@@ -15,7 +15,10 @@ export interface CardAction {
   value: number;
   target?: 'ENEMY' | 'SELF';
   status?: 'VULNERABLE' | 'WEAK' | 'POISON';
+  condition?: 'TARGET_VULNERABLE' | 'TARGET_WEAK';
+  conditionMultiplier?: number;
 }
+
 
 export interface Card {
   id: string;
@@ -54,6 +57,7 @@ export interface Enemy extends CharacterStats {
   intent: EnemyIntent;
   affixes: string[]; // e.g. ['Volatile', 'Armored', 'Cursed']
   cycleIndex: number;
+  depth?: number;
 }
 
 export type NodeType = 'COMBAT' | 'ELITE' | 'REST' | 'TREASURE' | 'BOSS';

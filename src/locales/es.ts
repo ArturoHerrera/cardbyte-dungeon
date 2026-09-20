@@ -163,10 +163,15 @@ export const es: TranslationDictionary = {
     cooldownDesc: 'Disipa calor y restaura +{{hp}} de integridad neural (HP).',
     patchTitle: 'REFACTORIZACIÓN DE CÓDIGO // PARCHEAR SUBRUTINA',
     patchDesc: 'Compila una mejora (+) persistente a una subrutina de tu deck.',
+    purgeTitle: 'DEPURAR SUBRUTINA // SANITIZAR MEMORIA',
+    purgeDesc: 'Elimina permanentemente una subrutina de la ROM para depurar y afinar el mazo.',
     executeCooldown: 'INICIAR ENFRIAMIENTO',
     executePatch: 'SELECCIONAR SUBRUTINA A PARCHEAR',
+    executePurge: 'SELECCIONAR SUBRUTINA A DEPURAR',
     selectCardPrompt: 'SELECCIONA UNA SUBRUTINA A COMPILAR (+)',
+    selectPurgePrompt: 'SELECCIONA UNA SUBRUTINA A ELIMINAR PERMANENTEMENTE',
     fullyPatched: 'Todas las subrutinas compatibles ya han sido mejoradas.',
+    minBufferWarning: 'BLOQUEO DE BUFFER MÍNIMO: El mazo debe conservar al menos 4 subrutinas para evitar un bloqueo del sistema.',
   },
   treasure: {
     title: 'BÓVEDA DE DATOS MILITAR DESPROTEGIDA',
@@ -255,7 +260,7 @@ export const es: TranslationDictionary = {
       },
       poison_corruption: {
         title: 'Corrupción por Veneno (Fuga Lógica)',
-        desc: 'Fuga de código que inflige daño directo a los puntos de integridad igual a las cargas de veneno al iniciar el turno, ¡traspasando por completo cualquier escudo ICE! Se reduce en 1 por turno.',
+        desc: 'Fuga de código que inflige daño directo a los puntos de integridad igual a las cargas de veneno al iniciar el turno, ¡traspasando por completo cualquier escudo ICE! Se reduce en 1 por turno (Jefes y enemigos Acorazados purgan 2 cargas por turno gracias a contramedidas antivirus).',
       },
       matrix_topology: {
         title: 'Topología de Sectores en la Matriz',
@@ -267,7 +272,7 @@ export const es: TranslationDictionary = {
       },
       decompression_nodes: {
         title: 'Nodos de Descompresión (Áreas de Descanso)',
-        desc: 'Terminales seguras que te permiten enfriar los procesadores recuperando 30% de Integridad Neural o parchear y optimizar una subrutina existente para elevarla a su versión mejorada (+).',
+        desc: 'Terminales seguras que permiten enfriar procesadores (+30% HP), parchear una subrutina (+ mejora) o depurar una carta obsoleta de la ROM (con salvaguarda obligatoria de al menos 4 cartas).',
       },
     },
   },

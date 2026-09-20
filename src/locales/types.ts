@@ -90,10 +90,15 @@ export interface TranslationDictionary {
     cooldownDesc: string;
     patchTitle: string;
     patchDesc: string;
+    purgeTitle: string;
+    purgeDesc: string;
     executeCooldown: string;
     executePatch: string;
+    executePurge: string;
     selectCardPrompt: string;
+    selectPurgePrompt: string;
     fullyPatched: string;
+    minBufferWarning: string;
   };
   treasure: {
     title: string;
