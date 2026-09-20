@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
 import { CardView } from '../Combat/CardView';
 import { generateDraftChoices } from '../../engine/cardCatalog';
 import { createPRNG } from '../../engine/random';
 import { audioManager } from '../../audio/audioManager';
-import { Database, ArrowRight } from 'lucide-react';
+import { Database, ArrowRight, Download } from 'lucide-react';
 import { Card } from '../../types/cardbyte';
 import { t } from '../../locales';
 
 export const CardRewardView: React.FC = () => {
   const { locale, seed, currentNode, addCardToMasterDeck, setScreen, mobileViewMode } = useCardByteStore();
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
   const choices = useMemo(() => {
     const tier = currentNode?.type === 'ELITE' ? 'ELITE' : 'STANDARD';
@@ -17,7 +18,15 @@ export const CardRewardView: React.FC = () => {
     return generateDraftChoices(prng, tier);
   }, [seed, currentNode]);
 
-  const handleSelectCard = (card: Card) => {
+  const selectedCard = useMemo(() => {
+    return choices.find((c) => c.id === selectedCardId) || null;
+  }, [choices, selectedCardId]);
+
+  const handleFocusCard = (cardId: string) => {
+    setSelectedCardId(cardId);
+  };
+
+  const handleConfirmCard = (card: Card) => {
     audioManager.playSfx('CARD_INJECT');
     addCardToMasterDeck(card);
     setScreen('MAP');
@@ -42,24 +51,43 @@ export const CardRewardView: React.FC = () => {
         </div>
 
         {/* 3 Choices Ribbon */}
-        <div className="w-full flex items-center justify-start sm:justify-center gap-3 sm:gap-6 overflow-x-auto py-2 px-2 mb-4 sm:mb-8 snap-x snap-mandatory">
-          {choices.map((card) => (
-            <div key={card.id} className="snap-center shrink-0">
-              <CardView
-                card={card}
-                canAfford={true}
-                scale={mobileViewMode ? 'compact' : 'normal'}
-                onPlay={() => handleSelectCard(card)}
-              />
-            </div>
-          ))}
+        <div className="w-full flex items-center justify-start sm:justify-center gap-3 sm:gap-6 overflow-x-auto py-2 px-2 mb-4 sm:mb-6 snap-x snap-mandatory">
+          {choices.map((card) => {
+            const isFocused = selectedCardId === card.id;
+            return (
+              <div key={card.id} className="snap-center shrink-0">
+                <CardView
+                  card={card}
+                  canAfford={true}
+                  scale={mobileViewMode ? 'compact' : 'normal'}
+                  isFocused={isFocused}
+                  onFocus={() => handleFocusCard(card.id)}
+                  onPlay={() => handleConfirmCard(card)}
+                />
+              </div>
+            );
+          })}
         </div>
 
-        {/* Skip Action */}
-        <div>
+        {/* Action Controls: Confirm & Skip */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 mt-2">
+          {selectedCard ? (
+            <button
+              onClick={() => handleConfirmCard(selectedCard)}
+              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider rounded shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all active:scale-95 animate-pulse"
+            >
+              <Download className="w-4 h-4" />
+              <span>{t(locale, 'rewards.installSubroutine')}</span>
+            </button>
+          ) : (
+            <div className="text-[11px] font-mono text-slate-500 uppercase tracking-widest py-1 hidden sm:block">
+              {t(locale, 'rewards.selectPrompt')}
+            </div>
+          )}
+
           <button
             onClick={handleSkip}
-            className="flex items-center space-x-2 mx-auto px-6 py-2.5 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-slate-200 rounded font-mono text-xs uppercase tracking-wider transition-colors active:scale-95"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-2.5 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-400 hover:text-slate-200 rounded font-mono text-xs uppercase tracking-wider transition-colors active:scale-95"
           >
             <span>{t(locale, 'rewards.skipReward')}</span>
             <ArrowRight className="w-3.5 h-3.5" />

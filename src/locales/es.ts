@@ -153,6 +153,8 @@ export const es: TranslationDictionary = {
   rewards: {
     cardRewardTitle: 'BÓVEDA DE MEMORIA DESENCRIPTADA // SELECCIONAR RECOMPENSA',
     cardRewardSubtitle: 'Elige 1 subrutina para compilar y guardar en la ROM de tu ciberdeck:',
+    installSubroutine: 'INSTALAR SUBRUTINA',
+    selectPrompt: 'SELECCIONA UNA SUBRUTINA',
     skipReward: 'OMITIR BÓVEDA [SALTAR RECOMPENSA]',
     addedToDeck: 'Subrutina {{name}} compilada y cargada a la ROM del ciberdeck.',
   },
@@ -177,6 +179,8 @@ export const es: TranslationDictionary = {
     title: 'BÓVEDA DE DATOS MILITAR DESPROTEGIDA',
     subtitle: 'Has descubierto un volcado corporativo de alta prioridad abandonado.',
     extractSubroutine: 'EXTRAER SUBRUTINA DE DATOS',
+    installSubroutine: 'INSTALAR SUBRUTINA',
+    selectPrompt: 'SELECCIONA UNA SUBRUTINA',
     purgeAndLeave: 'OMITIR BÓVEDA [CONTINUAR]',
   },
   victory: {

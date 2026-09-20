@@ -153,6 +153,8 @@ export const en: TranslationDictionary = {
   rewards: {
     cardRewardTitle: 'DECRYPTED MEMORY VAULT // SELECT REWARD',
     cardRewardSubtitle: 'Choose 1 subroutine to download into your master cyberdeck ROM:',
+    installSubroutine: 'INSTALL SUBROUTINE',
+    selectPrompt: 'SELECT A SUBROUTINE',
     skipReward: 'LEAVE VAULT [SKIP SUBROUTINE]',
     addedToDeck: 'Subroutine {{name}} compiled and loaded to cyberdeck ROM.',
   },
@@ -177,6 +179,8 @@ export const en: TranslationDictionary = {
     title: 'UNENCRYPTED MILITARY DATAVAULT',
     subtitle: 'Discovered an abandoned high-priority corporation data drop.',
     extractSubroutine: 'EXTRACT DATA SUBROUTINE',
+    installSubroutine: 'INSTALL SUBROUTINE',
+    selectPrompt: 'SELECT A SUBROUTINE',
     purgeAndLeave: 'BYPASS VAULT [PROCEED]',
   },
   victory: {

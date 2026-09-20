@@ -80,6 +80,8 @@ export interface TranslationDictionary {
   rewards: {
     cardRewardTitle: string;
     cardRewardSubtitle: string;
+    installSubroutine: string;
+    selectPrompt: string;
     skipReward: string;
     addedToDeck: string;
   };
@@ -104,6 +106,8 @@ export interface TranslationDictionary {
     title: string;
     subtitle: string;
     extractSubroutine: string;
+    installSubroutine: string;
+    selectPrompt: string;
     purgeAndLeave: string;
   };
   victory: {
