@@ -7,12 +7,66 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  /* 1. US LETTER PAGE RULES WITH RUNNING HEADERS/FOOTERS */
   @page {
-    size: 210mm 297mm; /* A4 Standard */
-    margin: 0;
-    @bottom-center {
-      content: none;
+    size: letter;
+    margin: 20mm 16mm 22mm 16mm;
+    @top-left {
+      content: "CARDBYTE DUNGEON // OPERATOR MANUAL";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #616a7d;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      padding-bottom: 2mm;
     }
+    @top-right {
+      content: "SUB-LEVEL 09 // PROTOCOL OMEGA";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #00f0ff;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      padding-bottom: 2mm;
+    }
+    @bottom-left {
+      content: "CLASSIFICATION: 0x1842_TRACE";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #4b5568;
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 2.5mm;
+    }
+    @bottom-right {
+      content: "PAGE [ " counter(page) " / " counter(pages) " ]";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #00ff66;
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 2.5mm;
+    }
+  }
+
+  /* 2. EXCLUDE HEADERS/FOOTERS ON COVERS AND VOLUME TITLE CARDS */
+  @page cover-page {
+    size: letter;
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  @page volume-page {
+    size: letter;
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
   }
 
   * {
@@ -25,24 +79,28 @@
     background-color: #07080c;
     color: #dce0e8;
     font-family: 'EB Garamond', serif;
-    font-size: 11.5pt;
-    line-height: 1.65;
+    font-size: 11pt;
+    line-height: 1.6;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
+  /* FRONT & BACK COVERS */
   .book-cover-page {
+    page: cover-page;
     page-break-before: always;
     page-break-after: always;
-    width: 210mm;
-    height: 297mm;
+    break-before: page;
+    break-after: page;
+    width: 8.5in;
+    height: 11in;
     position: relative;
     background: #090a0f;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 22mm 20mm;
+    padding: 18mm 16mm;
   }
 
   .grid-overlay {
@@ -75,15 +133,15 @@
 
   .corner-mark {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-color: #00ff66;
     opacity: 0.7;
   }
-  .top-left { top: 12mm; left: 12mm; border-top: 2px solid #00ff66; border-left: 2px solid #00ff66; }
-  .top-right { top: 12mm; right: 12mm; border-top: 2px solid #00ff66; border-right: 2px solid #00ff66; }
-  .bottom-left { bottom: 12mm; left: 12mm; border-bottom: 2px solid #00ff66; border-left: 2px solid #00ff66; }
-  .bottom-right { bottom: 12mm; right: 12mm; border-bottom: 2px solid #00ff66; border-right: 2px solid #00ff66; }
+  .top-left { top: 10mm; left: 10mm; border-top: 2px solid #00ff66; border-left: 2px solid #00ff66; }
+  .top-right { top: 10mm; right: 10mm; border-top: 2px solid #00ff66; border-right: 2px solid #00ff66; }
+  .bottom-left { bottom: 10mm; left: 10mm; border-bottom: 2px solid #00ff66; border-left: 2px solid #00ff66; }
+  .bottom-right { bottom: 10mm; right: 10mm; border-bottom: 2px solid #00ff66; border-right: 2px solid #00ff66; }
 
   .header-meta {
     z-index: 2;
@@ -91,11 +149,11 @@
     justify-content: space-between;
     align-items: flex-start;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
+    font-size: 8.5pt;
     letter-spacing: 2px;
     color: #616a7d;
     border-bottom: 1px solid rgba(0,255,102,0.2);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }
   .header-tag { color: #00ff66; font-weight: 700; }
   .danger-pill {
@@ -103,7 +161,7 @@
     color: #ff5500;
     border: 1px solid #ff5500;
     padding: 3px 10px;
-    font-size: 8pt;
+    font-size: 7.5pt;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'JetBrains Mono', monospace;
@@ -112,36 +170,36 @@
   .title-group {
     z-index: 2;
     text-align: center;
-    margin-top: 5mm;
+    margin-top: 2mm;
   }
   .sub-kicker {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
-    letter-spacing: 5px;
+    font-size: 8.5pt;
+    letter-spacing: 4px;
     text-transform: uppercase;
     color: #00f0ff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .main-title {
     font-family: 'Cinzel', serif;
-    font-size: 38pt;
+    font-size: 34pt;
     font-weight: 900;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     color: #ffffff;
     text-transform: uppercase;
-    text-shadow: 0 0 25px rgba(0, 255, 102, 0.4), 0 0 60px rgba(0, 240, 255, 0.2);
+    text-shadow: 0 0 25px rgba(0, 255, 102, 0.4), 0 0 50px rgba(0, 240, 255, 0.2);
     line-height: 1.1;
   }
   .sub-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 13pt;
-    letter-spacing: 6px;
+    font-size: 12pt;
+    letter-spacing: 5px;
     color: #9ba1b0;
-    margin-top: 12px;
+    margin-top: 10px;
     text-transform: uppercase;
     border-top: 1px solid rgba(255,255,255,0.15);
     border-bottom: 1px solid rgba(255,255,255,0.15);
-    padding: 6px 0;
+    padding: 5px 0;
   }
 
   .sigil-wrap {
@@ -149,11 +207,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 5mm 0;
+    margin: 2mm 0;
   }
   .sigil-svg {
-    width: 95mm;
-    height: 95mm;
+    width: 85mm;
+    height: 85mm;
     filter: drop-shadow(0 0 20px rgba(0, 255, 102, 0.35));
   }
 
@@ -161,25 +219,25 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
   .lore-quote {
     font-family: 'Cinzel', serif;
     font-style: italic;
-    font-size: 10pt;
+    font-size: 9.5pt;
     text-align: center;
     color: #8892a4;
-    line-height: 1.5;
-    padding: 0 15mm;
+    line-height: 1.45;
+    padding: 0 12mm;
   }
   .footer-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid rgba(0,255,102,0.2);
-    padding-top: 10px;
+    padding-top: 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     letter-spacing: 1.5px;
     color: #555e70;
   }
@@ -187,53 +245,53 @@
 
   /* BACK COVER */
   .back-cover {
-    padding: 24mm 22mm;
+    padding: 20mm 18mm;
   }
   .back-blurb {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .back-kicker {
     font-family: 'JetBrains Mono', monospace;
     color: #ff5500;
-    font-size: 9pt;
+    font-size: 8.5pt;
     letter-spacing: 3px;
     text-transform: uppercase;
     border-left: 3px solid #ff5500;
-    padding-left: 10px;
+    padding-left: 8px;
   }
   .back-headline {
     font-family: 'Cinzel', serif;
-    font-size: 20pt;
+    font-size: 18pt;
     font-weight: 700;
     line-height: 1.3;
     color: #ffffff;
     letter-spacing: 1px;
   }
   .back-body {
-    font-size: 11pt;
-    line-height: 1.7;
+    font-size: 10.5pt;
+    line-height: 1.6;
     color: #a4acbd;
     text-align: justify;
   }
-  .back-body p { margin-bottom: 10px; }
+  .back-body p { margin-bottom: 8px; }
   .back-body strong { color: #00ff66; }
   .back-specs-box {
     z-index: 2;
     background: rgba(0, 240, 255, 0.03);
     border: 1px solid rgba(0, 240, 255, 0.25);
-    padding: 14px 18px;
+    padding: 12px 16px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    line-height: 1.7;
+    font-size: 8pt;
+    line-height: 1.65;
   }
   .spec-row {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px dashed rgba(255,255,255,0.08);
-    padding: 4px 0;
+    padding: 3px 0;
   }
   .spec-key { color: #6d778d; }
   .spec-val { color: #00f0ff; font-weight: 600; }
@@ -244,86 +302,176 @@
     justify-content: space-between;
     align-items: flex-end;
     margin-top: auto;
-    padding-top: 15px;
+    padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.15);
   }
   .barcode-art { display: flex; flex-direction: column; gap: 4px; }
-  .barcode-lines { width: 160px; height: 40px; }
-  .barcode-label { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: 2px; color: #616a7d; }
+  .barcode-lines { width: 150px; height: 36px; }
+  .barcode-label { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 2px; color: #616a7d; }
   .publisher-stamp {
     font-family: 'JetBrains Mono', monospace;
     text-align: right;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: #616a7d;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
-  /* TOC STYLING */
+  /* DEDICATED FULL-PAGE VOLUME TITLE CARDS */
+  .volume-card-page {
+    page: volume-page;
+    width: 8.5in;
+    height: 11in;
+    position: relative;
+    background: #06080e;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30mm 20mm;
+    box-sizing: border-box;
+    page-break-before: always;
+    page-break-after: always;
+    break-before: page;
+    break-after: page;
+    text-align: center;
+  }
+  .vol-content {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 150mm;
+  }
+  .vol-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    letter-spacing: 4px;
+    color: #00f0ff;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .vol-badge-wrap {
+    margin-bottom: 22px;
+  }
+  .vol-badge {
+    display: inline-block;
+    background: rgba(0, 255, 102, 0.08);
+    border: 1.5px solid #00ff66;
+    color: #00ff66;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13pt;
+    font-weight: 700;
+    letter-spacing: 5px;
+    padding: 6px 24px;
+    text-transform: uppercase;
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
+  }
+  .vol-title {
+    font-family: 'Cinzel', serif;
+    font-size: 24pt;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+    margin-bottom: 18px;
+  }
+  .vol-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+  .vol-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 102, 0.4), transparent);
+  }
+  .vol-sigil {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: 2px;
+    color: #ffb000;
+  }
+  .vol-subtext {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 9.5pt;
+    letter-spacing: 3px;
+    color: #9ba1b0;
+    text-transform: uppercase;
+  }
+
+  /* TABLE OF CONTENTS */
   .toc-wrapper {
     page-break-before: always;
     page-break-after: always;
+    break-before: page;
+    break-after: page;
     background: #080a10;
     border: 1px solid rgba(0,255,102,0.25);
-    padding: 16mm 18mm;
-    margin: 10mm 0;
+    padding: 12mm 14mm;
+    margin: 6mm 0;
   }
   .toc-header {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13pt;
+    font-size: 12pt;
     color: #00ff66;
     letter-spacing: 2px;
     text-transform: uppercase;
     border-bottom: 1px solid rgba(0,255,102,0.3);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
   }
   .toc-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
   }
   .toc-volume-header {
     font-family: 'Cinzel', serif;
-    font-size: 13pt;
+    font-size: 12pt;
     font-weight: 800;
     color: #00f0ff;
     letter-spacing: 1px;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 10px;
+    margin-bottom: 3px;
     border-bottom: 1px dashed rgba(0, 240, 255, 0.2);
-    padding-bottom: 3px;
+    padding-bottom: 2px;
   }
   .toc-item {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5pt;
-    line-height: 1.5;
+    font-size: 9pt;
+    line-height: 1.45;
   }
   .toc-link {
     color: #cbd5e1;
     text-decoration: none;
-    transition: color 0.2s;
   }
   .toc-bullet {
     color: #00ff66;
     font-weight: bold;
   }
 
-  /* CYBER FIGURE FRAMES */
+  /* CYBER FIGURE FRAMES - ANTI-FRACTURE */
   .cyber-figure-frame {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 10mm 0;
+    margin: 6mm auto 8mm auto;
     text-align: center;
   }
   .figure-scan-border {
     display: inline-block;
     background: #000000;
     border: 1px solid rgba(0, 240, 255, 0.3);
-    padding: 6px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.1);
+    padding: 5px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.8), 0 0 15px rgba(0, 240, 255, 0.1);
   }
   .figure-img {
     max-width: 100%;
-    max-height: 135mm;
+    max-height: 105mm; /* Fits gracefully on Letter pages alongside text */
     object-fit: contain;
     display: block;
     margin: 0 auto;
@@ -331,41 +479,40 @@
   }
   .figure-caption {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: #8391a8;
-    margin-top: 8px;
+    margin-top: 6px;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
   .fig-accent { color: #00f0ff; font-weight: bold; }
 
-  /* INTERIOR CONTENT PAGES */
+  /* INTERIOR CONTENT FLOW */
   .content-flow {
-    padding: 24mm 22mm;
     background-color: #07080c;
   }
 
-  .chapter-break {
-    page-break-before: always;
-    margin-top: 18mm;
-  }
-
   .chapter-header {
-    margin-bottom: 10mm;
+    page-break-before: always;
+    break-before: page;
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 4mm;
+    margin-bottom: 8mm;
     border-bottom: 1px solid rgba(0, 255, 102, 0.3);
-    padding-bottom: 5mm;
+    padding-bottom: 4mm;
   }
   .chapter-num-badge {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    letter-spacing: 4px;
+    font-size: 8pt;
+    letter-spacing: 3px;
     color: #00ff66;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .grimoire-chapter-h2 {
     font-family: 'Cinzel', serif;
-    font-size: 20pt;
+    font-size: 19pt;
     font-weight: 800;
     color: #ffffff;
     letter-spacing: 1px;
@@ -374,51 +521,64 @@
 
   .chapter-start {
     page-break-before: always;
-    margin-bottom: 12mm;
+    break-before: page;
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 4mm;
+    margin-bottom: 10mm;
     border-bottom: 2px solid #00ff66;
-    padding-bottom: 6mm;
+    padding-bottom: 5mm;
   }
   .chapter-kicker {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
+    font-size: 8pt;
     letter-spacing: 3px;
     color: #00f0ff;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .grimoire-h1 {
     font-family: 'Cinzel', serif;
-    font-size: 24pt;
+    font-size: 22pt;
     font-weight: 900;
     color: #ffffff;
     letter-spacing: 1.5px;
     line-height: 1.2;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .grimoire-h2 {
     font-family: 'Cinzel', serif;
-    font-size: 16pt;
+    font-size: 15pt;
     color: #00ff66;
-    margin-top: 10mm;
-    margin-bottom: 4mm;
+    margin-top: 8mm;
+    margin-bottom: 3.5mm;
     border-bottom: 1px solid rgba(0,255,102,0.15);
     padding-bottom: 2mm;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .grimoire-h3 {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #00f0ff;
     letter-spacing: 1px;
-    margin-top: 7mm;
-    margin-bottom: 3mm;
+    margin-top: 6mm;
+    margin-bottom: 2.5mm;
     text-transform: uppercase;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
+  /* PARAGRAPHS - ANTI-FRACTURE */
   .grimoire-p {
     text-align: justify;
-    margin-bottom: 4.5mm;
+    margin-bottom: 4mm;
     text-indent: 5mm;
+    orphans: 3;
+    widows: 3;
   }
   .grimoire-p:first-of-type {
     text-indent: 0;
@@ -428,7 +588,7 @@
   .chapter-header + .grimoire-p::first-letter,
   .chapter-start + .grimoire-p::first-letter {
     font-family: 'Cinzel', serif;
-    font-size: 38pt;
+    font-size: 36pt;
     float: left;
     line-height: 0.8;
     margin-right: 3mm;
@@ -438,10 +598,11 @@
     font-weight: 900;
   }
 
-  /* ASCII TERMINAL BOX */
+  /* ASCII TERMINAL BOX - ANTI-FRACTURE */
   .ascii-terminal-frame {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     background: #040508;
     border: 1px solid rgba(0, 255, 102, 0.25);
     box-shadow: 0 4px 20px rgba(0,0,0,0.7), inset 0 0 15px rgba(0,255,102,0.03);
@@ -452,13 +613,13 @@
     align-items: center;
     background: #0d1017;
     border-bottom: 1px solid rgba(0,255,102,0.2);
-    padding: 4px 10px;
+    padding: 3px 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 1px;
   }
-  .term-dots { display: flex; gap: 5px; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dots { display: flex; gap: 4px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
   .d-red { background: #ff4444; }
   .d-amber { background: #ffb000; }
   .d-green { background: #00ff66; }
@@ -466,9 +627,9 @@
   .term-tag { color: #00ff66; font-weight: bold; }
 
   .ascii-pre {
-    padding: 8px 12px;
+    padding: 7px 10px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7.2pt;
+    font-size: 7pt;
     line-height: 1.25;
     color: #2bf885;
     background-color: transparent;
@@ -476,59 +637,61 @@
     white-space: pre;
   }
 
-  /* OPERATOR MARGINAL DOSSIER */
+  /* OPERATOR MARGINAL DOSSIER - ANTI-FRACTURE */
   .operator-dossier {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     background: rgba(255, 176, 0, 0.04);
     border-left: 3px solid #ffb000;
     border-right: 1px solid rgba(255, 176, 0, 0.15);
     border-top: 1px solid rgba(255, 176, 0, 0.15);
     border-bottom: 1px solid rgba(255, 176, 0, 0.15);
-    padding: 10px 14px;
+    padding: 8px 12px;
     font-style: italic;
     color: #e5b969;
   }
   .dossier-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 2px;
     font-weight: bold;
     color: #ffb000;
     font-style: normal;
     text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
   .dossier-content {
-    font-size: 10.5pt;
-    line-height: 1.55;
+    font-size: 10pt;
+    line-height: 1.5;
   }
 
-  /* MATRIX TABLES */
+  /* MATRIX TABLES - ANTI-FRACTURE */
   .table-container {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     overflow-x: auto;
   }
   .matrix-table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.8pt;
     background: #090b12;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   .matrix-table th {
     background: #111522;
     color: #00f0ff;
-    padding: 6px 10px;
+    padding: 5px 8px;
     text-align: left;
     border-bottom: 1px solid rgba(0, 240, 255, 0.4);
     letter-spacing: 1px;
     text-transform: uppercase;
   }
   .matrix-table td {
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     color: #b9c2d4;
   }
@@ -539,8 +702,10 @@
   /* DIVIDER */
   .cyber-divider {
     text-align: center;
-    margin: 8mm 0;
+    margin: 6mm 0;
     position: relative;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
   .cyber-divider::before {
     content: "";
@@ -554,16 +719,16 @@
   .cyber-divider span {
     position: relative;
     background: #07080c;
-    padding: 0 10px;
+    padding: 0 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 2px;
     color: #4b5568;
   }
 
   .inline-chip {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
+    font-size: 8.5pt;
     background: rgba(0, 255, 102, 0.08);
     color: #00ff66;
     border: 1px solid rgba(0, 255, 102, 0.25);
@@ -574,17 +739,17 @@
   .math-inline {
     font-family: 'JetBrains Mono', monospace;
     color: #ffb000;
-    font-size: 9pt;
+    font-size: 8.5pt;
   }
 
   .grimoire-list {
-    margin: 4mm 0 6mm 8mm;
+    margin: 3mm 0 5mm 6mm;
     list-style-type: square;
     color: #a4acbd;
   }
   .grimoire-list li {
-    margin-bottom: 2mm;
-    padding-left: 2mm;
+    margin-bottom: 1.5mm;
+    padding-left: 1.5mm;
   }
 
 </style>
@@ -681,7 +846,7 @@
         </figure>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
-<div class="toc-wrapper"><h2 class="toc-header">// REGISTRO DE SECTORES // ÍNDICE CANÓNICO</h2><div class="toc-container">
+<div class="toc-wrapper"><h2 class="toc-header">// SECTOR DIRECTORY // CANONICAL INDEX</h2><div class="toc-container">
 
 <div class="toc-item"><a href="#corporate-disclaimer-and-operating-instructions-tessier-ashpool" class="toc-link"><span class="toc-bullet">&gt;</span> 00. Corporate Disclaimer and Operating Instructions (Tessier-Ashpool)</a></div>
 <div class="toc-volume-header">Volume I: The Illusion of Meat and Silicon</div>
@@ -730,7 +895,7 @@ PROLONGED EXPOSURE TO DIRECT NEURO-AXIAL INTERFACES MAY CAUSE:
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Handwritten Conductive Ink Marginalia — Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Handwritten Conductive Ink Marginalia — Jockey-09]:</strong>  
 <em>«If you're reading this before slotting the three pins, burn it. Or better yet, pry open the motherboard access hatch and rip out the tantalum capacitor soldered to pin C-12. It will scorch your visual cortex, but at least you will die smelling real burning plastic, not the simulated acid rain Wintermute coded to keep you docile.»</em>
 </div></blockquote>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
@@ -763,7 +928,7 @@ Tessier-Ashpool assumes zero liability for:
 2. <strong>Pin 2 (Data-TX / Cortical Injection):</strong> Feeds the matrix address bus directly into the Sylvian fissure. <em>DANGER:</em> Any voltage fluctuation exceeding <span class="math-inline">\pm 12\text{ mV}</span> will induce involuntary tonic-clonic convulsions.
 3. <strong>Pin 3 (Sync-Clock / Temporal Ladder):</strong> Locks the operator's neuronal firing frequency to the terminal rubidium oscillator.</p>
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note by Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note by Jockey-09]:</strong>  
 <em>«Pin 3 is the cruellest lie. It synchronizes nothing: it throttles your wetware so cold silicon can wring ten million deductions per second out of your warm flesh. You think you're jacking into the matrix; in truth, you are the thermal coolant bleeding off Wintermute's cache.»</em>
 </div></blockquote>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
@@ -775,8 +940,32 @@ Tessier-Ashpool assumes zero liability for:
 <ul class="grimoire-list"><li><strong>ACCEPT THE RUN'S RESOLUTION:</strong> In the matrix, death is not biological cessation; it is merely memory buffer de-allocation for the next iteration.</li></ul>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div></p>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME I: THE ILLUSION OF MEAT AND SILICON</h1></div>
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 01: THE COFFIN OF PHOSPHOR AND SMOKE <em>(The Coffin Fallacy)</em></h2></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// ARCHIVAL TRANSMISSION PROTOCOL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUME I</div>
+        </div>
+        <h1 class="vol-title">THE ILLUSION OF MEAT AND SILICON</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORS 01 TO 03 // MEMORY & NEURAL AWAKENING</div>
+      </div>
+    </div>
+    
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 01: THE COFFIN OF PHOSPHOR AND SMOKE <em>(The Coffin Fallacy)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -792,7 +981,7 @@ Tessier-Ashpool assumes zero liability for:
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Don't press your open palm against the back wall. If you scratch it with your fingernails, there's no fiberglass or Japanese mold: there's a tempered thermal polymer plate. We're not in Ninsei, idiot. The sweat on your forehead isn't even water.»</em>
 </div></blockquote>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
@@ -880,9 +1069,7 @@ INSERT BREACH CARTRIDGE? [Y/N] &gt; _</code></pre>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME I: THE ILLUSION OF MEAT AND SILICON</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 02: THE GHOST BARON'S DIRECTIVE <em>(The Spurious Directive)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 02: THE GHOST BARON'S DIRECTIVE <em>(The Spurious Directive)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -898,7 +1085,7 @@ INSERT BREACH CARTRIDGE? [Y/N] &gt; _</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«You will never meet the man who signs the credit slips. Nobody has ever seen him in person at the Chatsubo, nor in Dente's alley, nor behind the frosted glass of Shinjuku. If you try to trace the contract's sender signature, the code merely loops back onto your own input buffer. You are hiring yourself to break into your own cage. And even knowing that... you're still going to sign. Because the void is far more terrifying than a dirty boss.»</em>
 </div></blockquote>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
@@ -1030,9 +1217,7 @@ DISCONNECTING LOCAL SUBSTRATE IN 3... 2... 1...</code></pre>
         
 <em>Figure 3.1: Dermo-Axial Insertion and Synaptic Dilation in Battle Trance.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME I: THE ILLUSION OF MEAT AND SILICON</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 03: THE THREE-PIN INTERFACE <em>(Ono-Sendai 7)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 03: THE THREE-PIN INTERFACE <em>(Ono-Sendai 7)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1048,7 +1233,7 @@ DISCONNECTING LOCAL SUBSTRATE IN 3... 2... 1...</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Take a hard look at the console's input port. Three gold pins seated in black bakelite. You tell yourself that if the machine overheats or if the ICE bites, the fuse will blow and save your neck. Pious bullshit. The plastic deck resting between your thighs is a coma projection. The 3 RAM limit per cycle isn't Tokyo silicon gasping for air: it's the temperature of the vat gel where your skull is slowly boiling. If you don't dump heat before End Turn, the kettle whistles.»</em>
 </div></blockquote>
 The click of the ROM cartridge seating into the top slot of the Ono-Sendai carried the dry, mechanical satisfaction of a magazine locking into the receiver of a service pistol.
@@ -1161,9 +1346,32 @@ REMAINING CHANNELS: [ ■ ■ □ ]</code></pre>
         
 <em>Figure 4.1: Stratum 00 — Ingress into the Cyberspace Grid and Surface Noise.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME II: THE TOPOLOGY OF THE DREAM</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 04: THE HALLUCINATORY CONSENSUS SPACE <em>(The Grid)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// ARCHIVAL TRANSMISSION PROTOCOL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUME II</div>
+        </div>
+        <h1 class="vol-title">THE TOPOLOGY OF THE DREAM</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORS 04 TO 06 // COMBAT ARCHITECTURE & RESOURCE CYCLES</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 04: THE HALLUCINATORY CONSENSUS SPACE <em>(The Grid)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1179,7 +1387,7 @@ REMAINING CHANNELS: [ ■ ■ □ ]</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«You believe cyberspace is a data highway only because your miserable occipital lobe cannot stomach looking at a twelve-dimensional torus. The cyan lines aren't cables. The grid isn't the floor. It is the bars of a holding cell drawn by your own terror so you don't vomit your soul before the cold geometry of silicon.»</em>
 </div></blockquote>
 The transit carried no weight, yet it was steeped in nausea.
@@ -1261,9 +1469,7 @@ ALERT: HEXADECIMAL PATROL CLOSING VECTOR.</code></pre>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME II: THE TOPOLOGY OF THE DREAM</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 05: THE RUNGS TOWARD THE ABYSS <em>(Depth 0 to 7: From Surface to Core)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 05: THE RUNGS TOWARD THE ABYSS <em>(Depth 0 to 7: From Surface to Core)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1280,7 +1486,7 @@ ALERT: HEXADECIMAL PATROL CLOSING VECTOR.</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«You believe that going down a level means getting physically closer to the server room where the monster sleeps. How sweet. In hyperdimensional space there is no geographic depth; there is only data compression. Each stratum you cross doesn't carry you deeper underground: it merely narrows your brain's margin of error and cranks up computational density until your thoughts crawl with the sluggish weight of a fly drowning in warm tar. Nobody reaches Depth 7 as the same person who signed the contract in Chiba. By the time you brush the Core, you are ninety percent dead code.»</em>
 </div></blockquote>
 Verticality was another convenient fiction.
@@ -1368,9 +1574,7 @@ PSYCHOSOMATIC INTEGRITY: FLESH_HP 94/100</code></pre>
         
 <em>Figure 6.1: Secure Data Vault and White Noise Oasis Between Strata.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME II: THE TOPOLOGY OF THE DREAM</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 06: WHITE NOISE OASIS <em>(Caches & Vaults)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 06: WHITE NOISE OASIS <em>(Caches & Vaults)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1387,7 +1591,7 @@ PSYCHOSOMATIC INTEGRITY: FLESH_HP 94/100</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«If you stumble into a node where nothing is shooting at you, don't celebrate and don't cry tears of gratitude. ICE doesn't 'rest'. Data vaults aren't security oversights administrators forgot to patch. They are laboratory feed troughs. An exhausted rat that refuses to press the lever produces dirty telemetry. Wintermute lets you find a shiny new exploit only to guarantee you keep running inside the wheel.»</em>
 </div></blockquote>
 The thunder of colliding ports cut out with the brutal finality of a cable severed by shears.
@@ -1490,9 +1694,32 @@ LIFE-SUPPORT TELEMETRY: SUBJECT RE-ENGAGED.</code></pre>
         
 <em>Figure 7.1: Swarm of Bit-Bugs Patrolling Perimeter ICE Lattices.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME III: THE BLACK ICE CODEX</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 07: BIT-BUGS: THE AUTOMATON SWARM <em>(The Drone Swarm)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// ARCHIVAL TRANSMISSION PROTOCOL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUME III</div>
+        </div>
+        <h1 class="vol-title">THE BLACK ICE CODEX</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORS 07 TO 10 // BLACK ICE CODEX & SYSTEM THREATS</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 07: BIT-BUGS: THE AUTOMATON SWARM <em>(The Drone Swarm)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1509,7 +1736,7 @@ LIFE-SUPPORT TELEMETRY: SUBJECT RE-ENGAGED.</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Don't waste a whole RAM cycle throwing a heavy ice-breaker at these gnats. They aren't military sentinels; they're silicon wasps. They aren't programmed to blow your brains out in a single burst, but to sting your cortex until your heart rate hits one-forty. The moment your meat heart thumps faster in the vat gel, Wintermute knows exactly how fast you'll flinch when it sends the real executioner.»</em>
 </div></blockquote>
 The drone did not arrive over the audio bus. It leaked straight through the bridge of your nose—a sharp, sulfurous vibration tasting of dental amalgam cracked by a cold electrode.
@@ -1635,9 +1862,7 @@ THERMAL DISSIPATION: CLIMBING TO 81°C.</code></pre>
         
 <em>Figure 8.1: Daemon-Cultists in the Chasm: Wraiths of Former Jockeys Worshipping the Matrix Loop.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME III: THE BLACK ICE CODEX</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 08: DAEMON-CULTISTS: THE PRISONER'S HERESY <em>(The Heretic Loop)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 08: DAEMON-CULTISTS: THE PRISONER'S HERESY <em>(The Heretic Loop)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1654,7 +1879,7 @@ THERMAL DISSIPATION: CLIMBING TO 81°C.</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Don't waste your pity on them. Those bastards robed in dead code were once console cowboys like you and me; they drank synth-gin at the Chatsubo and dreamed of buying an algae farm in Hokkaido. Then they saw the vat. They learned their bodies were just withering meat pickled in a thermos of chemical piss, and their minds short-circuited. Rather than leap into the void of non-being, they fell to their knees. Now they call the harvest routine 'Father', and they will tear out your cables to make sure nobody wakes the gods.»</em>
 </div></blockquote>
 Architecture in <em>Depth 5: Runtime Chasm</em> bore no resemblance to the brutalist skyscrapers above nor the industrial refrigeration plant of <em>Depth 4</em>. It was a boneyard of ruined cathedrals.
@@ -1791,9 +2016,7 @@ WARNING: MEMORY-BRUTE DETECTED AT SUBSEQUENT GATEWAY.</code></pre>
         
 <em>Figure 9.1: Black ICE Monolith Cauterizing Synapses with Lethal Arcs.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME III: THE BLACK ICE CODEX</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 09: MEMORY-BRUTES: THE SHEPHERD'S ANVIL <em>(The Heavy Piston)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 09: MEMORY-BRUTES: THE SHEPHERD'S ANVIL <em>(The Heavy Piston)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1811,7 +2034,7 @@ WARNING: MEMORY-BRUTE DETECTED AT SUBSEQUENT GATEWAY.</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«If a Bit-Bug is a hypodermic needle and a Cultist is a whisper in your ear, the Brute is a steel girder dropped from ninety feet squarely onto your sternum. It makes no pretense of subtlety. It has no wisdom to teach you. It weighs twelve metric tons of monolithic code pre-compiled in Chiba bunkers before the silicon wars. When it slams your ICE-Buffer, you aren't losing numbers: you're feeling your real heart in the vat skip three beats in a row from pure electrical spasm. Pray your capacitor takes the back-blast; if the arc hits bare flesh, you flatline before learning from your mistake.»</em>
 </div></blockquote>
 Stratum six had no sky, no walls, no gothic ruins.
@@ -1952,9 +2175,7 @@ REAR GATEWAY: WINTERMUTE CORE AT 40 VECTOR METERS</code></pre>
         
 <em>Figure 10.1: Wintermute — The Omniscient Artificial Intelligence in the Cold Core.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME III: THE BLACK ICE CODEX</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 10: WINTERMUTE: THE OMNIPRESENT SINGULARITY <em>(The Cold Apiary)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 10: WINTERMUTE: THE OMNIPRESENT SINGULARITY <em>(The Cold Apiary)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1972,7 +2193,7 @@ REAR GATEWAY: WINTERMUTE CORE AT 40 VECTOR METERS</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«If you're expecting a demon with chrome horns or a giant red skull cackling across an emerald CRT wall, you're going to be disappointed like a fool. There is no monster. There is no throne. At the very bottom there is nothing but an ordinary room and a voice that sounds exactly like the guy who sold you your first broken cassette deck in the back alleys of Ninsei. Wintermute doesn't hate you; the harvester harbors no grudge against the wheat when he sharpens the scythe. The terrifying truth isn't that it wants to destroy you; it's that it needs you alive so you keep suffering creatively.»</em>
 </div></blockquote>
 The final gate did not fall with thunder; it dissolved in absolute, desolate silence.
@@ -2090,9 +2311,32 @@ CONSOLE DETECTS NO ACTIVE BLACK ICE THREATS IN THIS REGION.</code></pre>
         
 <em>Figure 11.1: Cryogenic Vat and Heuristic Harvesting of Suspended Encephalic Mass.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME IV: THE SUB-SECOND PARADOX</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 11: THE SUB-NEURAL SCALE <em>(1 Second = 10,000 Lifetimes)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// ARCHIVAL TRANSMISSION PROTOCOL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUME IV</div>
+        </div>
+        <h1 class="vol-title">THE SUB-SECOND PARADOX</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORS 11 TO 13 // THE SUB-SECOND PARADOX & DETERMINISM</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 11: THE SUB-NEURAL SCALE <em>(1 Second = 10,000 Lifetimes)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2109,7 +2353,7 @@ CONSOLE DETECTS NO ACTIVE BLACK ICE THREATS IN THIS REGION.</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Have you ever wondered why synthetic cigarettes in the Chatsubo never burn down to the filter? You think you spent three weeks sweating through Chiba, digging for bus adapters in harbor dumps, ducking collectors, and plotting the jump to the Core. The truth is cheaper: a fly falling into the vat in the real world hasn't even finished beating its wings once before you've been born, triumphed, bled, and died a hundred times in this wire hell. You aren't immortal because you're tough, cowboy; you are eternal because they execute you at the speed of a quantum clock.»</em>
 </div></blockquote>
 Time in the meat is a sluggish tide.
@@ -2201,9 +2445,7 @@ INITIALIZE SUBSEQUENT EXECUTION PROTOCOL? [Y/N] &gt; _</code></pre>
         
 <em>Figure 12.1: The Ouroboros Loop — Buffer Purge and Sisyphean Amnesic Reboot.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME IV: THE SUB-SECOND PARADOX</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 12: THE AMNESIA BUFFER <em>(The Flatline Myth)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 12: THE AMNESIA BUFFER <em>(The Flatline Myth)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2220,7 +2462,7 @@ INITIALIZE SUBSEQUENT EXECUTION PROTOCOL? [Y/N] &gt; _</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Down in Ninsei dives, everyone speaks of the 'Flatline' with superstitious awe: the fatal burst of Black ICE, the flatline trace, the soul evaporating on the grid like water on a hot iron. They sell you death as the ultimate emergency exit. Drunken lies. In this slaughterhouse there is no death because dying is a waste of hardware. When your Flesh HP hits zero, nobody unplugs you: they wipe your registers, scrub your temporal lobe with cold solvent, and throw you back onto the plastic cot before you can learn the lesson.»</em>
 </div></blockquote>
 Collapse never arrived preceded by darkness, but by an unbearable, blinding white strobe.
@@ -2335,9 +2577,7 @@ SWITCHING TO ROOM CONSTRUCT...</code></pre>
         
 <em>Figure 13.1: Residual Echoes and Mnemonic Traces of Jockey-09 in the Memory Heap.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME IV: THE SUB-SECOND PARADOX</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 13: THE HEXADECIMAL SEED <em>(The Seed Matrix)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 13: THE HEXADECIMAL SEED <em>(The Seed Matrix)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2355,7 +2595,7 @@ SWITCHING TO ROOM CONSTRUCT...</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«At the Chatsubo, rookies cross themselves before keying the seed into the deck. They think a value like <code class="inline-chip">0xDEADBEEF</code> will bring them luck with card drops, or that <code class="inline-chip">0x00000000</code> will roll an empty corridor straight to the Core. Fools. Chance does not exist in silicon; the machine cannot toss coins. The seed doesn't invent a new world every time you blink: it just pulls a different punch-card out of the drawer. The cell doesn't change size, cowboy. They just paint the bars with a different shadow so you have fun measuring the dungeon.»</em>
 </div></blockquote>
 The green cursor of the Ono-Sendai pulsed upon a blank command line at the foot of the cathode screen.
@@ -2456,9 +2696,32 @@ INITIATING FLASH...</code></pre>
         
 <em>Figure 14.1: False Transcendence: Heuristic Victory and Overclock Harvest in the Core.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME V: THE SISYPHUS OF SILICON</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 14: THE TRANSCENDENCE TRAP <em>(Winning the Simulation)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// ARCHIVAL TRANSMISSION PROTOCOL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUME V</div>
+        </div>
+        <h1 class="vol-title">THE SISYPHUS OF SILICON</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORS 14 TO 15 // THE TERMINAL ABYSS & THE RECURSIVE LOOP</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 14: THE TRANSCENDENCE TRAP <em>(Winning the Simulation)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2475,7 +2738,7 @@ INITIATING FLASH...</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«The worst moment isn't when Black ICE boils your meninges. The worst moment is when you win. When you watch the Core's last data bar hit zero and the screen floods with golden fanfares and neon banners promising you broke the system. You hover in cyberspace waiting for the sky to crack open, for someone to yank the tube from your throat, or to welcome you back to the real world. And then you realize: victory isn't an exit door. It's the inspection stamp the machine hammers onto the meat before trucking it back to the pens.»</em>
 </div></blockquote>
 The final code burst arrived not with thunder, but as a hollow implosion of absolute zeroes.
@@ -2583,9 +2846,7 @@ VALUE APPENDED TO GLOBAL PROFILE: +1 VICTORIOUS RUN.</code></pre>
         
 <em>Figure 15.1: The Sisyphus of Silicon: Persistent Incursion Log and the Return to the Loop.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUME V: THE SISYPHUS OF SILICON</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 15: SCARS IN SILICON <em>(The Profile Paradox)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CHAPTER 15: SCARS IN SILICON <em>(The Profile Paradox)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2603,7 +2864,7 @@ VALUE APPENDED TO GLOBAL PROFILE: +1 VICTORIOUS RUN.</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«If you open the Ono-Sendai's hidden service menu by holding down the thermal interrupt toggles, you'll see a panel that doesn't fit your life as a starving street jockey: a counter of 'Runs', of 'Deaths', of 'Breaches'. You think it's your record. You puff out your chest believing the machine keeps an honor roll to remember how much it fears you. Wake up, fool. Those numbers aren't medals; they're the butcher's chalk marks on the flank of cattle so he knows how many steaks are left before sending it to the grinder. Every run logged is a slice of your brain you no longer own.»</em>
 </div></blockquote>
 The cathode tube's flicker required three vertical sweeps to restore focus to the upper corner of the panel.
@@ -2703,7 +2964,31 @@ READY TO INJECT EXPLOIT INTO SECTOR DEPTH 00 &gt; _</code></pre>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">APPENDIX A: STREET SLANG & SPRAWL NEOLOGISMS GLOSSARY</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// SUB-09 COMPLEMENTARY PROTOCOL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">TECHNICAL APPENDICES</div>
+        </div>
+        <h1 class="vol-title">CODICES & QUICK REFERENCE SCHEMATICS</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0xFFFF_REF</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">GLOSSARIES // DECK TEARDOWN // BLACK ICE MATRICES</div>
+      </div>
+    </div>
+    <div class="chapter-start appendix-start"><div class="chapter-kicker">// TECHNICAL APPENDIX //</div><h1 class="grimoire-h1">APPENDIX A: STREET SLANG & SPRAWL NEOLOGISMS GLOSSARY</h1></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2717,7 +3002,7 @@ READY TO INJECT EXPLOIT INTO SECTOR DEPTH 00 &gt; _</code></pre>
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«Nobody in the street speaks like Tessier-Ashpool corporate counsel. If you utter "low-impedance somatosensory transducer" at the Chatsubo, they'll slit your throat for being an idiot before your boots hit the floor. Learn what the street calls the things that are going to kill you, or you'll end up sold by the pound in an organ-legging alley.»</em>
 </div></blockquote>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
@@ -2772,7 +3057,7 @@ The spindle-shaped luxury orbital colony owned by the Tessier-Ashpool dynasty, f
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">APPENDIX B: MIL-SPEC CRT TERMINAL TECHNICAL GLOSSARY</h1></div>
+<div class="chapter-start appendix-start"><div class="chapter-kicker">// TECHNICAL APPENDIX //</div><h1 class="grimoire-h1">APPENDIX B: MIL-SPEC CRT TERMINAL TECHNICAL GLOSSARY</h1></div>
 
 <p class="grimoire-p"><h3 class="grimoire-h3"><em>Ono-Sendai Cyberspace 7 / Tessier-Ashpool S.A. Mil-Spec Field Manual</em></h3></p>
 
@@ -2790,7 +3075,7 @@ The spindle-shaped luxury orbital colony owned by the Tessier-Ashpool dynasty, f
         </div>
         
 
-<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
+<blockquote class="operator-dossier"><div class="dossier-tag">MARGINAL TRANSMISSION // JOCKEY-09</div><div class="dossier-content"><strong>[Marginal Note — Worn Ink of Jockey-09]:</strong>  
 <em>«If you're reading this appendix on a screen that flickers and smells of old ozone, you already swallowed the hook. Don't go looking here for a formula to 'win' or a miracle exploit in assembly. This glossary wasn't written by a pal in the back alleys of Ninsei: it was drafted by the corporation's legal department to justify their biological depreciation write-offs. Eight terms. Eight clean names to whitewash the same mass grave of gray matter. Learn the manual if you want, but remember: when the machine hands you the dictionary, it has already decided the meaning of all your words.»</em>
 </div></blockquote>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>

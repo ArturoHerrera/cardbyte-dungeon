@@ -8,13 +8,13 @@ Este directorio almacena las ediciones canónicas completas de **Cardbyte Dungeo
 
 1. **Edición en Español:**
    - **Archivo:** [`Cardbyte_Dungeon_Grimoire_ES.pdf`](file:///home/josear/dev/cardbyte-dungeon/books/Cardbyte_Dungeon_Grimoire_ES.pdf)
-   - **Páginas:** 88 páginas
-   - **Formato:** A4 a color, Dark Mode (The Void Edition), tipografía literaria EB Garamond + JetBrains Mono, portadas vectoriales completas, 15 capítulos, ilustraciones de arte de campo integradas, cajas de terminal CRT, glosarios y tablas de combate.
+   - **Páginas:** 85 páginas
+   - **Formato:** Tamaño Carta (US Letter 8.5" × 11" / 612 × 792 pt), Dark Mode (The Void Edition), portadillas de volumen dedicadas a página completa, paginado diegético CSS Paged Media (`PÁG. [ X / 85 ]`), tipografía literaria EB Garamond + JetBrains Mono, portadas vectoriales completas, 15 capítulos, ilustraciones de arte de campo integradas, cajas de terminal CRT, glosarios y tablas de combate.
 
 2. **Edición en Inglés:**
    - **Archivo:** [`Cardbyte_Dungeon_Grimoire_EN.pdf`](file:///home/josear/dev/cardbyte-dungeon/books/Cardbyte_Dungeon_Grimoire_EN.pdf)
-   - **Páginas:** 86 páginas
-   - **Formato:** Espejo 1:1 canónico en inglés, con portadas vectoriales traducidas, esquemas tácticos y tablas sincronizadas.
+   - **Páginas:** 82 páginas
+   - **Formato:** Espejo canónico 1:1 en inglés en Tamaño Carta (US Letter), portadillas de volumen a página completa, paginado diegético (`PAGE [ X / 82 ]`), esquemas tácticos y tablas sincronizadas.
 
 ---
 

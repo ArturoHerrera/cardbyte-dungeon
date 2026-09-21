@@ -7,12 +7,66 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  /* 1. US LETTER PAGE RULES WITH RUNNING HEADERS/FOOTERS */
   @page {
-    size: 210mm 297mm; /* A4 Standard */
-    margin: 0;
-    @bottom-center {
-      content: none;
+    size: letter;
+    margin: 20mm 16mm 22mm 16mm;
+    @top-left {
+      content: "CARDBYTE DUNGEON // MANUAL DEL OPERADOR";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #616a7d;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      padding-bottom: 2mm;
     }
+    @top-right {
+      content: "SUB-NIVEL 09 // PROTOCOLO OMEGA";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #00f0ff;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      padding-bottom: 2mm;
+    }
+    @bottom-left {
+      content: "CLASIFICACIÓN: 0x1842_TRACE";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #4b5568;
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 2.5mm;
+    }
+    @bottom-right {
+      content: "PÁG. [ " counter(page) " / " counter(pages) " ]";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #00ff66;
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 2.5mm;
+    }
+  }
+
+  /* 2. EXCLUDE HEADERS/FOOTERS ON COVERS AND VOLUME TITLE CARDS */
+  @page cover-page {
+    size: letter;
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  @page volume-page {
+    size: letter;
+    margin: 0;
+    @top-left { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
   }
 
   * {
@@ -25,24 +79,28 @@
     background-color: #07080c;
     color: #dce0e8;
     font-family: 'EB Garamond', serif;
-    font-size: 11.5pt;
-    line-height: 1.65;
+    font-size: 11pt;
+    line-height: 1.6;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
+  /* FRONT & BACK COVERS */
   .book-cover-page {
+    page: cover-page;
     page-break-before: always;
     page-break-after: always;
-    width: 210mm;
-    height: 297mm;
+    break-before: page;
+    break-after: page;
+    width: 8.5in;
+    height: 11in;
     position: relative;
     background: #090a0f;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 22mm 20mm;
+    padding: 18mm 16mm;
   }
 
   .grid-overlay {
@@ -75,15 +133,15 @@
 
   .corner-mark {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-color: #00ff66;
     opacity: 0.7;
   }
-  .top-left { top: 12mm; left: 12mm; border-top: 2px solid #00ff66; border-left: 2px solid #00ff66; }
-  .top-right { top: 12mm; right: 12mm; border-top: 2px solid #00ff66; border-right: 2px solid #00ff66; }
-  .bottom-left { bottom: 12mm; left: 12mm; border-bottom: 2px solid #00ff66; border-left: 2px solid #00ff66; }
-  .bottom-right { bottom: 12mm; right: 12mm; border-bottom: 2px solid #00ff66; border-right: 2px solid #00ff66; }
+  .top-left { top: 10mm; left: 10mm; border-top: 2px solid #00ff66; border-left: 2px solid #00ff66; }
+  .top-right { top: 10mm; right: 10mm; border-top: 2px solid #00ff66; border-right: 2px solid #00ff66; }
+  .bottom-left { bottom: 10mm; left: 10mm; border-bottom: 2px solid #00ff66; border-left: 2px solid #00ff66; }
+  .bottom-right { bottom: 10mm; right: 10mm; border-bottom: 2px solid #00ff66; border-right: 2px solid #00ff66; }
 
   .header-meta {
     z-index: 2;
@@ -91,11 +149,11 @@
     justify-content: space-between;
     align-items: flex-start;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
+    font-size: 8.5pt;
     letter-spacing: 2px;
     color: #616a7d;
     border-bottom: 1px solid rgba(0,255,102,0.2);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }
   .header-tag { color: #00ff66; font-weight: 700; }
   .danger-pill {
@@ -103,7 +161,7 @@
     color: #ff5500;
     border: 1px solid #ff5500;
     padding: 3px 10px;
-    font-size: 8pt;
+    font-size: 7.5pt;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'JetBrains Mono', monospace;
@@ -112,36 +170,36 @@
   .title-group {
     z-index: 2;
     text-align: center;
-    margin-top: 5mm;
+    margin-top: 2mm;
   }
   .sub-kicker {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
-    letter-spacing: 5px;
+    font-size: 8.5pt;
+    letter-spacing: 4px;
     text-transform: uppercase;
     color: #00f0ff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .main-title {
     font-family: 'Cinzel', serif;
-    font-size: 38pt;
+    font-size: 34pt;
     font-weight: 900;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     color: #ffffff;
     text-transform: uppercase;
-    text-shadow: 0 0 25px rgba(0, 255, 102, 0.4), 0 0 60px rgba(0, 240, 255, 0.2);
+    text-shadow: 0 0 25px rgba(0, 255, 102, 0.4), 0 0 50px rgba(0, 240, 255, 0.2);
     line-height: 1.1;
   }
   .sub-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 13pt;
-    letter-spacing: 6px;
+    font-size: 12pt;
+    letter-spacing: 5px;
     color: #9ba1b0;
-    margin-top: 12px;
+    margin-top: 10px;
     text-transform: uppercase;
     border-top: 1px solid rgba(255,255,255,0.15);
     border-bottom: 1px solid rgba(255,255,255,0.15);
-    padding: 6px 0;
+    padding: 5px 0;
   }
 
   .sigil-wrap {
@@ -149,11 +207,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 5mm 0;
+    margin: 2mm 0;
   }
   .sigil-svg {
-    width: 95mm;
-    height: 95mm;
+    width: 85mm;
+    height: 85mm;
     filter: drop-shadow(0 0 20px rgba(0, 255, 102, 0.35));
   }
 
@@ -161,25 +219,25 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }
   .lore-quote {
     font-family: 'Cinzel', serif;
     font-style: italic;
-    font-size: 10pt;
+    font-size: 9.5pt;
     text-align: center;
     color: #8892a4;
-    line-height: 1.5;
-    padding: 0 15mm;
+    line-height: 1.45;
+    padding: 0 12mm;
   }
   .footer-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid rgba(0,255,102,0.2);
-    padding-top: 10px;
+    padding-top: 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     letter-spacing: 1.5px;
     color: #555e70;
   }
@@ -187,53 +245,53 @@
 
   /* BACK COVER */
   .back-cover {
-    padding: 24mm 22mm;
+    padding: 20mm 18mm;
   }
   .back-blurb {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   .back-kicker {
     font-family: 'JetBrains Mono', monospace;
     color: #ff5500;
-    font-size: 9pt;
+    font-size: 8.5pt;
     letter-spacing: 3px;
     text-transform: uppercase;
     border-left: 3px solid #ff5500;
-    padding-left: 10px;
+    padding-left: 8px;
   }
   .back-headline {
     font-family: 'Cinzel', serif;
-    font-size: 20pt;
+    font-size: 18pt;
     font-weight: 700;
     line-height: 1.3;
     color: #ffffff;
     letter-spacing: 1px;
   }
   .back-body {
-    font-size: 11pt;
-    line-height: 1.7;
+    font-size: 10.5pt;
+    line-height: 1.6;
     color: #a4acbd;
     text-align: justify;
   }
-  .back-body p { margin-bottom: 10px; }
+  .back-body p { margin-bottom: 8px; }
   .back-body strong { color: #00ff66; }
   .back-specs-box {
     z-index: 2;
     background: rgba(0, 240, 255, 0.03);
     border: 1px solid rgba(0, 240, 255, 0.25);
-    padding: 14px 18px;
+    padding: 12px 16px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    line-height: 1.7;
+    font-size: 8pt;
+    line-height: 1.65;
   }
   .spec-row {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px dashed rgba(255,255,255,0.08);
-    padding: 4px 0;
+    padding: 3px 0;
   }
   .spec-key { color: #6d778d; }
   .spec-val { color: #00f0ff; font-weight: 600; }
@@ -244,86 +302,176 @@
     justify-content: space-between;
     align-items: flex-end;
     margin-top: auto;
-    padding-top: 15px;
+    padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.15);
   }
   .barcode-art { display: flex; flex-direction: column; gap: 4px; }
-  .barcode-lines { width: 160px; height: 40px; }
-  .barcode-label { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: 2px; color: #616a7d; }
+  .barcode-lines { width: 150px; height: 36px; }
+  .barcode-label { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 2px; color: #616a7d; }
   .publisher-stamp {
     font-family: 'JetBrains Mono', monospace;
     text-align: right;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: #616a7d;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
-  /* TOC STYLING */
+  /* DEDICATED FULL-PAGE VOLUME TITLE CARDS */
+  .volume-card-page {
+    page: volume-page;
+    width: 8.5in;
+    height: 11in;
+    position: relative;
+    background: #06080e;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30mm 20mm;
+    box-sizing: border-box;
+    page-break-before: always;
+    page-break-after: always;
+    break-before: page;
+    break-after: page;
+    text-align: center;
+  }
+  .vol-content {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 150mm;
+  }
+  .vol-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    letter-spacing: 4px;
+    color: #00f0ff;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .vol-badge-wrap {
+    margin-bottom: 22px;
+  }
+  .vol-badge {
+    display: inline-block;
+    background: rgba(0, 255, 102, 0.08);
+    border: 1.5px solid #00ff66;
+    color: #00ff66;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13pt;
+    font-weight: 700;
+    letter-spacing: 5px;
+    padding: 6px 24px;
+    text-transform: uppercase;
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
+  }
+  .vol-title {
+    font-family: 'Cinzel', serif;
+    font-size: 24pt;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+    margin-bottom: 18px;
+  }
+  .vol-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+  .vol-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 102, 0.4), transparent);
+  }
+  .vol-sigil {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: 2px;
+    color: #ffb000;
+  }
+  .vol-subtext {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 9.5pt;
+    letter-spacing: 3px;
+    color: #9ba1b0;
+    text-transform: uppercase;
+  }
+
+  /* TABLE OF CONTENTS */
   .toc-wrapper {
     page-break-before: always;
     page-break-after: always;
+    break-before: page;
+    break-after: page;
     background: #080a10;
     border: 1px solid rgba(0,255,102,0.25);
-    padding: 16mm 18mm;
-    margin: 10mm 0;
+    padding: 12mm 14mm;
+    margin: 6mm 0;
   }
   .toc-header {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13pt;
+    font-size: 12pt;
     color: #00ff66;
     letter-spacing: 2px;
     text-transform: uppercase;
     border-bottom: 1px solid rgba(0,255,102,0.3);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
   }
   .toc-container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
   }
   .toc-volume-header {
     font-family: 'Cinzel', serif;
-    font-size: 13pt;
+    font-size: 12pt;
     font-weight: 800;
     color: #00f0ff;
     letter-spacing: 1px;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 10px;
+    margin-bottom: 3px;
     border-bottom: 1px dashed rgba(0, 240, 255, 0.2);
-    padding-bottom: 3px;
+    padding-bottom: 2px;
   }
   .toc-item {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5pt;
-    line-height: 1.5;
+    font-size: 9pt;
+    line-height: 1.45;
   }
   .toc-link {
     color: #cbd5e1;
     text-decoration: none;
-    transition: color 0.2s;
   }
   .toc-bullet {
     color: #00ff66;
     font-weight: bold;
   }
 
-  /* CYBER FIGURE FRAMES */
+  /* CYBER FIGURE FRAMES - ANTI-FRACTURE */
   .cyber-figure-frame {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 10mm 0;
+    margin: 6mm auto 8mm auto;
     text-align: center;
   }
   .figure-scan-border {
     display: inline-block;
     background: #000000;
     border: 1px solid rgba(0, 240, 255, 0.3);
-    padding: 6px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.1);
+    padding: 5px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.8), 0 0 15px rgba(0, 240, 255, 0.1);
   }
   .figure-img {
     max-width: 100%;
-    max-height: 135mm;
+    max-height: 105mm; /* Fits gracefully on Letter pages alongside text */
     object-fit: contain;
     display: block;
     margin: 0 auto;
@@ -331,41 +479,40 @@
   }
   .figure-caption {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: #8391a8;
-    margin-top: 8px;
+    margin-top: 6px;
     letter-spacing: 1px;
     text-transform: uppercase;
   }
   .fig-accent { color: #00f0ff; font-weight: bold; }
 
-  /* INTERIOR CONTENT PAGES */
+  /* INTERIOR CONTENT FLOW */
   .content-flow {
-    padding: 24mm 22mm;
     background-color: #07080c;
   }
 
-  .chapter-break {
-    page-break-before: always;
-    margin-top: 18mm;
-  }
-
   .chapter-header {
-    margin-bottom: 10mm;
+    page-break-before: always;
+    break-before: page;
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 4mm;
+    margin-bottom: 8mm;
     border-bottom: 1px solid rgba(0, 255, 102, 0.3);
-    padding-bottom: 5mm;
+    padding-bottom: 4mm;
   }
   .chapter-num-badge {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    letter-spacing: 4px;
+    font-size: 8pt;
+    letter-spacing: 3px;
     color: #00ff66;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .grimoire-chapter-h2 {
     font-family: 'Cinzel', serif;
-    font-size: 20pt;
+    font-size: 19pt;
     font-weight: 800;
     color: #ffffff;
     letter-spacing: 1px;
@@ -374,51 +521,64 @@
 
   .chapter-start {
     page-break-before: always;
-    margin-bottom: 12mm;
+    break-before: page;
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 4mm;
+    margin-bottom: 10mm;
     border-bottom: 2px solid #00ff66;
-    padding-bottom: 6mm;
+    padding-bottom: 5mm;
   }
   .chapter-kicker {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
+    font-size: 8pt;
     letter-spacing: 3px;
     color: #00f0ff;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .grimoire-h1 {
     font-family: 'Cinzel', serif;
-    font-size: 24pt;
+    font-size: 22pt;
     font-weight: 900;
     color: #ffffff;
     letter-spacing: 1.5px;
     line-height: 1.2;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .grimoire-h2 {
     font-family: 'Cinzel', serif;
-    font-size: 16pt;
+    font-size: 15pt;
     color: #00ff66;
-    margin-top: 10mm;
-    margin-bottom: 4mm;
+    margin-top: 8mm;
+    margin-bottom: 3.5mm;
     border-bottom: 1px solid rgba(0,255,102,0.15);
     padding-bottom: 2mm;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .grimoire-h3 {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #00f0ff;
     letter-spacing: 1px;
-    margin-top: 7mm;
-    margin-bottom: 3mm;
+    margin-top: 6mm;
+    margin-bottom: 2.5mm;
     text-transform: uppercase;
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
+  /* PARAGRAPHS - ANTI-FRACTURE */
   .grimoire-p {
     text-align: justify;
-    margin-bottom: 4.5mm;
+    margin-bottom: 4mm;
     text-indent: 5mm;
+    orphans: 3;
+    widows: 3;
   }
   .grimoire-p:first-of-type {
     text-indent: 0;
@@ -428,7 +588,7 @@
   .chapter-header + .grimoire-p::first-letter,
   .chapter-start + .grimoire-p::first-letter {
     font-family: 'Cinzel', serif;
-    font-size: 38pt;
+    font-size: 36pt;
     float: left;
     line-height: 0.8;
     margin-right: 3mm;
@@ -438,10 +598,11 @@
     font-weight: 900;
   }
 
-  /* ASCII TERMINAL BOX */
+  /* ASCII TERMINAL BOX - ANTI-FRACTURE */
   .ascii-terminal-frame {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     background: #040508;
     border: 1px solid rgba(0, 255, 102, 0.25);
     box-shadow: 0 4px 20px rgba(0,0,0,0.7), inset 0 0 15px rgba(0,255,102,0.03);
@@ -452,13 +613,13 @@
     align-items: center;
     background: #0d1017;
     border-bottom: 1px solid rgba(0,255,102,0.2);
-    padding: 4px 10px;
+    padding: 3px 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 1px;
   }
-  .term-dots { display: flex; gap: 5px; }
-  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .term-dots { display: flex; gap: 4px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
   .d-red { background: #ff4444; }
   .d-amber { background: #ffb000; }
   .d-green { background: #00ff66; }
@@ -466,9 +627,9 @@
   .term-tag { color: #00ff66; font-weight: bold; }
 
   .ascii-pre {
-    padding: 8px 12px;
+    padding: 7px 10px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7.2pt;
+    font-size: 7pt;
     line-height: 1.25;
     color: #2bf885;
     background-color: transparent;
@@ -476,59 +637,61 @@
     white-space: pre;
   }
 
-  /* OPERATOR MARGINAL DOSSIER */
+  /* OPERATOR MARGINAL DOSSIER - ANTI-FRACTURE */
   .operator-dossier {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     background: rgba(255, 176, 0, 0.04);
     border-left: 3px solid #ffb000;
     border-right: 1px solid rgba(255, 176, 0, 0.15);
     border-top: 1px solid rgba(255, 176, 0, 0.15);
     border-bottom: 1px solid rgba(255, 176, 0, 0.15);
-    padding: 10px 14px;
+    padding: 8px 12px;
     font-style: italic;
     color: #e5b969;
   }
   .dossier-tag {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 2px;
     font-weight: bold;
     color: #ffb000;
     font-style: normal;
     text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
   .dossier-content {
-    font-size: 10.5pt;
-    line-height: 1.55;
+    font-size: 10pt;
+    line-height: 1.5;
   }
 
-  /* MATRIX TABLES */
+  /* MATRIX TABLES - ANTI-FRACTURE */
   .table-container {
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     overflow-x: auto;
   }
   .matrix-table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.8pt;
     background: #090b12;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }
   .matrix-table th {
     background: #111522;
     color: #00f0ff;
-    padding: 6px 10px;
+    padding: 5px 8px;
     text-align: left;
     border-bottom: 1px solid rgba(0, 240, 255, 0.4);
     letter-spacing: 1px;
     text-transform: uppercase;
   }
   .matrix-table td {
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     color: #b9c2d4;
   }
@@ -539,8 +702,10 @@
   /* DIVIDER */
   .cyber-divider {
     text-align: center;
-    margin: 8mm 0;
+    margin: 6mm 0;
     position: relative;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
   .cyber-divider::before {
     content: "";
@@ -554,16 +719,16 @@
   .cyber-divider span {
     position: relative;
     background: #07080c;
-    padding: 0 10px;
+    padding: 0 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 2px;
     color: #4b5568;
   }
 
   .inline-chip {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
+    font-size: 8.5pt;
     background: rgba(0, 255, 102, 0.08);
     color: #00ff66;
     border: 1px solid rgba(0, 255, 102, 0.25);
@@ -574,17 +739,17 @@
   .math-inline {
     font-family: 'JetBrains Mono', monospace;
     color: #ffb000;
-    font-size: 9pt;
+    font-size: 8.5pt;
   }
 
   .grimoire-list {
-    margin: 4mm 0 6mm 8mm;
+    margin: 3mm 0 5mm 6mm;
     list-style-type: square;
     color: #a4acbd;
   }
   .grimoire-list li {
-    margin-bottom: 2mm;
-    padding-left: 2mm;
+    margin-bottom: 1.5mm;
+    padding-left: 1.5mm;
   }
 
 </style>
@@ -670,14 +835,14 @@
 
 <!-- 2. CONTENT STREAM -->
 <div class="content-flow">
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">CARDBYTE DUNGEON: MANUAL DEL OPERADOR & COMPENDIO NARRATIVO</h1></div>
+<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // ARCHIVO TERMINAL</div><h1 class="grimoire-h1">CARDBYTE DUNGEON: MANUAL DEL OPERADOR & COMPENDIO NARRATIVO</h1></div>
 <h3 class="grimoire-h3"><em>Guía Oficial de Inyección Sensorial, Arquitectura de la Red y Crónicas del Ciberespacio (1984)</em></h3>
 
 <figure class="cyber-figure-frame">
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/cover.jpg" alt="Cubierta del Manual" class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Cubierta del Manual</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Cubierta del Manual</figcaption>
         </figure>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
@@ -710,7 +875,7 @@
 <p class="grimoire-p"></div></div>
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div></p>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">ADVERTENCIA CORPORATIVA Y MANUAL DE OPERACIÓN</h1></div>
+<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // ARCHIVO TERMINAL</div><h1 class="grimoire-h1">ADVERTENCIA CORPORATIVA Y MANUAL DE OPERACIÓN</h1></div>
 <h2 class="grimoire-h2">ONO-SENDAI CYBERSPACE 7 — MIL-SPEC OPERATOR’S GUIDE</h2>
 <h3 class="grimoire-h3">CLASIFICACIÓN DE SEGURIDAD: NIVEL 5 (TESSIER-ASHPOOL BIOTECH LABS // CORE STORAGE)</h3>
 
@@ -754,7 +919,7 @@ Tessier-Ashpool no se hace responsable de:
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/dermatrodes_connector.jpg" alt="Conector Dermo-Axial de Tres Pines" class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Conector Dermo-Axial de Tres Pines</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Conector Dermo-Axial de Tres Pines</figcaption>
         </figure>
         
 <em>Figura 0.1: Conector Dermo-Axial Mil-Spec de Tres Pines (Platino-Iridio con Seguro Neumático PNU-LOCK).</em>
@@ -776,8 +941,32 @@ Tessier-Ashpool no se hace responsable de:
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN I: LA ILUSIÓN DE LA CARNE Y EL CHIP</h1></div>
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 01: EL ATAÚD DE FÓSFORO Y HUMO <em>(The Coffin Fallacy)</em></h2></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// PROTOCOLO DE TRANSMISIÓN ARCHIVAL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUMEN I</div>
+        </div>
+        <h1 class="vol-title">LA ILUSIÓN DE LA CARNE Y EL CHIP</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORES 01 AL 03 // MEMORIA & DESPERTAR NEURAL</div>
+      </div>
+    </div>
+    
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 01: EL ATAÚD DE FÓSFORO Y HUMO <em>(The Coffin Fallacy)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -802,7 +991,7 @@ Tessier-Ashpool no se hace responsable de:
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/coffin_hotel.jpg" alt="Figura 1.1: El Ataúd de Fósforo y Humo — Hotel Cápsula en Ninsei, Chiba City." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 1.1: El Ataúd de Fósforo y Humo — Hotel Cápsula en Ninsei, Chiba City.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 1.1: El Ataúd de Fósforo y Humo — Hotel Cápsula en Ninsei, Chiba City.</figcaption>
         </figure>
         
 <em>Figura 1.1: El Ataúd de Fósforo y Humo — Hotel Cápsula en Ninsei, Chiba City.</em>
@@ -881,9 +1070,7 @@ MEMORIA DISPONIBLE: 3 RAM CANALES TÉRMICOS.
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN I: LA ILUSIÓN DE LA CARNE Y EL CHIP</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 02: EL CONTRATO DEL BARÓN FANTASMA <em>(The Spurious Directive)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 02: EL CONTRATO DEL BARÓN FANTASMA <em>(The Spurious Directive)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -909,7 +1096,7 @@ MEMORIA DISPONIBLE: 3 RAM CANALES TÉRMICOS.
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_02_contract.jpg" alt="Figura 2.1: El Bar Chatsubo y la Inyección del Contrato Holográfico de Armitage." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 2.1: El Bar Chatsubo y la Inyección del Contrato Holográfico de Armitage.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 2.1: El Bar Chatsubo y la Inyección del Contrato Holográfico de Armitage.</figcaption>
         </figure>
         
 <em>Figura 2.1: El Bar Chatsubo y la Inyección del Contrato Holográfico de Armitage.</em>
@@ -1027,14 +1214,12 @@ DESCONEXIÓN DEL SUSTRATO LOCAL EN 3... 2... 1...</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_03_injection.jpg" alt="Figura 3.1: Inserción Dermo-Axial y Dilatación Sináptica en Trance de Batalla." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 3.1: Inserción Dermo-Axial y Dilatación Sináptica en Trance de Batalla.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 3.1: Inserción Dermo-Axial y Dilatación Sináptica en Trance de Batalla.</figcaption>
         </figure>
         
 <em>Figura 3.1: Inserción Dermo-Axial y Dilatación Sináptica en Trance de Batalla.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN I: LA ILUSIÓN DE LA CARNE Y EL CHIP</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 03: LA INTERFAZ DE LOS TRES PINES <em>(Ono-Sendai 7)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 03: LA INTERFAZ DE LOS TRES PINES <em>(Ono-Sendai 7)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1159,14 +1344,37 @@ CANALES RESTANTES: [ ■ ■ □ ]</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_04_depth_zero.jpg" alt="Figura 4.1: Estrato 00 — Entrada a la Retícula de Ciberespacio y Ruido de Superficie." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 4.1: Estrato 00 — Entrada a la Retícula de Ciberespacio y Ruido de Superficie.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 4.1: Estrato 00 — Entrada a la Retícula de Ciberespacio y Ruido de Superficie.</figcaption>
         </figure>
         
 <em>Figura 4.1: Estrato 00 — Entrada a la Retícula de Ciberespacio y Ruido de Superficie.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN II: LA TOPOLOGÍA DEL SUEÑO</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 04: EL ESPACIO DE CONSENSO ALUCINATORIO <em>(The Grid)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// PROTOCOLO DE TRANSMISIÓN ARCHIVAL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUMEN II</div>
+        </div>
+        <h1 class="vol-title">LA TOPOLOGÍA DEL SUEÑO</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORES 04 AL 06 // ARQUITECTURA DE COMBATE & RECURSOS</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 04: EL ESPACIO DE CONSENSO ALUCINATORIO <em>(The Grid)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1264,9 +1472,7 @@ ALERTA: PATRULLA HEXADECIMAL APROXIMÁNDOSE.</code></pre>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN II: LA TOPOLOGÍA DEL SUEÑO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 05: LOS PELDAÑOS HACIA EL ABISMO <em>(Depth 0 to 7: De la Superficie al Núcleo)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 05: LOS PELDAÑOS HACIA EL ABISMO <em>(Depth 0 to 7: De la Superficie al Núcleo)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1297,7 +1503,7 @@ La verticalidad era otra mentira conveniente.</p>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/depths_topology.jpg" alt="Topología de los Ocho Estratos" class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Topología de los Ocho Estratos</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Topología de los Ocho Estratos</figcaption>
         </figure>
         
 <em>Figura 5.1: Topología Transversal de los Ocho Estratos de la Red (Depth 0 a Depth 7).</em>
@@ -1367,14 +1573,12 @@ INTEGRIDAD PSICOSOMÁTICA: FLESH_HP 94/100</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_06_fracture.jpg" alt="Figura 6.1: Bóveda de Datos Segura y Oasis de Ruido Blanco entre Estratos." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 6.1: Bóveda de Datos Segura y Oasis de Ruido Blanco entre Estratos.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 6.1: Bóveda de Datos Segura y Oasis de Ruido Blanco entre Estratos.</figcaption>
         </figure>
         
 <em>Figura 6.1: Bóveda de Datos Segura y Oasis de Ruido Blanco entre Estratos.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN II: LA TOPOLOGÍA DEL SUEÑO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 06: OASIS DE RUIDO BLANCO <em>(Caches & Vaults)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 06: OASIS DE RUIDO BLANCO <em>(Caches & Vaults)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1490,14 +1694,37 @@ SOPORTE VITAL CONFIRMA: SUJETO RECONCENTRADO.</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_07_ice_apparatus.jpg" alt="Figura 7.1: Enjambre de Bit-Bugs patrullando las mallas de ICE Perimetral." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 7.1: Enjambre de Bit-Bugs patrullando las mallas de ICE Perimetral.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 7.1: Enjambre de Bit-Bugs patrullando las mallas de ICE Perimetral.</figcaption>
         </figure>
         
 <em>Figura 7.1: Enjambre de Bit-Bugs patrullando las mallas de ICE Perimetral.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN III: EL CÓDICE DEL ICE NEGRO</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 07: BIT-BUGS: EL ENJAMBRE AUTÓMATA <em>(The Drone Swarm)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// PROTOCOLO DE TRANSMISIÓN ARCHIVAL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUMEN III</div>
+        </div>
+        <h1 class="vol-title">EL CÓDICE DEL ICE NEGRO</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORES 07 AL 10 // BESTIARIO DE ICE NEGRO & AMENAZAS</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 07: BIT-BUGS: EL ENJAMBRE AUTÓMATA <em>(The Drone Swarm)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1636,14 +1863,12 @@ DISIPACIÓN TÉRMICA: ELEVÁNDOSE A 81°C.</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_08_daemons.jpg" alt="Figura 8.1: Daemon-Cultists en la Sima: Espectros de ex-jockeys venerando el bucle de la Matrix." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 8.1: Daemon-Cultists en la Sima: Espectros de ex-jockeys venerando el bucle de la Matrix.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 8.1: Daemon-Cultists en la Sima: Espectros de ex-jockeys venerando el bucle de la Matrix.</figcaption>
         </figure>
         
 <em>Figura 8.1: Daemon-Cultists en la Sima: Espectros de ex-jockeys venerando el bucle de la Matrix.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN III: EL CÓDICE DEL ICE NEGRO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 08: DAEMON-CULTISTS: LA HEREJÍA DEL PRISIONERO <em>(The Heretic Loop)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 08: DAEMON-CULTISTS: LA HEREJÍA DEL PRISIONERO <em>(The Heretic Loop)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1797,14 +2022,12 @@ ADVERTENCIA: MEMORY-BRUTE DETECTADO EN LA SIGUIENTE COMPUERTA.</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_09_black_ice.jpg" alt="Figura 9.1: Monolito de Hielo Negro Cauterizando Sinapsis con Arcos Letales." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 9.1: Monolito de Hielo Negro Cauterizando Sinapsis con Arcos Letales.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 9.1: Monolito de Hielo Negro Cauterizando Sinapsis con Arcos Letales.</figcaption>
         </figure>
         
 <em>Figura 9.1: Monolito de Hielo Negro Cauterizando Sinapsis con Arcos Letales.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN III: EL CÓDICE DEL ICE NEGRO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 09: MEMORY-BRUTES: EL YUNQUE DEL PASTOR <em>(The Heavy Piston)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 09: MEMORY-BRUTES: EL YUNQUE DEL PASTOR <em>(The Heavy Piston)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -1961,14 +2184,12 @@ COMPUERTA TRASERA: WINTERMUTE CORE A 40 METROS VECTORIALES</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_10_wintermute.webp" alt="Figura 10.1: Wintermute — La Inteligencia Artificial Omnisciente en el Núcleo Frío." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 10.1: Wintermute — La Inteligencia Artificial Omnisciente en el Núcleo Frío.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 10.1: Wintermute — La Inteligencia Artificial Omnisciente en el Núcleo Frío.</figcaption>
         </figure>
         
 <em>Figura 10.1: Wintermute — La Inteligencia Artificial Omnisciente en el Núcleo Frío.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN III: EL CÓDICE DEL ICE NEGRO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 10: WINTERMUTE: LA SINGULARIDAD OMNIPRESENTE <em>(The Cold Apiary)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 10: WINTERMUTE: LA SINGULARIDAD OMNIPRESENTE <em>(The Cold Apiary)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2102,14 +2323,37 @@ LA CONSOLA NO DETECTA REGISTROS DE ICE NEGRO EN ESTE SECTOR.</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/vat_brain.jpg" alt="Figura 11.1: Cuba Criogénica y Cosecha Heurística de Masa Encefálica Suspendida." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 11.1: Cuba Criogénica y Cosecha Heurística de Masa Encefálica Suspendida.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 11.1: Cuba Criogénica y Cosecha Heurística de Masa Encefálica Suspendida.</figcaption>
         </figure>
         
 <em>Figura 11.1: Cuba Criogénica y Cosecha Heurística de Masa Encefálica Suspendida.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN IV: LA PARADOJA DEL MICROSEGUNDO</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 11: LA ESCALA SUB-NEURAL <em>(1 Segundo = 10,000 Vidas)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// PROTOCOLO DE TRANSMISIÓN ARCHIVAL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUMEN IV</div>
+        </div>
+        <h1 class="vol-title">LA PARADOJA DEL MICROSEGUNDO</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORES 11 AL 13 // LA ESCALA SUB-NEURAL & DETERMINISMO</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 11: LA ESCALA SUB-NEURAL <em>(1 Segundo = 10,000 Vidas)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2216,14 +2460,12 @@ TIEMPO SUBJETIVO RESTANTE ANTES DE EXPIRACIÓN DE BUFFER: 47 HORAS
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_12_reset_loop.webp" alt="Figura 12.1: El Bucle del Ouroboros — Purga de Buffer y Reinicio Amnésico de Sísifo." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 12.1: El Bucle del Ouroboros — Purga de Buffer y Reinicio Amnésico de Sísifo.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 12.1: El Bucle del Ouroboros — Purga de Buffer y Reinicio Amnésico de Sísifo.</figcaption>
         </figure>
         
 <em>Figura 12.1: El Bucle del Ouroboros — Purga de Buffer y Reinicio Amnésico de Sísifo.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN IV: LA PARADOJA DEL MICROSEGUNDO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 12: EL BÚFER DE LA AMNESIA <em>(The Flatline Myth)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 12: EL BÚFER DE LA AMNESIA <em>(The Flatline Myth)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2353,14 +2595,12 @@ CONMUTANDO A PROYECCIÓN DE HABITÁCULO...</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_13_buffer_ghosts.webp" alt="Figura 13.1: Ecos Residuales y Huellas Mnémicas de Jockey-09 en el Heap de Memoria." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 13.1: Ecos Residuales y Huellas Mnémicas de Jockey-09 en el Heap de Memoria.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 13.1: Ecos Residuales y Huellas Mnémicas de Jockey-09 en el Heap de Memoria.</figcaption>
         </figure>
         
 <em>Figura 13.1: Ecos Residuales y Huellas Mnémicas de Jockey-09 en el Heap de Memoria.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN IV: LA PARADOJA DEL MICROSEGUNDO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 13: LA SEMILLA HEXADECIMAL <em>(The Seed Matrix)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 13: LA SEMILLA HEXADECIMAL <em>(The Seed Matrix)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2477,14 +2717,37 @@ INICIANDO PARPADEO...</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_14_memory_cards.webp" alt="Figura 14.1: La Falsa Trascendencia: Victoria Heurística y Cosecha de Sobrecarga en el Núcleo." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 14.1: La Falsa Trascendencia: Victoria Heurística y Cosecha de Sobrecarga en el Núcleo.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 14.1: La Falsa Trascendencia: Victoria Heurística y Cosecha de Sobrecarga en el Núcleo.</figcaption>
         </figure>
         
 <em>Figura 14.1: La Falsa Trascendencia: Victoria Heurística y Cosecha de Sobrecarga en el Núcleo.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN V: EL SÍSIFO DE SILICIO</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
 
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 14: LA TRAMPA DE LA TRASCENDENCIA <em>(Winning the Simulation)</em></h2></div>
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// PROTOCOLO DE TRANSMISIÓN ARCHIVAL //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">VOLUMEN V</div>
+        </div>
+        <h1 class="vol-title">EL SÍSIFO DE SILICIO</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">SECTORES 14 AL 15 // EL ABISMO TERMINAL & EL CICLO ETERNO</div>
+      </div>
+    </div>
+
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 14: LA TRAMPA DE LA TRASCENDENCIA <em>(Winning the Simulation)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2607,14 +2870,12 @@ VALOR AÑADIDO AL PERFIL GLOBAL: +1 RUN VICTORIOSA.</code></pre>
           <div class="figure-scan-border">
             <img src="file:///home/josear/dev/cardbyte-dungeon/public/assets/book/chap_15_flatline.webp" alt="Figura 15.1: El Sísifo de Silicio: Registro Persistente de Incursiones y el Retorno al Bucle." class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> Figura 15.1: El Sísifo de Silicio: Registro Persistente de Incursiones y el Retorno al Bucle.</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">[SENSOR_ÓPTICO]</span> Figura 15.1: El Sísifo de Silicio: Registro Persistente de Incursiones y el Retorno al Bucle.</figcaption>
         </figure>
         
 <em>Figura 15.1: El Sísifo de Silicio: Registro Persistente de Incursiones y el Retorno al Bucle.</em>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">VOLUMEN V: EL SÍSIFO DE SILICIO</h1></div>
-
-<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">CAPÍTULO 15: CICATRICES EN EL SILICIO <em>(The Profile Paradox)</em></h2></div>
+<div class="chapter-header"><div class="chapter-num-badge">PROTOCOLO DE SECTOR</div><h2 class="grimoire-chapter-h2">CAPÍTULO 15: CICATRICES EN EL SILICIO <em>(The Profile Paradox)</em></h2></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2735,7 +2996,31 @@ LISTO PARA INYECTAR EXPLOIT EN SECTOR DEPTH 00 &gt; _</code></pre>
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">APÉNDICE A: GLOSARIO DE JERGA CALLEJERA Y NEOLOGISMOS DEL SPRAWL</h1></div>
+<div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+
+<div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+<div class="vol-content">
+        <div class="vol-kicker">// PROTOCOLO COMPLEMENTARIO SUB-09 //</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">APÉNDICES TÉCNICOS</div>
+        </div>
+        <h1 class="vol-title">CÓDICES Y ESQUEMAS DE CONSULTA RÁPIDA</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0xFFFF_REF</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">GLOSARIOS // DESENSAMBLAJE DE DECK // TABLAS DE ICE NEGRO</div>
+      </div>
+    </div>
+    <div class="chapter-start appendix-start"><div class="chapter-kicker">// APÉNDICE TÉCNICO //</div><h1 class="grimoire-h1">APÉNDICE A: GLOSARIO DE JERGA CALLEJERA Y NEOLOGISMOS DEL SPRAWL</h1></div>
 
 
         <div class="ascii-terminal-frame">
@@ -2804,7 +3089,7 @@ La estación orbital en forma de huso propiedad del clan Tessier-Ashpool, flotan
 
 <div class="cyber-divider"><span>0xDEADBEEF // MEMORY_BREAK</span></div>
 
-<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">APÉNDICE B: GLOSARIO TÉCNICO DE TERMINAL CRT</h1></div>
+<div class="chapter-start appendix-start"><div class="chapter-kicker">// APÉNDICE TÉCNICO //</div><h1 class="grimoire-h1">APÉNDICE B: GLOSARIO TÉCNICO DE TERMINAL CRT</h1></div>
 
 <p class="grimoire-p"><h3 class="grimoire-h3"><em>Manual de Especificaciones de Campo Ono-Sendai Cyberspace 7 / Tessier-Ashpool S.A.</em></h3></p>
 

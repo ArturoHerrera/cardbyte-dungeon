@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-CARDBYTE DUNGEON // CYBERPUNK GRIMOIRE GENERATOR (SCREEN-OPTIMIZED PDF)
-Converts canonical markdown operator manuals into monolithic cyberpunk grimoire ebooks.
+CARDBYTE DUNGEON // CYBERPUNK GRIMOIRE GENERATOR (US LETTER SCREEN/PRINT EDITION)
+Converts canonical markdown operator manuals into monolithic cyberpunk grimoire ebooks
+with dedicated volume title cards, CSS Paged Media pagination, and anti-fracture layout.
 """
 
 import os
@@ -10,6 +11,90 @@ import re
 import html
 import subprocess
 import sys
+
+
+def get_volume_card_html(vol_num, vol_name, lang='es'):
+    subtext_map = {
+        'es': {
+            'I': 'SECTORES 01 AL 03 // MEMORIA & DESPERTAR NEURAL',
+            'II': 'SECTORES 04 AL 06 // ARQUITECTURA DE COMBATE & RECURSOS',
+            'III': 'SECTORES 07 AL 10 // BESTIARIO DE ICE NEGRO & AMENAZAS',
+            'IV': 'SECTORES 11 AL 13 // LA ESCALA SUB-NEURAL & DETERMINISMO',
+            'V': 'SECTORES 14 AL 15 // EL ABISMO TERMINAL & EL CICLO ETERNO',
+        },
+        'en': {
+            'I': 'SECTORS 01 TO 03 // MEMORY & NEURAL AWAKENING',
+            'II': 'SECTORS 04 TO 06 // COMBAT ARCHITECTURE & RESOURCE CYCLES',
+            'III': 'SECTORS 07 TO 10 // BLACK ICE CODEX & SYSTEM THREATS',
+            'IV': 'SECTORS 11 TO 13 // THE SUB-SECOND PARADOX & DETERMINISM',
+            'V': 'SECTORS 14 TO 15 // THE TERMINAL ABYSS & THE RECURSIVE LOOP',
+        }
+    }
+    vol_label = "VOLUMEN" if lang == 'es' else "VOLUME"
+    kicker = "// PROTOCOLO DE TRANSMISIÓN ARCHIVAL //" if lang == 'es' else "// ARCHIVAL TRANSMISSION PROTOCOL //"
+    subtext = subtext_map.get(lang, {}).get(vol_num, "COMPENDIO TÉCNICO // ARCHIVO SUB-09" if lang == 'es' else "TECHNICAL COMPENDIUM // ARCHIVE SUB-09")
+
+    return f'''
+    <div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+
+      <div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+      <div class="vol-content">
+        <div class="vol-kicker">{kicker}</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">{vol_label} {vol_num}</div>
+        </div>
+        <h1 class="vol-title">{vol_name}</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0x1842_TRACE</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">{subtext}</div>
+      </div>
+    </div>
+    '''
+
+
+def get_appendices_card_html(lang='es'):
+    label = "APÉNDICES TÉCNICOS" if lang == 'es' else "TECHNICAL APPENDICES"
+    title = "CÓDICES Y ESQUEMAS DE CONSULTA RÁPIDA" if lang == 'es' else "CODICES & QUICK REFERENCE SCHEMATICS"
+    kicker = "// PROTOCOLO COMPLEMENTARIO SUB-09 //" if lang == 'es' else "// SUB-09 COMPLEMENTARY PROTOCOL //"
+    subtext = "GLOSARIOS // DESENSAMBLAJE DE DECK // TABLAS DE ICE NEGRO" if lang == 'es' else "GLOSSARIES // DECK TEARDOWN // BLACK ICE MATRICES"
+
+    return f'''
+    <div class="volume-card-page">
+      <div class="grid-overlay"></div>
+      <div class="scanlines"></div>
+      <div class="vignette"></div>
+
+      <div class="corner-mark top-left"></div>
+      <div class="corner-mark top-right"></div>
+      <div class="corner-mark bottom-left"></div>
+      <div class="corner-mark bottom-right"></div>
+
+      <div class="vol-content">
+        <div class="vol-kicker">{kicker}</div>
+        <div class="vol-badge-wrap">
+          <div class="vol-badge">{label}</div>
+        </div>
+        <h1 class="vol-title">{title}</h1>
+        <div class="vol-divider">
+          <span class="vol-line"></span>
+          <span class="vol-sigil">0xFFFF_REF</span>
+          <span class="vol-line"></span>
+        </div>
+        <div class="vol-subtext">{subtext}</div>
+      </div>
+    </div>
+    '''
+
 
 def convert_md_to_html(md_text, lang='es'):
     # Normalize newlines
@@ -22,7 +107,8 @@ def convert_md_to_html(md_text, lang='es'):
     for line in lines:
         if '## TABLA DE CONTENIDOS' in line or '## TABLE OF CONTENTS' in line:
             in_toc = True
-            out_lines.append('<div class="toc-wrapper"><h2 class="toc-header">// REGISTRO DE SECTORES // ÍNDICE CANÓNICO</h2><div class="toc-container">')
+            header_text = "// REGISTRO DE SECTORES // ÍNDICE CANÓNICO" if lang == 'es' else "// SECTOR DIRECTORY // CANONICAL INDEX"
+            out_lines.append(f'<div class="toc-wrapper"><h2 class="toc-header">{header_text}</h2><div class="toc-container">')
             continue
         if in_toc:
             if line.strip() == '---':
@@ -48,7 +134,6 @@ def convert_md_to_html(md_text, lang='es'):
     def parse_image_figures(match):
         alt_text = match.group(1)
         src = match.group(2)
-        # Convert relative path to absolute file URL so headless chrome loads it without origin issues
         if src.startswith('../public/'):
             abs_src = "/home/josear/dev/cardbyte-dungeon/" + src.replace('../', '')
         elif src.startswith('public/'):
@@ -56,12 +141,13 @@ def convert_md_to_html(md_text, lang='es'):
         else:
             abs_src = src
 
+        sensor_text = "[SENSOR_ÓPTICO]" if lang == 'es' else "[OPTICAL_SENSOR]"
         return f'''
         <figure class="cyber-figure-frame">
           <div class="figure-scan-border">
             <img src="file://{abs_src}" alt="{alt_text}" class="figure-img" />
           </div>
-          <figcaption class="figure-caption"><span class="fig-accent">[OPTICAL_SENSOR]</span> {alt_text}</figcaption>
+          <figcaption class="figure-caption"><span class="fig-accent">{sensor_text}</span> {alt_text}</figcaption>
         </figure>
         '''
 
@@ -83,22 +169,23 @@ def convert_md_to_html(md_text, lang='es'):
     # Convert blockquotes
     def parse_blockquote(match):
         content = match.group(1)
-        lines = [re.sub(r'^>\s?', '', l) for l in content.split('\n')]
-        inner = '\n'.join(lines)
-        return f'<blockquote class="operator-dossier"><div class="dossier-tag">TRANSMISIÓN MARGINAL // JOCKEY-09</div><div class="dossier-content">{inner}</div></blockquote>'
+        b_lines = [re.sub(r'^>\s?', '', l) for l in content.split('\n')]
+        inner = '\n'.join(b_lines)
+        dossier_title = "TRANSMISIÓN MARGINAL // JOCKEY-09" if lang == 'es' else "MARGINAL TRANSMISSION // JOCKEY-09"
+        return f'<blockquote class="operator-dossier"><div class="dossier-tag">{dossier_title}</div><div class="dossier-content">{inner}</div></blockquote>'
 
     md_text = re.sub(r'((?:^>[^\n]*\n?)+)', parse_blockquote, md_text, flags=re.MULTILINE)
 
     # Markdown Tables
     def parse_table(match):
         table_str = match.group(0).strip()
-        lines = [l.strip() for l in table_str.split('\n') if l.strip()]
-        if len(lines) < 2:
+        t_lines = [l.strip() for l in table_str.split('\n') if l.strip()]
+        if len(t_lines) < 2:
             return table_str
         
-        header_cells = [c.strip() for c in lines[0].strip('|').split('|')]
+        header_cells = [c.strip() for c in t_lines[0].strip('|').split('|')]
         rows = []
-        for line in lines[2:]:
+        for line in t_lines[2:]:
             cells = [c.strip() for c in line.strip('|').split('|')]
             rows.append(cells)
         
@@ -113,15 +200,42 @@ def convert_md_to_html(md_text, lang='es'):
     table_pattern = re.compile(r'(?:(?:^\|[^\n]+\|\r?\n){2,}(?:^\|[^\n]+\|\r?\n?)+)', re.MULTILINE)
     md_text = table_pattern.sub(parse_table, md_text)
 
-    # Headers with page-break attributes for chapters
+    # Track seen volumes so each volume gets a dedicated title card page once
+    seen_volumes = set()
+
     def format_h1(match):
         title = match.group(1).strip()
-        return f'<div class="chapter-start"><div class="chapter-kicker">SECTOR-09 // TERMINAL ARCHIVE</div><h1 class="grimoire-h1">{title}</h1></div>'
+        
+        # Volume Heading match (e.g. VOLUMEN I: ... / VOLUME I: ...)
+        vol_match = re.match(r'^(?:VOLUMEN|VOLUME)\s+([IVXLCDM]+)[:\s\-\.]+(.*)$', title, re.IGNORECASE)
+        if vol_match:
+            vol_num = vol_match.group(1).upper()
+            vol_name = vol_match.group(2).strip()
+            if vol_num in seen_volumes:
+                # Omit duplicate volume heading before subsequent chapter
+                return ''
+            seen_volumes.add(vol_num)
+            return get_volume_card_html(vol_num, vol_name, lang=lang)
+
+        # Appendix Heading match (e.g. APÉNDICE A: ... / APPENDIX A: ...)
+        app_match = re.match(r'^(?:APÉNDICE|APENDICE|APPENDIX)\s+([A-Z])[:\s\-\.]+(.*)$', title, re.IGNORECASE)
+        if app_match:
+            app_card = ''
+            if 'APPENDICES_CARD' not in seen_volumes:
+                seen_volumes.add('APPENDICES_CARD')
+                app_card = get_appendices_card_html(lang=lang)
+            kicker_text = "// APÉNDICE TÉCNICO //" if lang == 'es' else "// TECHNICAL APPENDIX //"
+            return f'{app_card}<div class="chapter-start appendix-start"><div class="chapter-kicker">{kicker_text}</div><h1 class="grimoire-h1">{title}</h1></div>'
+
+        # Other H1 (e.g. Corporate Warning)
+        kicker_text = "SECTOR-09 // ARCHIVO TERMINAL" if lang == 'es' else "SECTOR-09 // TERMINAL ARCHIVE"
+        return f'<div class="chapter-start"><div class="chapter-kicker">{kicker_text}</div><h1 class="grimoire-h1">{title}</h1></div>'
 
     def format_h2(match):
         title = match.group(1).strip()
         if "CAPÍTULO" in title.upper() or "CHAPTER" in title.upper():
-            return f'<div class="chapter-break"></div><div class="chapter-header"><div class="chapter-num-badge">SECTOR PROTOCOL</div><h2 class="grimoire-chapter-h2">{title}</h2></div>'
+            badge_text = "PROTOCOLO DE SECTOR" if lang == 'es' else "SECTOR PROTOCOL"
+            return f'<div class="chapter-header"><div class="chapter-num-badge">{badge_text}</div><h2 class="grimoire-chapter-h2">{title}</h2></div>'
         return f'<h2 class="grimoire-h2">{title}</h2>'
 
     def format_h3(match):
@@ -159,7 +273,9 @@ def convert_md_to_html(md_text, lang='es'):
         p_clean = p.strip()
         if not p_clean:
             continue
-        if p_clean.startswith('<div') or p_clean.startswith('<blockquote') or p_clean.startswith('<ul') or p_clean.startswith('<table') or p_clean.startswith('<figure') or p_clean.startswith('<!--'):
+        if (p_clean.startswith('<div') or p_clean.startswith('<blockquote') or 
+            p_clean.startswith('<ul') or p_clean.startswith('<table') or 
+            p_clean.startswith('<figure') or p_clean.startswith('<!--')):
             processed_paragraphs.append(p_clean)
         else:
             processed_paragraphs.append(f'<p class="grimoire-p">{p_clean}</p>')
@@ -378,6 +494,12 @@ def generate_full_book_html(md_path, lang='es'):
 
     title_doc = "Cardbyte Dungeon - Manual del Operador" if lang == 'es' else "Cardbyte Dungeon - Operator Manual"
 
+    # Running headers/footers text
+    top_left_text = "CARDBYTE DUNGEON // MANUAL DEL OPERADOR" if lang == 'es' else "CARDBYTE DUNGEON // OPERATOR MANUAL"
+    top_right_text = "SUB-NIVEL 09 // PROTOCOLO OMEGA" if lang == 'es' else "SUB-LEVEL 09 // PROTOCOL OMEGA"
+    bottom_left_text = "CLASIFICACIÓN: 0x1842_TRACE" if lang == 'es' else "CLASSIFICATION: 0x1842_TRACE"
+    page_prefix = "PÁG. [ " if lang == 'es' else "PAGE [ "
+
     html_template = f'''<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -387,12 +509,66 @@ def generate_full_book_html(md_path, lang='es'):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  /* 1. US LETTER PAGE RULES WITH RUNNING HEADERS/FOOTERS */
   @page {{
-    size: 210mm 297mm; /* A4 Standard */
-    margin: 0;
-    @bottom-center {{
-      content: none;
+    size: letter;
+    margin: 20mm 16mm 22mm 16mm;
+    @top-left {{
+      content: "{top_left_text}";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #616a7d;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      padding-bottom: 2mm;
     }}
+    @top-right {{
+      content: "{top_right_text}";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #00f0ff;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      padding-bottom: 2mm;
+    }}
+    @bottom-left {{
+      content: "{bottom_left_text}";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      letter-spacing: 1.5px;
+      color: #4b5568;
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 2.5mm;
+    }}
+    @bottom-right {{
+      content: "{page_prefix}" counter(page) " / " counter(pages) " ]";
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #00ff66;
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 2.5mm;
+    }}
+  }}
+
+  /* 2. EXCLUDE HEADERS/FOOTERS ON COVERS AND VOLUME TITLE CARDS */
+  @page cover-page {{
+    size: letter;
+    margin: 0;
+    @top-left {{ content: none; }}
+    @top-right {{ content: none; }}
+    @bottom-left {{ content: none; }}
+    @bottom-right {{ content: none; }}
+  }}
+
+  @page volume-page {{
+    size: letter;
+    margin: 0;
+    @top-left {{ content: none; }}
+    @top-right {{ content: none; }}
+    @bottom-left {{ content: none; }}
+    @bottom-right {{ content: none; }}
   }}
 
   * {{
@@ -405,24 +581,28 @@ def generate_full_book_html(md_path, lang='es'):
     background-color: #07080c;
     color: #dce0e8;
     font-family: 'EB Garamond', serif;
-    font-size: 11.5pt;
-    line-height: 1.65;
+    font-size: 11pt;
+    line-height: 1.6;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }}
 
+  /* FRONT & BACK COVERS */
   .book-cover-page {{
+    page: cover-page;
     page-break-before: always;
     page-break-after: always;
-    width: 210mm;
-    height: 297mm;
+    break-before: page;
+    break-after: page;
+    width: 8.5in;
+    height: 11in;
     position: relative;
     background: #090a0f;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 22mm 20mm;
+    padding: 18mm 16mm;
   }}
 
   .grid-overlay {{
@@ -455,15 +635,15 @@ def generate_full_book_html(md_path, lang='es'):
 
   .corner-mark {{
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-color: #00ff66;
     opacity: 0.7;
   }}
-  .top-left {{ top: 12mm; left: 12mm; border-top: 2px solid #00ff66; border-left: 2px solid #00ff66; }}
-  .top-right {{ top: 12mm; right: 12mm; border-top: 2px solid #00ff66; border-right: 2px solid #00ff66; }}
-  .bottom-left {{ bottom: 12mm; left: 12mm; border-bottom: 2px solid #00ff66; border-left: 2px solid #00ff66; }}
-  .bottom-right {{ bottom: 12mm; right: 12mm; border-bottom: 2px solid #00ff66; border-right: 2px solid #00ff66; }}
+  .top-left {{ top: 10mm; left: 10mm; border-top: 2px solid #00ff66; border-left: 2px solid #00ff66; }}
+  .top-right {{ top: 10mm; right: 10mm; border-top: 2px solid #00ff66; border-right: 2px solid #00ff66; }}
+  .bottom-left {{ bottom: 10mm; left: 10mm; border-bottom: 2px solid #00ff66; border-left: 2px solid #00ff66; }}
+  .bottom-right {{ bottom: 10mm; right: 10mm; border-bottom: 2px solid #00ff66; border-right: 2px solid #00ff66; }}
 
   .header-meta {{
     z-index: 2;
@@ -471,11 +651,11 @@ def generate_full_book_html(md_path, lang='es'):
     justify-content: space-between;
     align-items: flex-start;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
+    font-size: 8.5pt;
     letter-spacing: 2px;
     color: #616a7d;
     border-bottom: 1px solid rgba(0,255,102,0.2);
-    padding-bottom: 10px;
+    padding-bottom: 8px;
   }}
   .header-tag {{ color: #00ff66; font-weight: 700; }}
   .danger-pill {{
@@ -483,7 +663,7 @@ def generate_full_book_html(md_path, lang='es'):
     color: #ff5500;
     border: 1px solid #ff5500;
     padding: 3px 10px;
-    font-size: 8pt;
+    font-size: 7.5pt;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     font-family: 'JetBrains Mono', monospace;
@@ -492,36 +672,36 @@ def generate_full_book_html(md_path, lang='es'):
   .title-group {{
     z-index: 2;
     text-align: center;
-    margin-top: 5mm;
+    margin-top: 2mm;
   }}
   .sub-kicker {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
-    letter-spacing: 5px;
+    font-size: 8.5pt;
+    letter-spacing: 4px;
     text-transform: uppercase;
     color: #00f0ff;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }}
   .main-title {{
     font-family: 'Cinzel', serif;
-    font-size: 38pt;
+    font-size: 34pt;
     font-weight: 900;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     color: #ffffff;
     text-transform: uppercase;
-    text-shadow: 0 0 25px rgba(0, 255, 102, 0.4), 0 0 60px rgba(0, 240, 255, 0.2);
+    text-shadow: 0 0 25px rgba(0, 255, 102, 0.4), 0 0 50px rgba(0, 240, 255, 0.2);
     line-height: 1.1;
   }}
   .sub-title {{
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 13pt;
-    letter-spacing: 6px;
+    font-size: 12pt;
+    letter-spacing: 5px;
     color: #9ba1b0;
-    margin-top: 12px;
+    margin-top: 10px;
     text-transform: uppercase;
     border-top: 1px solid rgba(255,255,255,0.15);
     border-bottom: 1px solid rgba(255,255,255,0.15);
-    padding: 6px 0;
+    padding: 5px 0;
   }}
 
   .sigil-wrap {{
@@ -529,11 +709,11 @@ def generate_full_book_html(md_path, lang='es'):
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 5mm 0;
+    margin: 2mm 0;
   }}
   .sigil-svg {{
-    width: 95mm;
-    height: 95mm;
+    width: 85mm;
+    height: 85mm;
     filter: drop-shadow(0 0 20px rgba(0, 255, 102, 0.35));
   }}
 
@@ -541,25 +721,25 @@ def generate_full_book_html(md_path, lang='es'):
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
   }}
   .lore-quote {{
     font-family: 'Cinzel', serif;
     font-style: italic;
-    font-size: 10pt;
+    font-size: 9.5pt;
     text-align: center;
     color: #8892a4;
-    line-height: 1.5;
-    padding: 0 15mm;
+    line-height: 1.45;
+    padding: 0 12mm;
   }}
   .footer-bar {{
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid rgba(0,255,102,0.2);
-    padding-top: 10px;
+    padding-top: 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     letter-spacing: 1.5px;
     color: #555e70;
   }}
@@ -567,53 +747,53 @@ def generate_full_book_html(md_path, lang='es'):
 
   /* BACK COVER */
   .back-cover {{
-    padding: 24mm 22mm;
+    padding: 20mm 18mm;
   }}
   .back-blurb {{
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }}
   .back-kicker {{
     font-family: 'JetBrains Mono', monospace;
     color: #ff5500;
-    font-size: 9pt;
+    font-size: 8.5pt;
     letter-spacing: 3px;
     text-transform: uppercase;
     border-left: 3px solid #ff5500;
-    padding-left: 10px;
+    padding-left: 8px;
   }}
   .back-headline {{
     font-family: 'Cinzel', serif;
-    font-size: 20pt;
+    font-size: 18pt;
     font-weight: 700;
     line-height: 1.3;
     color: #ffffff;
     letter-spacing: 1px;
   }}
   .back-body {{
-    font-size: 11pt;
-    line-height: 1.7;
+    font-size: 10.5pt;
+    line-height: 1.6;
     color: #a4acbd;
     text-align: justify;
   }}
-  .back-body p {{ margin-bottom: 10px; }}
+  .back-body p {{ margin-bottom: 8px; }}
   .back-body strong {{ color: #00ff66; }}
   .back-specs-box {{
     z-index: 2;
     background: rgba(0, 240, 255, 0.03);
     border: 1px solid rgba(0, 240, 255, 0.25);
-    padding: 14px 18px;
+    padding: 12px 16px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    line-height: 1.7;
+    font-size: 8pt;
+    line-height: 1.65;
   }}
   .spec-row {{
     display: flex;
     justify-content: space-between;
     border-bottom: 1px dashed rgba(255,255,255,0.08);
-    padding: 4px 0;
+    padding: 3px 0;
   }}
   .spec-key {{ color: #6d778d; }}
   .spec-val {{ color: #00f0ff; font-weight: 600; }}
@@ -624,86 +804,176 @@ def generate_full_book_html(md_path, lang='es'):
     justify-content: space-between;
     align-items: flex-end;
     margin-top: auto;
-    padding-top: 15px;
+    padding-top: 12px;
     border-top: 1px solid rgba(255,255,255,0.15);
   }}
   .barcode-art {{ display: flex; flex-direction: column; gap: 4px; }}
-  .barcode-lines {{ width: 160px; height: 40px; }}
-  .barcode-label {{ font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: 2px; color: #616a7d; }}
+  .barcode-lines {{ width: 150px; height: 36px; }}
+  .barcode-label {{ font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; letter-spacing: 2px; color: #616a7d; }}
   .publisher-stamp {{
     font-family: 'JetBrains Mono', monospace;
     text-align: right;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: #616a7d;
-    line-height: 1.5;
+    line-height: 1.45;
   }}
 
-  /* TOC STYLING */
+  /* DEDICATED FULL-PAGE VOLUME TITLE CARDS */
+  .volume-card-page {{
+    page: volume-page;
+    width: 8.5in;
+    height: 11in;
+    position: relative;
+    background: #06080e;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30mm 20mm;
+    box-sizing: border-box;
+    page-break-before: always;
+    page-break-after: always;
+    break-before: page;
+    break-after: page;
+    text-align: center;
+  }}
+  .vol-content {{
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 150mm;
+  }}
+  .vol-kicker {{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    letter-spacing: 4px;
+    color: #00f0ff;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }}
+  .vol-badge-wrap {{
+    margin-bottom: 22px;
+  }}
+  .vol-badge {{
+    display: inline-block;
+    background: rgba(0, 255, 102, 0.08);
+    border: 1.5px solid #00ff66;
+    color: #00ff66;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13pt;
+    font-weight: 700;
+    letter-spacing: 5px;
+    padding: 6px 24px;
+    text-transform: uppercase;
+    box-shadow: 0 0 25px rgba(0, 255, 102, 0.2);
+  }}
+  .vol-title {{
+    font-family: 'Cinzel', serif;
+    font-size: 24pt;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+    line-height: 1.25;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+    margin-bottom: 18px;
+  }}
+  .vol-divider {{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 18px;
+  }}
+  .vol-line {{
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 102, 0.4), transparent);
+  }}
+  .vol-sigil {{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: 2px;
+    color: #ffb000;
+  }}
+  .vol-subtext {{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 9.5pt;
+    letter-spacing: 3px;
+    color: #9ba1b0;
+    text-transform: uppercase;
+  }}
+
+  /* TABLE OF CONTENTS */
   .toc-wrapper {{
     page-break-before: always;
     page-break-after: always;
+    break-before: page;
+    break-after: page;
     background: #080a10;
     border: 1px solid rgba(0,255,102,0.25);
-    padding: 16mm 18mm;
-    margin: 10mm 0;
+    padding: 12mm 14mm;
+    margin: 6mm 0;
   }}
   .toc-header {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13pt;
+    font-size: 12pt;
     color: #00ff66;
     letter-spacing: 2px;
     text-transform: uppercase;
     border-bottom: 1px solid rgba(0,255,102,0.3);
-    padding-bottom: 8px;
-    margin-bottom: 12px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
   }}
   .toc-container {{
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
   }}
   .toc-volume-header {{
     font-family: 'Cinzel', serif;
-    font-size: 13pt;
+    font-size: 12pt;
     font-weight: 800;
     color: #00f0ff;
     letter-spacing: 1px;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 10px;
+    margin-bottom: 3px;
     border-bottom: 1px dashed rgba(0, 240, 255, 0.2);
-    padding-bottom: 3px;
+    padding-bottom: 2px;
   }}
   .toc-item {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9.5pt;
-    line-height: 1.5;
+    font-size: 9pt;
+    line-height: 1.45;
   }}
   .toc-link {{
     color: #cbd5e1;
     text-decoration: none;
-    transition: color 0.2s;
   }}
   .toc-bullet {{
     color: #00ff66;
     font-weight: bold;
   }}
 
-  /* CYBER FIGURE FRAMES */
+  /* CYBER FIGURE FRAMES - ANTI-FRACTURE */
   .cyber-figure-frame {{
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 10mm 0;
+    margin: 6mm auto 8mm auto;
     text-align: center;
   }}
   .figure-scan-border {{
     display: inline-block;
     background: #000000;
     border: 1px solid rgba(0, 240, 255, 0.3);
-    padding: 6px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0, 240, 255, 0.1);
+    padding: 5px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.8), 0 0 15px rgba(0, 240, 255, 0.1);
   }}
   .figure-img {{
     max-width: 100%;
-    max-height: 135mm;
+    max-height: 105mm; /* Fits gracefully on Letter pages alongside text */
     object-fit: contain;
     display: block;
     margin: 0 auto;
@@ -711,41 +981,40 @@ def generate_full_book_html(md_path, lang='es'):
   }}
   .figure-caption {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.5pt;
     color: #8391a8;
-    margin-top: 8px;
+    margin-top: 6px;
     letter-spacing: 1px;
     text-transform: uppercase;
   }}
   .fig-accent {{ color: #00f0ff; font-weight: bold; }}
 
-  /* INTERIOR CONTENT PAGES */
+  /* INTERIOR CONTENT FLOW */
   .content-flow {{
-    padding: 24mm 22mm;
     background-color: #07080c;
   }}
 
-  .chapter-break {{
-    page-break-before: always;
-    margin-top: 18mm;
-  }}
-
   .chapter-header {{
-    margin-bottom: 10mm;
+    page-break-before: always;
+    break-before: page;
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 4mm;
+    margin-bottom: 8mm;
     border-bottom: 1px solid rgba(0, 255, 102, 0.3);
-    padding-bottom: 5mm;
+    padding-bottom: 4mm;
   }}
   .chapter-num-badge {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
-    letter-spacing: 4px;
+    font-size: 8pt;
+    letter-spacing: 3px;
     color: #00ff66;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }}
   .grimoire-chapter-h2 {{
     font-family: 'Cinzel', serif;
-    font-size: 20pt;
+    font-size: 19pt;
     font-weight: 800;
     color: #ffffff;
     letter-spacing: 1px;
@@ -754,51 +1023,64 @@ def generate_full_book_html(md_path, lang='es'):
 
   .chapter-start {{
     page-break-before: always;
-    margin-bottom: 12mm;
+    break-before: page;
+    break-after: avoid;
+    page-break-after: avoid;
+    margin-top: 4mm;
+    margin-bottom: 10mm;
     border-bottom: 2px solid #00ff66;
-    padding-bottom: 6mm;
+    padding-bottom: 5mm;
   }}
   .chapter-kicker {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8.5pt;
+    font-size: 8pt;
     letter-spacing: 3px;
     color: #00f0ff;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }}
   .grimoire-h1 {{
     font-family: 'Cinzel', serif;
-    font-size: 24pt;
+    font-size: 22pt;
     font-weight: 900;
     color: #ffffff;
     letter-spacing: 1.5px;
     line-height: 1.2;
+    break-after: avoid;
+    page-break-after: avoid;
   }}
 
   .grimoire-h2 {{
     font-family: 'Cinzel', serif;
-    font-size: 16pt;
+    font-size: 15pt;
     color: #00ff66;
-    margin-top: 10mm;
-    margin-bottom: 4mm;
+    margin-top: 8mm;
+    margin-bottom: 3.5mm;
     border-bottom: 1px solid rgba(0,255,102,0.15);
     padding-bottom: 2mm;
+    break-after: avoid;
+    page-break-after: avoid;
   }}
 
   .grimoire-h3 {{
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 12pt;
+    font-size: 11pt;
     color: #00f0ff;
     letter-spacing: 1px;
-    margin-top: 7mm;
-    margin-bottom: 3mm;
+    margin-top: 6mm;
+    margin-bottom: 2.5mm;
     text-transform: uppercase;
+    break-after: avoid;
+    page-break-after: avoid;
   }}
 
+  /* PARAGRAPHS - ANTI-FRACTURE */
   .grimoire-p {{
     text-align: justify;
-    margin-bottom: 4.5mm;
+    margin-bottom: 4mm;
     text-indent: 5mm;
+    orphans: 3;
+    widows: 3;
   }}
   .grimoire-p:first-of-type {{
     text-indent: 0;
@@ -808,7 +1090,7 @@ def generate_full_book_html(md_path, lang='es'):
   .chapter-header + .grimoire-p::first-letter,
   .chapter-start + .grimoire-p::first-letter {{
     font-family: 'Cinzel', serif;
-    font-size: 38pt;
+    font-size: 36pt;
     float: left;
     line-height: 0.8;
     margin-right: 3mm;
@@ -818,10 +1100,11 @@ def generate_full_book_html(md_path, lang='es'):
     font-weight: 900;
   }}
 
-  /* ASCII TERMINAL BOX */
+  /* ASCII TERMINAL BOX - ANTI-FRACTURE */
   .ascii-terminal-frame {{
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     background: #040508;
     border: 1px solid rgba(0, 255, 102, 0.25);
     box-shadow: 0 4px 20px rgba(0,0,0,0.7), inset 0 0 15px rgba(0,255,102,0.03);
@@ -832,13 +1115,13 @@ def generate_full_book_html(md_path, lang='es'):
     align-items: center;
     background: #0d1017;
     border-bottom: 1px solid rgba(0,255,102,0.2);
-    padding: 4px 10px;
+    padding: 3px 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 1px;
   }}
-  .term-dots {{ display: flex; gap: 5px; }}
-  .dot {{ width: 7px; height: 7px; border-radius: 50%; display: inline-block; }}
+  .term-dots {{ display: flex; gap: 4px; }}
+  .dot {{ width: 6px; height: 6px; border-radius: 50%; display: inline-block; }}
   .d-red {{ background: #ff4444; }}
   .d-amber {{ background: #ffb000; }}
   .d-green {{ background: #00ff66; }}
@@ -846,9 +1129,9 @@ def generate_full_book_html(md_path, lang='es'):
   .term-tag {{ color: #00ff66; font-weight: bold; }}
 
   .ascii-pre {{
-    padding: 8px 12px;
+    padding: 7px 10px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7.2pt;
+    font-size: 7pt;
     line-height: 1.25;
     color: #2bf885;
     background-color: transparent;
@@ -856,59 +1139,61 @@ def generate_full_book_html(md_path, lang='es'):
     white-space: pre;
   }}
 
-  /* OPERATOR MARGINAL DOSSIER */
+  /* OPERATOR MARGINAL DOSSIER - ANTI-FRACTURE */
   .operator-dossier {{
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     background: rgba(255, 176, 0, 0.04);
     border-left: 3px solid #ffb000;
     border-right: 1px solid rgba(255, 176, 0, 0.15);
     border-top: 1px solid rgba(255, 176, 0, 0.15);
     border-bottom: 1px solid rgba(255, 176, 0, 0.15);
-    padding: 10px 14px;
+    padding: 8px 12px;
     font-style: italic;
     color: #e5b969;
   }}
   .dossier-tag {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 2px;
     font-weight: bold;
     color: #ffb000;
     font-style: normal;
     text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }}
   .dossier-content {{
-    font-size: 10.5pt;
-    line-height: 1.55;
+    font-size: 10pt;
+    line-height: 1.5;
   }}
 
-  /* MATRIX TABLES */
+  /* MATRIX TABLES - ANTI-FRACTURE */
   .table-container {{
+    break-inside: avoid;
     page-break-inside: avoid;
-    margin: 6mm 0;
+    margin: 5mm 0;
     overflow-x: auto;
   }}
   .matrix-table {{
     width: 100%;
     border-collapse: collapse;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8pt;
+    font-size: 7.8pt;
     background: #090b12;
     border: 1px solid rgba(0, 240, 255, 0.25);
   }}
   .matrix-table th {{
     background: #111522;
     color: #00f0ff;
-    padding: 6px 10px;
+    padding: 5px 8px;
     text-align: left;
     border-bottom: 1px solid rgba(0, 240, 255, 0.4);
     letter-spacing: 1px;
     text-transform: uppercase;
   }}
   .matrix-table td {{
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     color: #b9c2d4;
   }}
@@ -919,8 +1204,10 @@ def generate_full_book_html(md_path, lang='es'):
   /* DIVIDER */
   .cyber-divider {{
     text-align: center;
-    margin: 8mm 0;
+    margin: 6mm 0;
     position: relative;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }}
   .cyber-divider::before {{
     content: "";
@@ -934,16 +1221,16 @@ def generate_full_book_html(md_path, lang='es'):
   .cyber-divider span {{
     position: relative;
     background: #07080c;
-    padding: 0 10px;
+    padding: 0 8px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 7pt;
+    font-size: 6.8pt;
     letter-spacing: 2px;
     color: #4b5568;
   }}
 
   .inline-chip {{
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9pt;
+    font-size: 8.5pt;
     background: rgba(0, 255, 102, 0.08);
     color: #00ff66;
     border: 1px solid rgba(0, 255, 102, 0.25);
@@ -954,17 +1241,17 @@ def generate_full_book_html(md_path, lang='es'):
   .math-inline {{
     font-family: 'JetBrains Mono', monospace;
     color: #ffb000;
-    font-size: 9pt;
+    font-size: 8.5pt;
   }}
 
   .grimoire-list {{
-    margin: 4mm 0 6mm 8mm;
+    margin: 3mm 0 5mm 6mm;
     list-style-type: square;
     color: #a4acbd;
   }}
   .grimoire-list li {{
-    margin-bottom: 2mm;
-    padding-left: 2mm;
+    margin-bottom: 1.5mm;
+    padding-left: 1.5mm;
   }}
 
 </style>
@@ -1001,7 +1288,7 @@ def compile_book(lang='es'):
         f.write(html_content)
     print(f"[+] Rendered Book HTML: {html_out} ({len(html_content)} bytes)")
 
-    print(f"[*] Compiling PDF via Chrome Headless Engine...")
+    print(f"[*] Compiling PDF via Chrome Headless Engine (US Letter, CSS Paged Media)...")
     cmd = [
         "google-chrome",
         "--headless=new",
