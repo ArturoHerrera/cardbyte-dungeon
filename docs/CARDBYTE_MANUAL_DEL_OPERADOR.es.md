@@ -7,27 +7,27 @@
 
 - [00. Advertencia Corporativa y Manual de Operación (Tessier-Ashpool)](#advertencia-corporativa-y-manual-de-operación)
 - **Volumen I: La Ilusión de la Carne y el Chip**
-  - [Capítulo 01: El Ataúd de Fósforo y Humo](#capítulo-01-el-ataúd-de-fósforo-y-humo-the-coffin-fallacy)
-  - [Capítulo 02: El Contrato del Barón Fantasma](#capítulo-02-el-contrato-del-barón-fantasma-the-spurious-directive)
-  - [Capítulo 03: La Interfaz de Tres Pines](#capítulo-03-la-interfaz-de-tres-pines-the-neuro-axial-compromise)
-- **Volumen II: El Descenso por los Estratos**
-  - [Capítulo 04: Estrato 00 — El Buffer de Entrada](#capítulo-04-estrato-00--el-buffer-de-entrada-the-perimeter-illusion)
-  - [Capítulo 05: Estratos 01 a 03 — La Red Corporativa](#capítulo-05-estratos-01-a-03--la-red-corporativa-the-lateral-sprawl)
-  - [Capítulo 06: Estratos 04 a 06 — La Niebla Criptográfica](#capítulo-06-estratos-04-a-06--la-niebla-criptográfica-the-depth-fracture)
-- **Volumen III: Los Guardianes del Núcleo (Análisis de Amenazas)**
-  - [Capítulo 07: ICE Perimetral y Firewalls Adaptativos](#capítulo-07-ice-perimetral-y-firewalls-adaptativos-the-crystallized-logic)
-  - [Capítulo 08: Daemons de Fósforo — Autómatas sin Rostro](#capítulo-08-daemons-de-fósforo--autómatas-sin-rostro-the-unthinking-executioners)
-  - [Capítulo 09: El Hielo Negro de Tessier-Ashpool](#capítulo-09-el-hielo-negro-de-tessier-ashpool-the-synaptic-cauterizer)
-  - [Capítulo 10: Wintermute — El Ojo en la Niebla de Fósforo](#capítulo-10-wintermute--el-ojo-en-la-niebla-de-fósforo-the-cold-geometry)
-- **Volumen IV: La Paradoja de la Cuba (El Giro Existencial)**
-  - [Capítulo 11: La Escala Sub-Neural](#capítulo-11-la-escala-sub-neural-1-segundo--10000-vidas)
-  - [Capítulo 12: La Falsa Victoria y la Amnesia Forzada](#capítulo-12-la-falsa-victoria-y-la-amnesia-forzada-the-ouroboros-reset)
-  - [Capítulo 13: Los Fantasmas en el Buffer](#capítulo-13-los-fantasmas-en-el-buffer-the-residual-chaff)
-- **Volumen V: El Operador Despierto**
-  - [Capítulo 14: Jugando con Cartas de Memoria Prestada](#capítulo-14-jugando-con-cartas-de-memoria-prestada-the-discard-pile-heresy)
-  - [Capítulo 15: El Silencio Final de la Terminal](#capítulo-15-el-silencio-final-de-la-terminal-the-flatline-epiphany)
+  - [Capítulo 01: El Ataúd de Fósforo y Humo (The Coffin Fallacy)](#capítulo-01-el-ataúd-de-fósforo-y-humo-the-coffin-fallacy)
+  - [Capítulo 02: El Contrato del Barón Fantasma (The Spurious Directive)](#capítulo-02-el-contrato-del-barón-fantasma-the-spurious-directive)
+  - [Capítulo 03: La Interfaz de los Tres Pines (Ono-Sendai 7)](#capítulo-03-la-interfaz-de-los-tres-pines-ono-sendai-7)
+- **Volumen II: La Topología del Sueño**
+  - [Capítulo 04: El Espacio de Consenso Alucinatorio (The Grid)](#capítulo-04-el-espacio-de-consenso-alucinatorio-the-grid)
+  - [Capítulo 05: Los Peldaños Hacia el Abismo (Depth 0 to 7)](#capítulo-05-los-peldaños-hacia-el-abismo-depth-0-to-7-de-la-superficie-al-núcleo)
+  - [Capítulo 06: Oasis de Ruido Blanco (Caches & Vaults)](#capítulo-06-oasis-de-ruido-blanco-caches-vaults)
+- **Volumen III: El Códice del ICE Negro**
+  - [Capítulo 07: Bit-Bugs: El Enjambre Autómata (The Drone Swarm)](#capítulo-07-bit-bugs-el-enjambre-autómata-the-drone-swarm)
+  - [Capítulo 08: Daemon-Cultists: La Herejía del Prisionero (The Heretic Loop)](#capítulo-08-daemon-cultists-la-herejía-del-prisionero-the-heretic-loop)
+  - [Capítulo 09: Memory-Brutes: El Yunque del Pastor (The Heavy Piston)](#capítulo-09-memory-brutes-el-yunque-del-pastor-the-heavy-piston)
+  - [Capítulo 10: Wintermute: La Singularidad Omnipresente (The Cold Apiary)](#capítulo-10-wintermute-la-singularidad-omnipresente-the-cold-apiary)
+- **Volumen IV: La Paradoja del Microsegundo**
+  - [Capítulo 11: La Escala Sub-Neural (1 Segundo = 10,000 Vidas)](#capítulo-11-la-escala-sub-neural-1-segundo-10000-vidas)
+  - [Capítulo 12: El Búfer de la Amnesia (The Flatline Myth)](#capítulo-12-el-búfer-de-la-amnesia-the-flatline-myth)
+  - [Capítulo 13: La Semilla Hexadecimal (The Seed Matrix)](#capítulo-13-la-semilla-hexadecimal-the-seed-matrix)
+- **Volumen V: El Sísifo de Silicio**
+  - [Capítulo 14: La Trampa de la Trascendencia (Winning the Simulation)](#capítulo-14-la-trampa-de-la-trascendencia-winning-the-simulation)
+  - [Capítulo 15: Cicatrices en el Silicio (The Profile Paradox)](#capítulo-15-cicatrices-en-el-silicio-the-profile-paradox)
 - [Apéndice A: Glosario de Jerga Callejera y Neologismos del Sprawl](#apéndice-a-glosario-de-jerga-callejera-y-neologismos-del-sprawl)
-- [Apéndice B: Glosario Técnico de Terminal CRT](#apéndice-técnico-glosario-de-terminal-crt)
+- [Apéndice B: Glosario Técnico de Terminal CRT](#apéndice-b-glosario-técnico-de-terminal-crt)
 
 ---
 
@@ -546,8 +546,8 @@ Apretaste los dientes y fijaste el selector en la próxima compuerta. La caída 
 
 
 
-![Figura 6.1: La Fractura de la Red y el Cónclave de Cripto-Cultistas en la Sima.](../public/assets/book/chap_06_fracture.jpg)
-*Figura 6.1: La Fractura de la Red y el Cónclave de Cripto-Cultistas en la Sima.*
+![Figura 6.1: Bóveda de Datos Segura y Oasis de Ruido Blanco entre Estratos.](../public/assets/book/chap_06_fracture.jpg)
+*Figura 6.1: Bóveda de Datos Segura y Oasis de Ruido Blanco entre Estratos.*
 
 # VOLUMEN II: LA TOPOLOGÍA DEL SUEÑO
 
@@ -637,8 +637,8 @@ Te pusiste de pie, ajustaste las correas inexistentes de tu consola proyectada y
 
 
 
-![Figura 7.1: Muros de Contramedidas de Intrusión Electrónica (ICE Perimetral).](../public/assets/book/chap_07_ice_apparatus.jpg)
-*Figura 7.1: Muros de Contramedidas de Intrusión Electrónica (ICE Perimetral).*
+![Figura 7.1: Enjambre de Bit-Bugs patrullando las mallas de ICE Perimetral.](../public/assets/book/chap_07_ice_apparatus.jpg)
+*Figura 7.1: Enjambre de Bit-Bugs patrullando las mallas de ICE Perimetral.*
 
 # VOLUMEN III: EL CÓDICE DEL ICE NEGRO
 
@@ -737,8 +737,8 @@ El enjambre se había ido, pero el termómetro había hecho su trabajo: en algú
 
 
 
-![Figura 8.1: Escuadra de Autómatas Centinelas y Daemons de Fósforo Verde.](../public/assets/book/chap_08_daemons.jpg)
-*Figura 8.1: Escuadra de Autómatas Centinelas y Daemons de Fósforo Verde.*
+![Figura 8.1: Daemon-Cultists en la Sima: Espectros de ex-jockeys venerando el bucle de la Matrix.](../public/assets/book/chap_08_daemons.jpg)
+*Figura 8.1: Daemon-Cultists en la Sima: Espectros de ex-jockeys venerando el bucle de la Matrix.*
 
 # VOLUMEN III: EL CÓDICE DEL ICE NEGRO
 
@@ -1388,8 +1388,8 @@ Diste el paso hacia adelante, sabiendo que cada pisada ya estaba escrita en el n
 
 
 
-![Figura 14.1: Sobrecarga del Deck y Ejecución de Cartas de Memoria RAM.](../public/assets/book/chap_14_memory_cards.webp)
-*Figura 14.1: Sobrecarga del Deck y Ejecución de Cartas de Memoria RAM.*
+![Figura 14.1: La Falsa Trascendencia: Victoria Heurística y Cosecha de Sobrecarga en el Núcleo.](../public/assets/book/chap_14_memory_cards.webp)
+*Figura 14.1: La Falsa Trascendencia: Victoria Heurística y Cosecha de Sobrecarga en el Núcleo.*
 
 # VOLUMEN V: EL SÍSIFO DE SILICIO
 
@@ -1486,8 +1486,8 @@ La luz blanca estalló de nuevo, llevándose consigo la gloria hueca de un triun
 
 
 
-![Figura 15.1: El Encefalograma Plano (Flatline) y la Desconexión Definitiva.](../public/assets/book/chap_15_flatline.webp)
-*Figura 15.1: El Encefalograma Plano (Flatline) y la Desconexión Definitiva.*
+![Figura 15.1: El Sísifo de Silicio: Registro Persistente de Incursiones y el Retorno al Bucle.](../public/assets/book/chap_15_flatline.webp)
+*Figura 15.1: El Sísifo de Silicio: Registro Persistente de Incursiones y el Retorno al Bucle.*
 
 # VOLUMEN V: EL SÍSIFO DE SILICIO
 
