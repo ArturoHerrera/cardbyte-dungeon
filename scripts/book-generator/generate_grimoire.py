@@ -513,6 +513,7 @@ def generate_full_book_html(md_path, lang='es'):
   @page {{
     size: letter;
     margin: 20mm 16mm 22mm 16mm;
+    background-color: #07080c;
     @top-left {{
       content: "{top_left_text}";
       font-family: 'JetBrains Mono', monospace;
@@ -556,6 +557,7 @@ def generate_full_book_html(md_path, lang='es'):
   @page cover-page {{
     size: letter;
     margin: 0;
+    background-color: #090a0f;
     @top-left {{ content: none; }}
     @top-right {{ content: none; }}
     @bottom-left {{ content: none; }}
@@ -565,6 +567,7 @@ def generate_full_book_html(md_path, lang='es'):
   @page volume-page {{
     size: letter;
     margin: 0;
+    background-color: #06080e;
     @top-left {{ content: none; }}
     @top-right {{ content: none; }}
     @bottom-left {{ content: none; }}
@@ -577,7 +580,7 @@ def generate_full_book_html(md_path, lang='es'):
     padding: 0;
   }}
 
-  body {{
+  html, body {{
     background-color: #07080c;
     color: #dce0e8;
     font-family: 'EB Garamond', serif;
