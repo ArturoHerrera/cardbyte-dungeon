@@ -2,7 +2,7 @@ import React from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
 import { EnemyCard } from './EnemyCard';
 import { CardView } from './CardView';
-import { Play, RotateCcw, BookOpen } from 'lucide-react';
+import { Play, RotateCcw } from 'lucide-react';
 import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
 import { TutorialGuideOverlay } from '../Tutorial/TutorialGuideOverlay';
 
@@ -23,7 +23,6 @@ export const CombatView: React.FC = () => {
     combatLog,
     playCard,
     endTurn,
-    openModal,
     mobileViewMode,
   } = useCardByteStore();
 
@@ -111,19 +110,8 @@ export const CombatView: React.FC = () => {
           ))}
         </div>
 
-        {/* Right side: Codex manual & End Turn */}
+        {/* Right side: End Turn */}
         <div className="flex items-center space-x-2">
-          {!mobileViewMode && (
-            <button
-              onClick={() => openModal('CODEX')}
-              className="flex items-center space-x-1 px-2 py-1 bg-[#0c1218] border border-cyan-800/80 hover:border-cyan-400 text-cyan-300 rounded transition-colors text-[11px]"
-              title="Open Operator Codex"
-            >
-              <BookOpen className="w-3 h-3 text-cyan-400" />
-              <span className="hidden sm:inline">CODEX</span>
-            </button>
-          )}
-
           {/* End Turn Button */}
           <button
             id="btn-end-turn"

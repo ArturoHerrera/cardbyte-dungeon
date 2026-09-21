@@ -2,11 +2,10 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
 import { NodeItem } from './NodeItem';
 import { MapNode } from '../../types/cardbyte';
-import { BookOpen } from 'lucide-react';
 import { audioManager } from '../../audio/audioManager';
 
 export const CardByteGraph: React.FC = () => {
-  const { map, currentNode, selectNode, openModal, mobileViewMode } = useCardByteStore();
+  const { map, currentNode, selectNode, mobileViewMode } = useCardByteStore();
   const activeLayerRef = useRef<HTMLDivElement | null>(null);
 
   const handleSelectNode = (nodeId: string) => {
@@ -75,16 +74,6 @@ export const CardByteGraph: React.FC = () => {
         </div>
         <div className="flex items-center space-x-2 sm:space-x-3 text-[11px]">
           <span className="hidden sm:inline">DESTINATION: <strong className="text-rose-400">CORE (DEPTH 7)</strong></span>
-          {!mobileViewMode && (
-            <button
-              onClick={() => openModal('CODEX')}
-              className="flex items-center space-x-1 px-2 py-0.5 bg-[#0c1218] border border-cyan-800/80 hover:border-cyan-400 text-cyan-300 rounded text-[11px] transition-colors"
-              title="Operator Codex"
-            >
-              <BookOpen className="w-3 h-3 text-cyan-400" />
-              <span>CODEX</span>
-            </button>
-          )}
         </div>
       </div>
 
