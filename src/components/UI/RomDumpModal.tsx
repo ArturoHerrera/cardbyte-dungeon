@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCardByteStore } from '../../store/cardByteStore';
 import { localStorageAdapter } from '../../engine/storageAdapter';
 import { HardDrive, Copy, Check, Download, Upload, AlertCircle, X } from 'lucide-react';
@@ -10,6 +10,22 @@ export const RomDumpModal: React.FC = () => {
   const [importString, setImportString] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    return () => {
+      timeoutsRef.current.forEach((tId) => clearTimeout(tId));
+      timeoutsRef.current = [];
+    };
+  }, []);
+
+  const addTimeout = (cb: () => void, delay: number) => {
+    const id = setTimeout(() => {
+      cb();
+      timeoutsRef.current = timeoutsRef.current.filter((t) => t !== id);
+    }, delay);
+    timeoutsRef.current.push(id);
+  };
 
   if (activeModal !== 'ROM_DUMP') return null;
 
@@ -17,7 +33,7 @@ export const RomDumpModal: React.FC = () => {
     const dump = await localStorageAdapter.exportDump();
     await navigator.clipboard.writeText(dump);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    addTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownloadDeckFile = async () => {
@@ -49,7 +65,7 @@ export const RomDumpModal: React.FC = () => {
     await loadProfileFromStorage();
     await resumeRun();
     setSuccessMsg('ROM CARTRIDGE FLASHED SUCCESSFULLY!');
-    setTimeout(() => {
+    addTimeout(() => {
       closeModal();
     }, 1200);
   };
@@ -67,7 +83,7 @@ export const RomDumpModal: React.FC = () => {
           await loadProfileFromStorage();
           await resumeRun();
           setSuccessMsg('CARTRIDGE MOUNTED: RUN RESTORED');
-          setTimeout(() => closeModal(), 1200);
+          addTimeout(() => closeModal(), 1200);
         }
       }
     };

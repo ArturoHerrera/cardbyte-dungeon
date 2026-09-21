@@ -109,11 +109,39 @@ export const localStorageAdapter: StorageAdapter = {
       if (!decompressed) return false;
 
       const data = JSON.parse(decompressed);
+
+      // Validate Profile structure if present
       if (data.profile) {
-        await this.saveProfile(data.profile);
+        const p = data.profile;
+        if (
+          typeof p.totalRuns !== 'number' ||
+          typeof p.victories !== 'number' ||
+          typeof p.flatlines !== 'number' ||
+          !Array.isArray(p.history)
+        ) {
+          console.error('Invalid profile schema in ROM dump');
+          return false;
+        }
+        await this.saveProfile(p);
       }
+
+      // Validate ActiveRun structure if present
       if (data.activeRun) {
-        await this.saveActiveRun(data.activeRun);
+        const r = data.activeRun;
+        if (
+          typeof r.seed !== 'number' ||
+          typeof r.playerFleshHp !== 'number' ||
+          typeof r.playerMaxHp !== 'number' ||
+          !Array.isArray(r.masterDeck) ||
+          !r.map ||
+          typeof r.map !== 'object' ||
+          !r.map.nodes ||
+          typeof r.map.nodes !== 'object'
+        ) {
+          console.error('Invalid activeRun schema in ROM dump');
+          return false;
+        }
+        await this.saveActiveRun(r);
       } else {
         await this.clearActiveRun();
       }

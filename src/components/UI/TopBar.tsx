@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useCardByteStore } from '../../store/cardByteStore';
 import { Shield, Heart, Zap, Database, Terminal, HardDrive, BookOpen, HelpCircle, Smartphone, Monitor, Menu, X, Volume2, VolumeX } from 'lucide-react';
 import { SysAssistAnchor } from '../Tutorial/SysAssistAnchor';
@@ -25,7 +26,27 @@ export const TopBar: React.FC = () => {
     toggleSysAssist,
     mobileViewMode,
     toggleMobileViewMode,
-  } = useCardByteStore();
+  } = useCardByteStore(
+    useShallow((s) => ({
+      locale: s.locale,
+      setLocale: s.setLocale,
+      playerFleshHp: s.playerFleshHp,
+      playerMaxHp: s.playerMaxHp,
+      playerBlock: s.playerBlock,
+      playerEnergy: s.playerEnergy,
+      playerMaxEnergy: s.playerMaxEnergy,
+      seed: s.seed,
+      currentNode: s.currentNode,
+      currentScreen: s.currentScreen,
+      openModal: s.openModal,
+      setScreen: s.setScreen,
+      masterDeck: s.masterDeck,
+      sysAssistEnabled: s.sysAssistEnabled,
+      toggleSysAssist: s.toggleSysAssist,
+      mobileViewMode: s.mobileViewMode,
+      toggleMobileViewMode: s.toggleMobileViewMode,
+    }))
+  );
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAudioMuted, setIsAudioMuted] = useState(audioManager.isAudioMuted());

@@ -25,4 +25,8 @@ The system SHALL support exporting and importing game state via a compressed Cyb
 
 #### Scenario: Corrupted dump rejection
 - **WHEN** an imported Cyber-String or `.deck` file has an invalid payload or checksum mismatch
-- **THEN** the system rejects the import with an error message and leaves existing local data unmutated
+- **THEN** the system rejects the import with an error message and leaves existing local data unmutated.
+
+#### Scenario: Malformed payload schema rejection
+- **WHEN** an imported payload passes checksum and decompression but contains incomplete, missing, or malformed profile or run structures
+- **THEN** the storage adapter rejects the import with a schema validation error and prevents saving invalid state.

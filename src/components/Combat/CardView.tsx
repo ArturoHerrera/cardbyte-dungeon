@@ -33,6 +33,15 @@ export const CardView: React.FC<CardViewProps> = ({
   const touchStartPosRef = React.useRef<{ x: number; y: number } | null>(null);
   const isLongPressTriggeredRef = React.useRef<boolean>(false);
 
+  // Clean up any pending long-press timer when card component unmounts
+  React.useEffect(() => {
+    return () => {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+      }
+    };
+  }, []);
+
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length !== 1) return;
     const touch = e.touches[0];

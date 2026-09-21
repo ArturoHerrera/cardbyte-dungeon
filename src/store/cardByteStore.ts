@@ -9,7 +9,7 @@ import {
 import { createStarterDeck, upgradeCard } from '../engine/cardCatalog';
 import { generateMatrixMap, decryptMapProgress } from '../engine/mapGenerator';
 import { spawnEnemy } from '../engine/enemyAi';
-import { executePlayerCard, executeEnemyTurn, CombatStateSnapshot } from '../engine/combatEngine';
+import { executePlayerCard, executeEnemyTurn, CombatStateSnapshot, MAX_COMBAT_LOGS } from '../engine/combatEngine';
 import { localStorageAdapter, defaultProfile } from '../engine/storageAdapter';
 import { createPRNG, shuffleArray } from '../engine/random';
 import { TRAINING_DRONE, TUTORIAL_STARTER_DECK } from '../data/tutorialScenario';
@@ -139,7 +139,10 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
       return { sysAssistEnabled: next };
     });
   },
-  addLog: (msg) => set((s) => ({ combatLog: [...s.combatLog, msg] })),
+  addLog: (msg) =>
+    set((s) => ({
+      combatLog: [...s.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), msg],
+    })),
 
 
   // === Profile ===
@@ -200,6 +203,13 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
       currentNode: null,
       currentScreen: 'MAP',
       hasActiveRun: true,
+      inCombat: false,
+      enemy: null,
+      hand: [],
+      drawPile: [],
+      discardPile: [],
+      playerBlock: 0,
+      playerStatusEffects: {},
       combatLog: [`> Jacked into Matrix layer with Hex Seed: #0x${seed.toString(16).toUpperCase()}`],
     });
 
@@ -453,7 +463,12 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
           inCombat: false,
           currentScreen: 'VICTORY',
           hasActiveRun: false,
-          combatLog: [...nextState.combatLog, '> WINTERMUTE PROTOCOL SHATTERED. MATRIX BREACH COMPLETE!'],
+          enemy: null,
+          hand: [],
+          drawPile: [],
+          discardPile: [],
+          playerStatusEffects: {},
+          combatLog: [...nextState.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), '> WINTERMUTE PROTOCOL SHATTERED. MATRIX BREACH COMPLETE!'],
         });
       } else {
         // COMBAT REWARD
@@ -462,7 +477,12 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
           playerFleshHp: nextState.playerHp,
           map: updatedMap,
           currentScreen: 'CARD_REWARD',
-          combatLog: [...nextState.combatLog, `> Hostile construct eliminated. Data cache decrypted!`],
+          enemy: null,
+          hand: [],
+          drawPile: [],
+          discardPile: [],
+          playerStatusEffects: {},
+          combatLog: [...nextState.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), `> Hostile construct eliminated. Data cache decrypted!`],
         });
         get().saveRunToStorage();
       }
@@ -513,8 +533,58 @@ export const useCardByteStore = create<CardByteStore>((set, get) => ({
         playerFleshHp: 0,
         currentScreen: 'GAME_OVER',
         hasActiveRun: false,
-        combatLog: [...nextState.combatLog, '> FLATLINE: Neural feedback exceeded biological threshold.'],
+        enemy: null,
+        hand: [],
+        drawPile: [],
+        discardPile: [],
+        playerStatusEffects: {},
+        combatLog: [...nextState.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), '> FLATLINE: Neural feedback exceeded biological threshold.'],
       });
+      return;
+    }
+
+    // Check enemy defeat (e.g. from poison damage during enemy phase)
+    if (nextState.enemy.hp <= 0) {
+      if (s.isTutorial) {
+        set({
+          activeModal: 'TUTORIAL_VICTORY',
+          combatLog: [...nextState.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), '> TRAINING DRONE NEUTRALIZED // SIMULATION PROTOCOL VERIFIED.'],
+        });
+        return;
+      }
+
+      const isBoss = nextState.enemy.archetype === 'WINTERMUTE';
+      const updatedMap = decryptMapProgress(s.map!, s.currentNode!.id);
+
+      if (isBoss) {
+        get().updateProfileStats('VICTORY', 8);
+        localStorageAdapter.clearActiveRun();
+        set({
+          inCombat: false,
+          currentScreen: 'VICTORY',
+          hasActiveRun: false,
+          enemy: null,
+          hand: [],
+          drawPile: [],
+          discardPile: [],
+          playerStatusEffects: {},
+          combatLog: [...nextState.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), '> WINTERMUTE PROTOCOL SHATTERED. MATRIX BREACH COMPLETE!'],
+        });
+      } else {
+        set({
+          inCombat: false,
+          playerFleshHp: nextState.playerHp,
+          map: updatedMap,
+          currentScreen: 'CARD_REWARD',
+          enemy: null,
+          hand: [],
+          drawPile: [],
+          discardPile: [],
+          playerStatusEffects: {},
+          combatLog: [...nextState.combatLog.slice(-(MAX_COMBAT_LOGS - 1)), `> Hostile construct eliminated. Data cache decrypted!`],
+        });
+        get().saveRunToStorage();
+      }
       return;
     }
 

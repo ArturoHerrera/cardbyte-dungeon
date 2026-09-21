@@ -94,8 +94,10 @@ class AudioManager {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         this.pauseBgm();
+        this.synth.suspend();
       } else {
         this.resumeBgm();
+        this.synth.resume();
       }
     });
   }

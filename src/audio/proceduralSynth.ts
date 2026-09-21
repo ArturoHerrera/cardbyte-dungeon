@@ -42,6 +42,26 @@ export class ProceduralSynth {
     return this.ctx;
   }
 
+  public async suspend(): Promise<void> {
+    if (this.ctx && this.ctx.state === 'running') {
+      try {
+        await this.ctx.suspend();
+      } catch {
+        // Silently catch suspension errors
+      }
+    }
+  }
+
+  public async resume(): Promise<void> {
+    if (this.ctx && this.ctx.state === 'suspended') {
+      try {
+        await this.ctx.resume();
+      } catch {
+        // Silently catch resume errors
+      }
+    }
+  }
+
   public setVolume(val: number): void {
     this.volume = Math.max(0, Math.min(1, val));
     if (this.ctx && this.sfxGain) {
@@ -80,6 +100,15 @@ export class ProceduralSynth {
           osc.connect(gain);
           gain.connect(this.sfxGain);
 
+          osc.onended = () => {
+            try {
+              osc.disconnect();
+              gain.disconnect();
+            } catch {
+              // Ignore already disconnected errors
+            }
+          };
+
           osc.start(now);
           osc.stop(now + 0.025);
           break;
@@ -108,6 +137,16 @@ export class ProceduralSynth {
           filter.connect(gain);
           gain.connect(this.sfxGain);
 
+          osc.onended = () => {
+            try {
+              osc.disconnect();
+              filter.disconnect();
+              gain.disconnect();
+            } catch {
+              // Ignore
+            }
+          };
+
           osc.start(now);
           osc.stop(now + 0.18);
           break;
@@ -135,6 +174,16 @@ export class ProceduralSynth {
           osc2.connect(gain);
           gain.connect(this.sfxGain);
 
+          osc1.onended = () => {
+            try {
+              osc1.disconnect();
+              osc2.disconnect();
+              gain.disconnect();
+            } catch {
+              // Ignore
+            }
+          };
+
           osc1.start(now);
           osc2.start(now);
           osc1.stop(now + 0.22);
@@ -157,6 +206,15 @@ export class ProceduralSynth {
           osc.connect(gain);
           gain.connect(this.sfxGain);
 
+          osc.onended = () => {
+            try {
+              osc.disconnect();
+              gain.disconnect();
+            } catch {
+              // Ignore
+            }
+          };
+
           osc.start(now);
           osc.stop(now + 0.24);
           break;
@@ -176,6 +234,15 @@ export class ProceduralSynth {
 
           osc.connect(gain);
           gain.connect(this.sfxGain);
+
+          osc.onended = () => {
+            try {
+              osc.disconnect();
+              gain.disconnect();
+            } catch {
+              // Ignore
+            }
+          };
 
           osc.start(now);
           osc.stop(now + 0.14);

@@ -2,6 +2,13 @@ import { Card, Enemy } from '../types/cardbyte';
 import { calculateNextIntent } from './enemyAi';
 import { shuffleArray } from './random';
 
+export const MAX_COMBAT_LOGS = 60;
+
+export function appendBoundedLogs(current: string[], newEntries: string[]): string[] {
+  const combined = [...current, ...newEntries];
+  return combined.length > MAX_COMBAT_LOGS ? combined.slice(-MAX_COMBAT_LOGS) : combined;
+}
+
 export interface CombatStateSnapshot {
   playerHp: number;
   playerMaxHp: number;
@@ -158,7 +165,7 @@ export function executePlayerCard(
       hand,
       drawPile,
       discardPile,
-      combatLog: log,
+      combatLog: log.length > MAX_COMBAT_LOGS ? log.slice(-MAX_COMBAT_LOGS) : log,
     },
     success: true,
   };
@@ -296,6 +303,6 @@ export function executeEnemyTurn(state: CombatStateSnapshot): CombatStateSnapsho
     hand,
     drawPile,
     discardPile,
-    combatLog: log,
+    combatLog: log.length > MAX_COMBAT_LOGS ? log.slice(-MAX_COMBAT_LOGS) : log,
   };
 }
