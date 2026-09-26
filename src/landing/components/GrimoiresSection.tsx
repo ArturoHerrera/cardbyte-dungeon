@@ -9,11 +9,11 @@ interface GrimoiresSectionProps {
 export function GrimoiresSection({ t }: GrimoiresSectionProps) {
   const esDownloadUrl =
     (import.meta as unknown as { env: Record<string, string> }).env?.VITE_PDF_ES_URL ||
-    'https://github.com/ArturoHerrera/cardbyte-dungeon/releases';
+    'https://github.com/ArturoHerrera/cardbyte-dungeon/releases/latest/download/Cardbyte_Dungeon_Grimoire_ES.pdf';
 
   const enDownloadUrl =
     (import.meta as unknown as { env: Record<string, string> }).env?.VITE_PDF_EN_URL ||
-    'https://github.com/ArturoHerrera/cardbyte-dungeon/releases';
+    'https://github.com/ArturoHerrera/cardbyte-dungeon/releases/latest/download/Cardbyte_Dungeon_Grimoire_EN.pdf';
 
   return (
     <section id="grimoires" className="w-full py-24 px-4 lg:px-8 border-t border-[#121f2b] bg-[#020407] relative overflow-hidden">
@@ -112,6 +112,7 @@ export function GrimoiresSection({ t }: GrimoiresSectionProps) {
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
                   href={esDownloadUrl}
+                  download="Cardbyte_Dungeon_Grimoire_ES.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => landingAudio.playClick(1300)}
@@ -170,6 +171,7 @@ export function GrimoiresSection({ t }: GrimoiresSectionProps) {
               <div className="flex flex-col sm:flex-row gap-3">
                 <a
                   href={enDownloadUrl}
+                  download="Cardbyte_Dungeon_Grimoire_EN.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => landingAudio.playClick(1300)}
