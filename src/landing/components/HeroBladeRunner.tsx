@@ -8,32 +8,60 @@ interface HeroBladeRunnerProps {
 }
 
 export function HeroBladeRunner({ t }: HeroBladeRunnerProps) {
+  const [quoteIdx, setQuoteIdx] = useState(0);
   const [displayedQuote, setDisplayedQuote] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  // Typewriter effect on quote change / locale switch
+  const quotes = t.hero.quotes || [];
+  const currentQuote = quotes[quoteIdx] || quotes[0] || { text: '', source: '' };
+
+  // Looping Typewriter State Machine (Type -> Pause -> Delete -> Next)
   useEffect(() => {
-    let currentIdx = 0;
-    setDisplayedQuote('');
-    const quoteText = t.hero.quote;
+    if (!quotes.length) return;
 
-    const interval = setInterval(() => {
-      if (currentIdx < quoteText.length) {
-        setDisplayedQuote(quoteText.slice(0, currentIdx + 1));
-        currentIdx++;
+    const fullText = currentQuote.text;
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting) {
+      // Phase 1: Typing characters
+      if (displayedQuote.length < fullText.length) {
+        timer = setTimeout(() => {
+          setDisplayedQuote(fullText.slice(0, displayedQuote.length + 1));
+        }, 30);
       } else {
-        clearInterval(interval);
+        // Phase 2: Dramatic reading pause (4.2 seconds)
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 4200);
       }
-    }, 28);
+    } else {
+      // Phase 3: Fast backspace deletion
+      if (displayedQuote.length > 0) {
+        timer = setTimeout(() => {
+          setDisplayedQuote(displayedQuote.slice(0, -1));
+        }, 16);
+      } else {
+        // Phase 4: Advance to next iconic quote in anthology
+        setIsDeleting(false);
+        setQuoteIdx((prev) => (prev + 1) % quotes.length);
+      }
+    }
 
-    return () => clearInterval(interval);
-  }, [t.hero.quote]);
+    return () => clearTimeout(timer);
+  }, [displayedQuote, isDeleting, quoteIdx, currentQuote.text, quotes.length]);
+
+  // Reset when locale switches
+  useEffect(() => {
+    setDisplayedQuote('');
+    setIsDeleting(false);
+  }, [t.hero.quotes]);
 
   // Terminal blinking cursor
   useEffect(() => {
     const cursorInterval = setInterval(() => {
       setCursorVisible((v) => !v);
-    }, 530);
+    }, 500);
     return () => clearInterval(cursorInterval);
   }, []);
 
@@ -67,7 +95,7 @@ export function HeroBladeRunner({ t }: HeroBladeRunnerProps) {
           ========================================================================= */}
       <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
         {/* Kicker Protocol Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/5 mb-6 shadow-[0_0_15px_rgba(255,159,28,0.15)]">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[#ff9f1c]/30 bg-[#ff9f1c]/5 mb-6 shadow-[0_0_15px_rgba(255,159,28,0.15)]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#ff9f1c] animate-pulse" />
           <span className="text-[11px] font-mono tracking-widest text-[#ffb703] font-bold uppercase">
             {t.hero.kicker}
@@ -81,25 +109,30 @@ export function HeroBladeRunner({ t }: HeroBladeRunnerProps) {
           </span>
         </h1>
 
-        {/* Atmospheric Gibson / Blade Runner Quote Box */}
-        <div className="w-full max-w-2xl mx-auto rounded-xl border border-[#172635] bg-[#04080e]/80 backdrop-blur-md p-5 sm:p-6 mb-8 shadow-[0_0_40px_rgba(0,0,0,0.8)]">
-          <p className="font-mono text-sm sm:text-base text-slate-300 italic leading-relaxed min-h-[3.2rem]">
-            &ldquo;{displayedQuote}&rdquo;
-            <span
-              className={`inline-block w-2.5 h-4 ml-1 bg-[#ff9f1c] align-middle ${
-                cursorVisible ? 'opacity-100' : 'opacity-0'
-              }`}
-            />
+        {/* Atmospheric Live Looping Terminal Quote Box */}
+        <div className="w-full max-w-2xl mx-auto rounded-xl border border-[#172635] bg-[#04080e]/85 backdrop-blur-md p-5 sm:p-6 mb-8 shadow-[0_0_40px_rgba(0,0,0,0.85)]">
+          <p className="font-mono text-sm sm:text-base text-slate-200 italic leading-relaxed min-h-[3.6rem] flex items-center justify-center">
+            <span>
+              &ldquo;{displayedQuote}&rdquo;
+              <span
+                className={`inline-block w-2.5 h-4 ml-1 bg-[#ff9f1c] align-middle ${
+                  cursorVisible ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            </span>
           </p>
-          <div className="mt-3 pt-2 border-t border-[#111c26] flex items-center justify-end">
-            <span className="text-[10px] font-mono tracking-widest text-[#5c738a] uppercase">
-              // {t.hero.quoteSource}
+          <div className="mt-3 pt-2.5 border-t border-[#111c26] flex items-center justify-between">
+            <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
+              TERMINAL FEED // LOG {quoteIdx + 1} OF {quotes.length}
+            </span>
+            <span className="text-[10px] font-mono tracking-widest text-[#00e5ff] font-semibold uppercase">
+              // {currentQuote.source}
             </span>
           </div>
         </div>
 
-        {/* Narrative Subtext */}
-        <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-sans leading-relaxed mb-10 text-balance">
+        {/* Narrative Subtext with Cyberpunk Font */}
+        <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-300 font-cyber leading-relaxed mb-10 text-balance">
           {t.hero.subtext}
         </p>
 

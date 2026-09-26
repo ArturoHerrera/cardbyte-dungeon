@@ -29,7 +29,7 @@ export function GrimoiresSection({ t }: GrimoiresSectionProps) {
           <h2 className="text-3xl sm:text-5xl font-mono font-black tracking-tight text-white mb-4 uppercase">
             {t.grimoires.title}
           </h2>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 font-sans">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 font-cyber">
             {t.grimoires.description}
           </p>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#00e5ff] to-transparent mx-auto mt-6" />

@@ -1,5 +1,10 @@
 export type Locale = 'en' | 'es';
 
+export interface QuoteItem {
+  text: string;
+  source: string;
+}
+
 export interface LandingTranslations {
   meta: {
     systemStatus: string;
@@ -19,8 +24,7 @@ export interface LandingTranslations {
   hero: {
     kicker: string;
     title: string;
-    quote: string;
-    quoteSource: string;
+    quotes: QuoteItem[];
     subtext: string;
     ctaPlay: string;
     ctaManuals: string;
@@ -106,14 +110,14 @@ export const translations: Record<Locale, LandingTranslations> = {
   en: {
     meta: {
       systemStatus: 'SYS_READY // BUFFER 0x1842',
-      sublevel: 'LOS ANGELES 2049 // CYBERSPACE GATEWAY',
+      sublevel: 'ONO-SENDAI CYBERSPACE 7 // GATEWAY',
       jackIn: '>> JACK IN',
       audioActive: 'AUDIO [ON]',
       audioMuted: 'AUDIO [OFF]',
-      romPatching: 'PATCHING_LOCALE: EN-US',
+      romPatching: 'PATCHING_ROM: EN-US',
     },
     nav: {
-      title: 'CARDBYTE // 2049',
+      title: 'CARDBYTE // DUNGEON',
       story: 'GENESIS',
       manuals: 'GRIMOIRES',
       tech: 'ARCHITECTURE',
@@ -122,8 +126,32 @@ export const translations: Record<Locale, LandingTranslations> = {
     hero: {
       kicker: '// PROTOCOL 0x1842 // NEURAL INTERFACE ONLINE //',
       title: 'CARDBYTE DUNGEON',
-      quote: 'The sky above the port was the color of television, tuned to a dead channel.',
-      quoteSource: 'William Gibson // Neuromancer (1984)',
+      quotes: [
+        {
+          text: 'The sky above the port was the color of television, tuned to a dead channel.',
+          source: 'William Gibson // Neuromancer (1984)',
+        },
+        {
+          text: 'All those moments will be lost in time, like tears in rain... Time to die.',
+          source: 'Blade Runner (1982) // Roy Batty',
+        },
+        {
+          text: 'Unfortunately, no one can be told what the Matrix is. You have to see it for yourself.',
+          source: 'The Matrix (1999) // Morpheus',
+        },
+        {
+          text: "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion.",
+          source: 'Blade Runner (1982) // Roy Batty',
+        },
+        {
+          text: 'Cyberspace. A consensual hallucination experienced daily by billions of legitimate operators.',
+          source: 'William Gibson // Neuromancer (1984)',
+        },
+        {
+          text: 'The Matrix is everywhere. It is all around us. Even now, in this very room.',
+          source: 'The Matrix (1999) // Morpheus',
+        },
+      ],
       subtext:
         'A tactical turn-based deckbuilder roguelike forged in the rainy shadows of classical cyberpunk. Hack nodes, shatter Black ICE, and extract high-value data matrices before your neural deck fries.',
       ctaPlay: '>> INITIATE RUN / JACK IN <<',
@@ -248,7 +276,7 @@ export const translations: Record<Locale, LandingTranslations> = {
       ],
     },
     footer: {
-      corp: 'ONO-SENDAI CYBERSPACE CORP // OPERATOR TERMINAL 2049',
+      corp: 'ONO-SENDAI CYBERSPACE CORP // OPERATOR TERMINAL',
       note: 'No tracking cookies. No telemetry traps. 100% static client-side architecture.',
       openSource: 'Cardbyte Dungeon is open source software. MIT License.',
     },
@@ -256,14 +284,14 @@ export const translations: Record<Locale, LandingTranslations> = {
   es: {
     meta: {
       systemStatus: 'SISTEMA_LISTO // BÚFER 0x1842',
-      sublevel: 'LOS ANGELES 2049 // PORTAL DEL CIBERESPACIO',
+      sublevel: 'ONO-SENDAI CIBERESPACIO 7 // TERMINAL',
       jackIn: '>> CONECTAR',
       audioActive: 'AUDIO [ACTIVO]',
       audioMuted: 'AUDIO [MUTED]',
       romPatching: 'PARCHEANDO_ROM: ES-MX',
     },
     nav: {
-      title: 'CARDBYTE // 2049',
+      title: 'CARDBYTE // DUNGEON',
       story: 'GÉNESIS',
       manuals: 'GRIMORIOS',
       tech: 'ARQUITECTURA',
@@ -272,8 +300,32 @@ export const translations: Record<Locale, LandingTranslations> = {
     hero: {
       kicker: '// PROTOCOLO 0x1842 // INTERFAZ NEURAL ACTIVA //',
       title: 'CARDBYTE DUNGEON',
-      quote: 'El cielo sobre el puerto tenía el color de una pantalla de televisión, sintonizada en un canal muerto.',
-      quoteSource: 'William Gibson // Neuromancer (1984)',
+      quotes: [
+        {
+          text: 'El cielo sobre el puerto tenía el color de una pantalla de televisión, sintonizada en un canal muerto.',
+          source: 'William Gibson // Neuromancer (1984)',
+        },
+        {
+          text: 'Todos esos momentos se perderán en el tiempo, como lágrimas en la lluvia... Es hora de morir.',
+          source: 'Blade Runner (1982) // Roy Batty',
+        },
+        {
+          text: 'Por desgracia, nadie puede decirte qué es Matrix. Tienes que verla tú mismo.',
+          source: 'The Matrix (1999) // Morfeo',
+        },
+        {
+          text: 'He visto cosas que ustedes no creerían. Naves de ataque en llamas más allá del hombro de Orión.',
+          source: 'Blade Runner (1982) // Roy Batty',
+        },
+        {
+          text: 'Ciberespacio. Una alucinación consensual experimentada diariamente por miles de millones de operadores.',
+          source: 'William Gibson // Neuromancer (1984)',
+        },
+        {
+          text: 'Matrix nos rodea. Está por todas partes. Incluso ahora, en esta misma habitación.',
+          source: 'The Matrix (1999) // Morfeo',
+        },
+      ],
       subtext:
         'Un roguelike táctico de construcción de mazos nacido bajo la lluvia y los neones del cyberpunk clásico. Hackea nodos, fractura el ICE Negro y extrae matrices de datos antes de que la retroalimentación fría tu ciberdeck.',
       ctaPlay: '>> INICIAR INCURSIÓN / JUGAR <<',
@@ -398,7 +450,7 @@ export const translations: Record<Locale, LandingTranslations> = {
       ],
     },
     footer: {
-      corp: 'ONO-SENDAI CYBERSPACE CORP // TERMINAL DEL OPERADOR 2049',
+      corp: 'ONO-SENDAI CYBERSPACE CORP // TERMINAL DEL OPERADOR',
       note: 'Sin cookies de rastreo. Sin trampas de telemetría. Compilación 100% estática en el cliente.',
       openSource: 'Cardbyte Dungeon es software de código abierto. Licencia MIT.',
     },

@@ -21,7 +21,7 @@ export function LandingApp() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#020408] text-slate-100 flex flex-col font-sans selection:bg-[#ff9f1c] selection:text-[#020408]">
+    <div className="min-h-screen w-full bg-[#020408] text-slate-100 flex flex-col font-cyber selection:bg-[#ff9f1c] selection:text-[#020408]">
       {/* Dynamic Top Navigation Bar */}
       <TopNav
         locale={locale}

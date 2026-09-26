@@ -27,7 +27,7 @@ export function GenesisSection({ t }: GenesisSectionProps) {
           <h2 className="text-3xl sm:text-5xl font-mono font-black tracking-tight text-white mb-4 uppercase">
             {t.genesis.title}
           </h2>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 font-sans">
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 font-cyber">
             {t.genesis.subtitle}
           </p>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#ff9f1c] to-transparent mx-auto mt-6" />
@@ -47,7 +47,7 @@ export function GenesisSection({ t }: GenesisSectionProps) {
         </div>
 
         {/* Narrative Flow */}
-        <div className="space-y-6 text-slate-300 font-sans text-base sm:text-lg leading-relaxed mb-16">
+        <div className="space-y-6 text-slate-300 font-cyber text-base sm:text-lg leading-relaxed mb-16">
           <p>{t.genesis.p1}</p>
           <p>{t.genesis.p2}</p>
           <p className="text-slate-400 text-sm sm:text-base border-l-2 border-[#ff9f1c] pl-5 py-1.5 italic bg-[#ff9f1c]/5 rounded-r">
@@ -76,7 +76,7 @@ export function GenesisSection({ t }: GenesisSectionProps) {
                     <h4 className="text-base font-mono font-bold text-white mb-2 group-hover:text-[#ff9f1c] transition-colors">
                       {p.title}
                     </h4>
-                    <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-400 font-cyber leading-relaxed">
                       {p.desc}
                     </p>
                   </div>
@@ -97,7 +97,7 @@ export function GenesisSection({ t }: GenesisSectionProps) {
             <h3 className="text-2xl sm:text-4xl font-mono font-black tracking-tight text-white mb-3 uppercase">
               {t.genesis.techTitle}
             </h3>
-            <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 font-sans">
+            <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 font-cyber">
               {t.genesis.techSubtitle}
             </p>
           </div>
@@ -122,7 +122,7 @@ export function GenesisSection({ t }: GenesisSectionProps) {
                     <h4 className="text-base font-mono font-bold text-white mb-2 group-hover:text-[#00e5ff] transition-colors">
                       {c.name}
                     </h4>
-                    <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-400 font-cyber leading-relaxed">
                       {c.desc}
                     </p>
                   </div>

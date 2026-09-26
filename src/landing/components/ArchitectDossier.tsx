@@ -155,7 +155,7 @@ export function ArchitectDossier({ t }: ArchitectDossierProps) {
                 </div>
 
                 {/* Bio Narrative */}
-                <div className="space-y-4 text-slate-300 font-sans text-sm sm:text-base leading-relaxed mb-6">
+                <div className="space-y-4 text-slate-300 font-cyber text-sm sm:text-base leading-relaxed mb-6">
                   <p>{t.architect.bioP1}</p>
                   <p className="text-slate-400">{t.architect.bioP2}</p>
                 </div>

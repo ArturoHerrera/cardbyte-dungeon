@@ -4,14 +4,23 @@
   :root {
     --font-mono: 'JetBrains Mono', monospace;
     --font-tech: 'Share Tech Mono', monospace;
+    --font-cyber: 'Rajdhani', sans-serif;
     --font-crt: 'VT323', monospace;
   }
 
   body {
-    font-family: var(--font-mono);
+    font-family: var(--font-cyber);
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
+}
+
+.font-cyber {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.font-tech {
+  font-family: 'Share Tech Mono', monospace;
 }
 
 /* Mobile Safe Areas and Viewport Support */
