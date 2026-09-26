@@ -21,7 +21,7 @@ The system SHALL provide a dedicated root entry page (`/`) for public showcase a
 - **THEN** the server returns a cyberpunk cyberdeck vector icon with neon amber/cyan accents
 
 ### Requirement: Atmospheric CRT hero with typewriter telemetry
-The system SHALL render a Blade Runner cinematic hero section with subtle volumetric mist lighting, deep void aesthetics, high-contrast cyberpunk typography (`Rajdhani` / `Share Tech Mono`), and an automated typewriter presentation that continuously loops through a curated anthology of cyberpunk quotes from *Neuromancer*, *Blade Runner*, and *The Matrix*.
+The system SHALL render a Blade Runner cinematic hero section with subtle volumetric mist lighting, deep void aesthetics, high-contrast cyberpunk typography (`Rajdhani` / `Share Tech Mono`), polished bilingual subtext descriptions, and an automated typewriter presentation that continuously loops through a curated anthology of cyberpunk quotes from *Neuromancer*, *Blade Runner*, and *The Matrix*.
 
 #### Scenario: Initial hero load
 - **WHEN** the landing page finishes loading
@@ -62,14 +62,14 @@ The system SHALL showcase the canonical Operator Grimoires displaying the offici
 - **THEN** the browser initiates the direct download of the English canonical PDF from the configured release endpoint
 
 ### Requirement: Genesis story and technical architecture showcase
-The system SHALL detail the game's origin as a 48-hour generative AI acceleration and OpenSpec experiment born from passion for 1984 Gibsonian cyberpunk, seamlessly integrated with the technical architecture specification (React 19, TypeScript, Zustand 5, Tailwind CSS v4, WebAudio API, OpenSpec spec-driven framework).
+The system SHALL detail the game's origin as a 48-hour generative AI acceleration and OpenSpec experiment born from passion for 1984 Gibsonian cyberpunk, structured into scannable, fluff-free pillars alongside the technical architecture specification (React 19, TypeScript, Zustand 5, Tailwind CSS v4, WebAudio API, OpenSpec spec-driven framework).
 
 #### Scenario: Viewing the genesis and tech stack sections
 - **WHEN** the user navigates to the Genesis section
-- **THEN** the system presents the 48-hour AI acceleration narrative alongside technical architecture cards detailing the underlying engine stack with zero visual clutter
+- **THEN** the system presents the 48-hour AI acceleration narrative with concise scannable paragraphs and technical architecture cards detailing the underlying engine stack with zero visual clutter
 
 ### Requirement: Operator identity badge with direct professional links
-The system SHALL present an architect dossier credential featuring Arturo Herrera's nocturnal portrait with an interactive biometric laser scan effect (`Voight-Kampff` optical scan) on hover, detailing 7+ years of Senior Android Engineering experience, ongoing Artificial Intelligence Engineering studies, and verified direct links to LinkedIn and GitHub.
+The system SHALL present an architect dossier credential featuring Arturo Herrera's nocturnal portrait with an interactive biometric laser scan effect (`Voight-Kampff` optical scan) on hover, clearly establishing credentials as a Senior Android Engineer with 7+ years of experience and active Artificial Intelligence Engineering studies with scannable, fluff-free copy and verified direct links to LinkedIn and GitHub.
 
 #### Scenario: Interacting with the operator badge
 - **WHEN** the user clicks the LinkedIn link on the operator identity badge

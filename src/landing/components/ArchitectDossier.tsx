@@ -197,10 +197,11 @@ export function ArchitectDossier({ t }: ArchitectDossierProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => landingAudio.playClick(1000)}
-                  className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-lg font-mono text-xs sm:text-sm font-bold tracking-wider text-slate-300 border border-[#21405a] hover:border-slate-300 hover:text-white bg-[#06121d] transition-all cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-lg font-mono text-xs sm:text-sm font-bold tracking-wider text-slate-300 border border-[#21405a] hover:border-slate-300 hover:text-white bg-[#06121d] transition-all group cursor-pointer"
                 >
-                  <GitHubIcon className="w-4 h-4 fill-current" />
+                  <GitHubIcon className="w-4 h-4 fill-current transition-transform group-hover:scale-115" />
                   <span>{t.architect.githubCta}</span>
+                  <ExternalLink className="w-3.5 h-3.5 opacity-80" />
                 </a>
               </div>
             </div>
@@ -217,7 +218,7 @@ export function ArchitectDossier({ t }: ArchitectDossierProps) {
                 />
               ))}
             </div>
-            <span>CLEARANCE: LEVEL_05_ARCHITECT</span>
+            <span>STATUS: VERIFIED_OPERATOR</span>
           </div>
         </div>
       </div>
