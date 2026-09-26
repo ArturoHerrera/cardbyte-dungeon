@@ -20,6 +20,7 @@ export interface LandingTranslations {
     kicker: string;
     title: string;
     quote: string;
+    quoteSource: string;
     subtext: string;
     ctaPlay: string;
     ctaManuals: string;
@@ -30,10 +31,33 @@ export interface LandingTranslations {
       memory: string;
     };
   };
-  roms: {
+  genesis: {
+    kicker: string;
+    title: string;
+    subtitle: string;
+    quote: string;
+    quoteAuthor: string;
+    p1: string;
+    p2: string;
+    p3: string;
+    pillarsTitle: string;
+    pillars: {
+      title: string;
+      desc: string;
+    }[];
+    techTitle: string;
+    techSubtitle: string;
+    techCards: {
+      tag: string;
+      name: string;
+      desc: string;
+    }[];
+  };
+  grimoires: {
     kicker: string;
     title: string;
     description: string;
+    coverAlt: string;
     esCartridge: {
       tag: string;
       title: string;
@@ -54,40 +78,22 @@ export interface LandingTranslations {
     };
     notice: string;
   };
-  genesis: {
-    kicker: string;
-    title: string;
-    quote: string;
-    quoteAuthor: string;
-    p1: string;
-    p2: string;
-    p3: string;
-    highlights: {
-      title: string;
-      desc: string;
-    }[];
-  };
-  tech: {
-    kicker: string;
-    title: string;
-    description: string;
-    cards: {
-      tag: string;
-      name: string;
-      desc: string;
-    }[];
-  };
-  operator: {
+  architect: {
     kicker: string;
     title: string;
     badgeTitle: string;
+    authId: string;
     name: string;
     role: string;
     experience: string;
     education: string;
-    bio: string;
+    bioP1: string;
+    bioP2: string;
+    scanPrompt: string;
+    scanStatus: string;
     linkedInCta: string;
     githubCta: string;
+    skills: string[];
   };
   footer: {
     corp: string;
@@ -100,92 +106,66 @@ export const translations: Record<Locale, LandingTranslations> = {
   en: {
     meta: {
       systemStatus: 'SYS_READY // BUFFER 0x1842',
-      sublevel: 'SUB-LEVEL 09 // CYBERSPACE',
+      sublevel: 'LOS ANGELES 2049 // CYBERSPACE GATEWAY',
       jackIn: '>> JACK IN',
       audioActive: 'AUDIO [ON]',
       audioMuted: 'AUDIO [OFF]',
-      romPatching: 'INJECTING_LOCALE: EN-US',
+      romPatching: 'PATCHING_LOCALE: EN-US',
     },
     nav: {
-      title: 'CARDBYTE // TERMINAL',
+      title: 'CARDBYTE // 2049',
       story: 'GENESIS',
-      manuals: 'MANUALS',
+      manuals: 'GRIMOIRES',
       tech: 'ARCHITECTURE',
-      operator: 'OPERATOR',
+      operator: 'ARCHITECT',
     },
     hero: {
       kicker: '// PROTOCOL 0x1842 // NEURAL INTERFACE ONLINE //',
       title: 'CARDBYTE DUNGEON',
       quote: 'The sky above the port was the color of television, tuned to a dead channel.',
+      quoteSource: 'William Gibson // Neuromancer (1984)',
       subtext:
-        'A tactical turn-based deckbuilder roguelike forged in the shadows of 1984 Gibsonian cyberpunk. Hack nodes, break ICE, and extract data matrices before neural feedback fries your deck.',
-      ctaPlay: '>> INITIATE RUN / PLAY NOW <<',
-      ctaManuals: 'DOWNLOAD GRIMOIRES (PDF)',
+        'A tactical turn-based deckbuilder roguelike forged in the rainy shadows of classical cyberpunk. Hack nodes, shatter Black ICE, and extract high-value data matrices before your neural deck fries.',
+      ctaPlay: '>> INITIATE RUN / JACK IN <<',
+      ctaManuals: 'OFFICIAL GRIMOIRES (PDF)',
       telemetry: {
-        latency: 'LATENCY: 08ms',
+        latency: 'LATENCY: 06ms',
         iceLevel: 'THREAT: BLACK ICE',
         engine: 'HOST: ONO-SENDAI 7',
         memory: 'BUFFER: 64KB RAM',
       },
     },
-    roms: {
-      kicker: '// HARDWARE ARCHIVES & EXPANSION MODULES //',
-      title: 'CANONICAL OPERATOR GRIMOIRES',
-      description:
-        'Over 80 pages of diegetic cyberpunk lore, tactical combat matrices, CRT terminal lexicons, and vector cover art. Download the official PDF collector manuals.',
-      esCartridge: {
-        tag: 'ROM_01 // ES-MX',
-        title: 'GRIMORIO DEL OPERADOR',
-        subtitle: 'Edición Canónica en Español',
-        pages: '85 Pages // US Letter',
-        format: 'Dark Mode // The Void Edition // 47 MB',
-        downloadLabel: 'DOWNLOAD ROM (PDF)',
-        readOnlineLabel: 'READ COMPENDIUM',
-      },
-      enCartridge: {
-        tag: 'ROM_02 // EN-US',
-        title: 'OPERATOR MANUAL',
-        subtitle: 'Canonical English Compendium',
-        pages: '82 Pages // US Letter',
-        format: 'Full Vector Cover // Print Ready // 46 MB',
-        downloadLabel: 'DOWNLOAD ROM (PDF)',
-        readOnlineLabel: 'READ COMPENDIUM',
-      },
-      notice: 'PDF releases are delivered via GitHub Releases CDN with zero client-side tracking.',
-    },
     genesis: {
-      kicker: '// DECOMPILING THE MATRIX // BEHIND THE ICE //',
+      kicker: '// DECOMPILING THE MATRIX // PROJECT ORIGIN //',
       title: 'THE 48-HOUR AI ACCELERATION EXPERIMENT',
-      quote: 'Cyberspace. A consensual hallucination experienced daily by billions of legitimate operators...',
-      quoteAuthor: '— William Gibson, Neuromancer (1984)',
-      p1: 'Cardbyte Dungeon was born as a rapid engineering experiment: push the limits of modern Generative AI to design, orchestrate, architect, and produce a complete, polished indie roguelike in a single weekend.',
-      p2: 'Rather than treating AI as a simple autocomplete, the entire project utilized autonomous agentic workflows: drafting complex combat mathematics, composing rich dystopian lore across 15 narrative sectors, generating procedural WebAudio synthesizers, and compiling 80+ page publication-ready books via automated Python pipelines.',
-      p3: 'This project is a love letter to the early cyberpunk literature that founded our imagination, executed with the bleeding-edge tools shaping software engineering today.',
-      highlights: [
+      subtitle: 'A love letter to 1984 Gibsonian cyberpunk orchestrated through autonomous agentic engineering.',
+      quote: 'All those moments will be lost in time, like tears in rain... Time to die.',
+      quoteAuthor: '— Blade Runner (1982) // Roy Batty',
+      p1: 'Cardbyte Dungeon was born as an intensive 48-hour engineering hackathon: exploring how modern Generative AI, when guided by rigorous OpenSpec specification-driven workflows, can design, architect, balance, and build a full, high-finish indie roguelike from scratch in a single weekend.',
+      p2: 'Rather than using AI for mere code snippets or autocomplete, the entire project leveraged autonomous multi-agent orchestration: mathematical combat state machines, procedural WebAudio synthesis, 15 sectors of dystopian narrative lore, and an automated publishing pipeline compiling 80+ page publication-ready books.',
+      p3: 'This project is both a passionate tribute to early cyberpunk literature (Gibson, Dick, Scott) and a testament to modern engineering paradigms where human architectural vision guides AI agents with total deterministic precision.',
+      pillarsTitle: 'ACCELERATION PILLARS',
+      pillars: [
         {
-          title: 'Full-Stack Co-Pilot',
-          desc: '100% TypeScript typed combat state machine, card graph pathfinding, and deterministic mechanics.',
+          title: 'Spec-Driven Engineering',
+          desc: '100% deterministic contracts using OpenSpec: delta specifications, automated verification, and zero drift between architecture and execution.',
         },
         {
-          title: 'Autonomous Lore Pipeline',
-          desc: 'Over 80 pages of cohesive worldbuilding and slang glossary generated and verified through strict specs.',
+          title: 'Agentic Autonomous Workflows',
+          desc: 'AI co-piloting combat balancing, deterministic graph generation, and type-safe state transitions across React 19 and TypeScript.',
         },
         {
-          title: 'Procedural Audio Architecture',
-          desc: 'Native WebAudio frequency synthesis, CRT filters, and mechanical tactile feedback with 0 external sound files.',
+          title: 'Diegetic Audio & Worldbuilding',
+          desc: 'Zero external audio files. Pure mathematical frequency synthesis (Web Audio API) evoking vintage analog synthesizers.',
         },
       ],
-    },
-    tech: {
-      kicker: '// SYSTEM SPECIFICATIONS & SOURCE TRACE //',
-      title: 'TECHNICAL RADIOGRAPHY',
-      description:
-        'Clean, modular, deterministic architecture designed for zero latency and instant responsiveness.',
-      cards: [
+      techTitle: 'SYSTEM ARCHITECTURE & RADIOGRAPHY',
+      techSubtitle: 'Clean, modular, deterministic stack engineered for instant tactile responsiveness.',
+      techCards: [
         {
           tag: 'CORE ENGINE',
           name: 'React 19 + TypeScript',
-          desc: 'Strict type safety, zero runtime exceptions, custom hook orchestration, and modular screen routing.',
+          desc: 'Strict type safety, custom hook orchestration, and decoupled screen routing between portal and game.',
         },
         {
           tag: 'STATE MACHINE',
@@ -193,19 +173,19 @@ export const translations: Record<Locale, LandingTranslations> = {
           desc: 'Single source of truth with immutable action dispatching for combat, deck modifications, and run progression.',
         },
         {
-          tag: 'DESIGN TOKENS',
+          tag: 'DESIGN SYSTEM',
           name: 'Tailwind CSS v4',
-          desc: 'Hardware-accelerated CRT scanlines, phosphor glow effects, matrix grids, and seamless responsive layout.',
+          desc: 'Hardware-accelerated CRT scanlines, volumetric mist gradients, and high-contrast Blade Runner typography.',
         },
         {
-          tag: 'AUDIO ENGINE',
+          tag: 'AUDIO SYNTHESIS',
           name: 'WebAudio Procedural Synth',
-          desc: 'Mathematical wave generation (sine, saw, noise) with biquad filter envelopes and CRT hum simulation.',
+          desc: 'Vangelis CS-80 inspired dual-oscillator drone with resonant filter sweeps and tactile mechanical click feedback.',
         },
         {
-          tag: 'MOBILE ERGONOMICS',
-          name: 'Android-Inspired Viewport',
-          desc: 'Engineered by a Mobile Senior with mobile-first tactile touch targets, safe areas, and dynamic container frames.',
+          tag: 'SPEC FRAMEWORK',
+          name: 'OpenSpec (Spec-Driven)',
+          desc: 'Rigorous change planning, delta specs, and task tracking ensuring architectural integrity throughout development.',
         },
         {
           tag: 'BOOK COMPILER',
@@ -214,156 +194,212 @@ export const translations: Record<Locale, LandingTranslations> = {
         },
       ],
     },
-    operator: {
-      kicker: '// OPERATOR IDENTIFICATION // CLEARANCE LEVEL 05 //',
-      title: 'OPERATOR CREDENTIAL',
-      badgeTitle: 'CYBER SECURITY CLEARANCE BADGE',
+    grimoires: {
+      kicker: '// CANONICAL ARCHIVES & PUBLICATIONS //',
+      title: 'OFFICIAL OPERATOR GRIMOIRES',
+      description:
+        'Over 80 pages of diegetic cyberpunk lore, tactical combat matrices, CRT terminal lexicons, and vector cover art. Download the official PDF collector editions with a single click.',
+      coverAlt: 'Cardbyte Dungeon Canonical Operator Grimoire Book Cover',
+      esCartridge: {
+        tag: 'EDICIÓN EN ESPAÑOL // ES-MX',
+        title: 'GRIMORIO DEL OPERADOR',
+        subtitle: 'Edición Canónica de Colección',
+        pages: '85 Pages // US Letter Print-Ready',
+        format: 'Dark Mode // The Void Edition // 47 MB',
+        downloadLabel: 'DOWNLOAD PDF (ES)',
+        readOnlineLabel: 'READ COMPENDIUM',
+      },
+      enCartridge: {
+        tag: 'ENGLISH COMPENDIUM // EN-US',
+        title: 'OPERATOR MANUAL',
+        subtitle: 'Canonical English Edition',
+        pages: '82 Pages // US Letter Print-Ready',
+        format: 'Full Vector Cover // Print Ready // 46 MB',
+        downloadLabel: 'DOWNLOAD PDF (EN)',
+        readOnlineLabel: 'READ COMPENDIUM',
+      },
+      notice: 'PDF releases are delivered directly via GitHub Releases CDN with zero trackers or external telemetry.',
+    },
+    architect: {
+      kicker: '// SYSTEM ARCHITECT // CLEARANCE: LEVEL 05 //',
+      title: 'MEET THE ARCHITECT',
+      badgeTitle: 'TYRELL CORP BIOMETRIC CLEARANCE DOSSIER',
+      authId: 'CLEARANCE_ID: #0792-AH // REPLICANT_CHECK: PASS',
       name: 'ARTURO HERRERA',
       role: 'Senior Mobile Engineer // AI Engineering Student',
-      experience: '7+ Years Crafting Robust Android Applications',
-      education: 'B.S. Artificial Intelligence Engineering (Hybridge)',
-      bio: 'Mobile engineer with over seven years scaling production Android ecosystems. Currently diving deep into Full Stack web ecosystems and applied AI engineering, leveraging agentic workflows and LLM orchestration to build resilient, innovative products.',
+      experience: '7+ Years Crafting High-Performance Android Ecosystems',
+      education: 'B.S. Artificial Intelligence Engineering Student (Hybridge)',
+      bioP1:
+        'Software engineer with over seven years specializing in production Android applications, architecture, and mobile performance. Driven by an obsession for craft, robust systems, and high-impact digital experiences.',
+      bioP2:
+        'Currently advancing studies in Artificial Intelligence Engineering, exploring the intersection of distributed systems, LLM agentic orchestration, and spec-driven software creation. Cardbyte Dungeon represents this union: applied AI velocity grounded in solid engineering foundations.',
+      scanPrompt: 'VOIGHT-KAMPFF BIOMETRIC LASER SCAN',
+      scanStatus: 'BIOMETRIC MATCH: 99.98% [VERIFIED]',
       linkedInCta: 'CONNECT ON LINKEDIN >>',
       githubCta: 'EXPLORE REPOSITORY (GITHUB) >>',
+      skills: [
+        'Android SDK',
+        'Kotlin & Java',
+        'System Architecture',
+        'AI Agent Orchestration',
+        'OpenSpec',
+        'TypeScript',
+        'Web Audio API',
+      ],
     },
     footer: {
-      corp: 'ONO-SENDAI CYBERSPACE CORP // OPERATOR TERMINAL v1.0',
-      note: 'No tracking cookies. No telemetry traps. 100% static client-side build.',
+      corp: 'ONO-SENDAI CYBERSPACE CORP // OPERATOR TERMINAL 2049',
+      note: 'No tracking cookies. No telemetry traps. 100% static client-side architecture.',
       openSource: 'Cardbyte Dungeon is open source software. MIT License.',
     },
   },
   es: {
     meta: {
       systemStatus: 'SISTEMA_LISTO // BÚFER 0x1842',
-      sublevel: 'SUB-NIVEL 09 // CIBERESPACIO',
+      sublevel: 'LOS ANGELES 2049 // PORTAL DEL CIBERESPACIO',
       jackIn: '>> CONECTAR',
       audioActive: 'AUDIO [ACTIVO]',
       audioMuted: 'AUDIO [MUTED]',
       romPatching: 'PARCHEANDO_ROM: ES-MX',
     },
     nav: {
-      title: 'CARDBYTE // TERMINAL',
+      title: 'CARDBYTE // 2049',
       story: 'GÉNESIS',
-      manuals: 'MANUALES',
+      manuals: 'GRIMORIOS',
       tech: 'ARQUITECTURA',
-      operator: 'OPERADOR',
+      operator: 'ARQUITECTO',
     },
     hero: {
       kicker: '// PROTOCOLO 0x1842 // INTERFAZ NEURAL ACTIVA //',
       title: 'CARDBYTE DUNGEON',
       quote: 'El cielo sobre el puerto tenía el color de una pantalla de televisión, sintonizada en un canal muerto.',
+      quoteSource: 'William Gibson // Neuromancer (1984)',
       subtext:
-        'Un roguelike táctico de construcción de mazos nacido en las sombras del cyberpunk de William Gibson (1984). Hackea nodos, fractura el ICE y extrae matrices de datos antes de que la retroalimentación neural fría tu ciberdeck.',
+        'Un roguelike táctico de construcción de mazos nacido bajo la lluvia y los neones del cyberpunk clásico. Hackea nodos, fractura el ICE Negro y extrae matrices de datos antes de que la retroalimentación fría tu ciberdeck.',
       ctaPlay: '>> INICIAR INCURSIÓN / JUGAR <<',
-      ctaManuals: 'DESCARGAR GRIMORIOS (PDF)',
+      ctaManuals: 'GRIMORIOS OFICIALES (PDF)',
       telemetry: {
-        latency: 'LATENCIA: 08ms',
+        latency: 'LATENCIA: 06ms',
         iceLevel: 'AMENAZA: ICE NEGRO',
         engine: 'HOST: ONO-SENDAI 7',
         memory: 'BÚFER: 64KB RAM',
       },
     },
-    roms: {
-      kicker: '// ARCHIVOS DE HARDWARE & MÓDULOS DE EXPANSIÓN //',
-      title: 'GRIMORIOS CANÓNICOS DEL OPERADOR',
-      description:
-        'Más de 80 páginas de lore cyberpunk diegético, tablas tácticas de combate, glosarios de terminal CRT y arte vectorial. Descarga los manuales de colección oficiales en PDF.',
-      esCartridge: {
-        tag: 'ROM_01 // ES-MX',
-        title: 'GRIMORIO DEL OPERADOR',
-        subtitle: 'Edición Canónica en Español',
-        pages: '85 Páginas // Tamaño Carta (US Letter)',
-        format: 'Dark Mode // The Void Edition // 47 MB',
-        downloadLabel: 'DESCARGAR ROM (PDF)',
-        readOnlineLabel: 'LEER COMPENDIO',
-      },
-      enCartridge: {
-        tag: 'ROM_02 // EN-US',
-        title: 'OPERATOR MANUAL',
-        subtitle: 'Canonical English Compendium',
-        pages: '82 Páginas // Tamaño Carta (US Letter)',
-        format: 'Portada Vectorial // Listo para Impresión // 46 MB',
-        downloadLabel: 'DESCARGAR ROM (PDF)',
-        readOnlineLabel: 'LEER COMPENDIO',
-      },
-      notice: 'Las descargas de PDF se distribuyen a través de la CDN de GitHub Releases sin rastreadores ni publicidad.',
-    },
     genesis: {
-      kicker: '// DESCOMPILANDO LA MATRIZ // DETRÁS DEL ICE //',
+      kicker: '// DESCOMPILANDO LA MATRIZ // ORIGEN DEL PROYECTO //',
       title: 'EL EXPERIMENTO DE ACELERACIÓN CON IA EN 48 HORAS',
-      quote: 'Ciberespacio. Una alucinación consensual experimentada diariamente por miles de millones de legítimos operadores...',
-      quoteAuthor: '— William Gibson, Neuromancer (1984)',
-      p1: 'Cardbyte Dungeon nació como un laboratorio de ingeniería rápida: explorar los límites de la Inteligencia Artificial Generativa moderna para diseñar, orquestar, programar y producir un videojuego roguelike completo en un solo fin de semana.',
-      p2: 'En lugar de usar la IA como simple autocompletado, todo el proyecto se basó en flujos de trabajo agénticos: balance de matemáticas de combate, composición de un universo narrativo distribuido en 15 sectores, sintetizadores WebAudio procedimentales y compilación de libros de más de 80 páginas mediante pipelines en Python.',
-      p3: 'Este proyecto es un tributo directo a la literatura de ciencia ficción clásica que moldeó nuestra imaginación, creado con las herramientas de vanguardia que transforman la ingeniería de software.',
-      highlights: [
+      subtitle: 'Un tributo al ciberpunk clásico de 1984 orquestado mediante ingeniería agéntica de última generación.',
+      quote: 'Todos esos momentos se perderán en el tiempo, como lágrimas en la lluvia... Es hora de morir.',
+      quoteAuthor: '— Blade Runner (1982) // Roy Batty',
+      p1: 'Cardbyte Dungeon nació como un laboratorio de ingeniería intensiva durante un fin de semana (48 horas): explorar cómo la Inteligencia Artificial Generativa moderna, guiada por especificaciones rigurosas (OpenSpec), permite diseñar, balancear, programar y publicar un roguelike indie completo desde cero.',
+      p2: 'En lugar de emplear la IA para simple autocompletado, todo el desarrollo funcionó con orquestación agéntica: máquinas de estados deterministas, síntesis procedimental en Web Audio API, balance matemático de cartas, más de 80 páginas de grimorios con lore diegético y compilación automatizada de libros con pipelines en Python.',
+      p3: 'Este proyecto combina la profunda pasión por el género cyberpunk fundacional (Gibson, Dick, Scott) con las herramientas que están redefiniendo el futuro de la ingeniería de software: donde el criterio humano dicta la arquitectura y la IA ejecuta con precisión.',
+      pillarsTitle: 'PILARES DE ACELERACIÓN',
+      pillars: [
         {
-          title: 'Copiloto Full-Stack',
-          desc: 'Máquina de estados en TypeScript, cálculo determinista de daño y ruteo de nodos completamente tipado.',
+          title: 'Desarrollo Guiado por Especificaciones',
+          desc: 'Contratos 100% deterministas con OpenSpec: especificaciones delta, validación automatizada y cero deriva entre diseño y código.',
         },
         {
-          title: 'Generación de Lore y Especificaciones',
-          desc: 'Más de 80 páginas de ficción cohesiva y glosario de términos validados bajo especificaciones estrictas.',
+          title: 'Flujos Agénticos Autónomos',
+          desc: 'Copilotos de IA para balance de combate, generación procedural de grafos de nodos y transiciones con seguridad de tipos.',
         },
         {
-          title: 'Arquitectura de Audio Procedimental',
-          desc: 'Síntesis matemática de ondas (seno, sierra, ruido) y filtrado CRT sin archivos externos de sonido.',
+          title: 'Audio Diegético & Construcción de Mundo',
+          desc: 'Cero archivos de sonido externos. Síntesis matemática pura en el navegador que rinde tributo a sintetizadores analógicos retro.',
         },
       ],
-    },
-    tech: {
-      kicker: '// ESPECIFICACIONES DEL SISTEMA & TRAZA DE CÓDIGO //',
-      title: 'RADIOGRAFÍA TÉCNICA',
-      description:
-        'Arquitectura modular, limpia y determinista diseñada para una respuesta táctil instantánea y sin latencia.',
-      cards: [
+      techTitle: 'ARQUITECTURA DEL SISTEMA & RADIOGRAFÍA',
+      techSubtitle: 'Arquitectura modular, limpia y determinista diseñada para una respuesta táctil instantánea.',
+      techCards: [
         {
           tag: 'MOTOR PRINCIPAL',
           name: 'React 19 + TypeScript',
-          desc: 'Seguridad de tipos estricta, arquitectura basada en componentes desacoplados y cero excepciones en tiempo de ejecución.',
+          desc: 'Seguridad estricta de tipos, orquestación de hooks personalizados y desacoplamiento limpio entre portal y juego.',
         },
         {
           tag: 'ESTADO REACTIVO',
           name: 'Zustand 5 Store',
-          desc: 'Única fuente de verdad inmutable para combate, modificación de mazos y persistencia local sin boilerplate.',
+          desc: 'Única fuente de verdad inmutable para combate, modificación de barajas y persistencia local sin sobrecarga.',
         },
         {
-          tag: 'SISTEMA DE DISEÑO',
+          tag: 'SISTEMA VISUAL',
           name: 'Tailwind CSS v4',
-          desc: 'Efectos scanlines CRT acelerados por GPU, resplandor de fósforo verde/cian y rejilla vectorial cyberpunk.',
+          desc: 'Efectos scanlines CRT acelerados por GPU, bruma volumétrica y tipografía cinematográfica de alto contraste.',
         },
         {
           tag: 'SÍNTESIS DE AUDIO',
           name: 'WebAudio Procedural Synth',
-          desc: 'Generación matemática de frecuencias sonoras y simulación de zumbido analógico de terminal CRT.',
+          desc: 'Drone analógico inspirado en el Yamaha CS-80 de Vangelis con filtros oscilantes y clicks mecánicos táctiles.',
         },
         {
-          tag: 'ERGONOMÍA MÓVIL',
-          name: 'Viewport Diseñado por Android Senior',
-          desc: 'Enfoque táctil mobile-first con safe areas, dianas de toque optimizadas y simulación de hardware móvil.',
+          tag: 'FRAMEWORK DE SPECS',
+          name: 'OpenSpec (Spec-Driven)',
+          desc: 'Planificación rigurosa de cambios, especificaciones delta y seguimiento estricto de tareas sin perder coherencia.',
         },
         {
           tag: 'COMPILADOR DE LIBROS',
-          name: 'Pipeline en Python + Headless Chrome',
+          name: 'Pipeline en Python + Chrome Headless',
           desc: 'Compilador automatizado de Markdown a PDF con paginado diegético CSS Paged Media y portadas vectoriales SVG.',
         },
       ],
     },
-    operator: {
-      kicker: '// IDENTIFICACIÓN DEL OPERADOR // NIVEL DE ACCESO 05 //',
-      title: 'CREDENCIAL DEL OPERADOR',
-      badgeTitle: 'CYBER SECURITY CLEARANCE BADGE',
+    grimoires: {
+      kicker: '// ARCHIVOS CANÓNICOS & PUBLICACIONES //',
+      title: 'GRIMORIOS OFICIALES DEL OPERADOR',
+      description:
+        'Más de 80 páginas de lore ciberpunk diegético, tablas tácticas de combate, glosarios de terminal CRT y arte vectorial. Descarga las ediciones oficiales de colección en PDF con un solo clic.',
+      coverAlt: 'Portada del Grimorio Canónico del Operador Cardbyte Dungeon',
+      esCartridge: {
+        tag: 'EDICIÓN EN ESPAÑOL // ES-MX',
+        title: 'GRIMORIO DEL OPERADOR',
+        subtitle: 'Edición Canónica de Colección',
+        pages: '85 Páginas // Tamaño Carta (US Letter)',
+        format: 'Dark Mode // The Void Edition // 47 MB',
+        downloadLabel: 'DESCARGAR PDF (ES)',
+        readOnlineLabel: 'LEER COMPENDIO',
+      },
+      enCartridge: {
+        tag: 'ENGLISH COMPENDIUM // EN-US',
+        title: 'OPERATOR MANUAL',
+        subtitle: 'Canonical English Edition',
+        pages: '82 Páginas // Tamaño Carta (US Letter)',
+        format: 'Portada Vectorial // Listo para Impresión // 46 MB',
+        downloadLabel: 'DESCARGAR PDF (EN)',
+        readOnlineLabel: 'LEER COMPENDIO',
+      },
+      notice: 'Las descargas de PDF se distribuyen a través de la CDN de GitHub Releases sin rastreadores ni publicidad.',
+    },
+    architect: {
+      kicker: '// ARQUITECTO DEL SISTEMA // NIVEL DE ACCESO: 05 //',
+      title: 'CONOCE AL ARQUITECTO',
+      badgeTitle: 'EXPEDIENTE BIOMÉTRICO // SEGURIDAD TYRELL CORP',
+      authId: 'AUTH_ID: #0792-AH // PRUEBA VOIGHT-KAMPFF: APROBADA',
       name: 'ARTURO HERRERA',
       role: 'Senior Mobile Engineer // Estudiante de Ing. en Inteligencia Artificial',
-      experience: 'Más de 7 años desarrollando aplicaciones robustas en Android',
-      education: 'Ingeniería en Inteligencia Artificial (Hybridge)',
-      bio: 'Ingeniero de software con más de siete años escalando ecosistemas móviles en Android. Actualmente profundizando en tecnologías Full Stack e Inteligencia Artificial aplicada, orquestando flujos agénticos y modelos de lenguaje para construir productos innovadores y de alto impacto.',
+      experience: 'Más de 7 años especializándose en desarrollo de aplicaciones Android',
+      education: 'Estudiante de Ingeniería en Inteligencia Artificial (Hybridge)',
+      bioP1:
+        'Ingeniero de software con más de siete años escalando ecosistemas móviles de alto rendimiento en Android. Apasionado por la artesanía en el código, el diseño de arquitecturas robustas y la creación de experiencias digitales memorables.',
+      bioP2:
+        'Actualmente profundizando en la Ingeniería en Inteligencia Artificial, investigando la convergencia entre sistemas distribuidos, orquestación de agentes con LLMs y desarrollo guiado por especificaciones. Cardbyte Dungeon materializa esta visión: la velocidad de la IA aplicada con fundamentos sólidos de ingeniería.',
+      scanPrompt: 'ESCÁNER BIOMÉTRICO LÁSER VOIGHT-KAMPFF',
+      scanStatus: 'COINCIDENCIA BIOMÉTRICA: 99.98% [VERIFICADO]',
       linkedInCta: 'CONECTAR EN LINKEDIN >>',
       githubCta: 'EXPLORAR REPOSITORIO (GITHUB) >>',
+      skills: [
+        'Android SDK',
+        'Kotlin & Java',
+        'Arquitectura de Software',
+        'Orquestación de Agentes IA',
+        'OpenSpec',
+        'TypeScript',
+        'Web Audio API',
+      ],
     },
     footer: {
-      corp: 'ONO-SENDAI CYBERSPACE CORP // TERMINAL DEL OPERADOR v1.0',
-      note: 'Sin cookies de rastreo. Sin trampas de telemetría. Compilación 100% estática.',
+      corp: 'ONO-SENDAI CYBERSPACE CORP // TERMINAL DEL OPERADOR 2049',
+      note: 'Sin cookies de rastreo. Sin trampas de telemetría. Compilación 100% estática en el cliente.',
       openSource: 'Cardbyte Dungeon es software de código abierto. Licencia MIT.',
     },
   },

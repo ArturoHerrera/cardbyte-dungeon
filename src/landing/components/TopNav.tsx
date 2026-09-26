@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Cpu, Terminal } from 'lucide-react';
+import { Volume2, VolumeX, Terminal, Play, Languages } from 'lucide-react';
 import { Locale, LandingTranslations } from '../i18n/locales';
 import { landingAudio } from '../audio/landingAudio';
 
@@ -12,7 +12,7 @@ interface TopNavProps {
 
 export function TopNav({ locale, setLocale, t, onRomSwapped }: TopNavProps) {
   const [isMuted, setIsMuted] = useState(landingAudio.getMuted());
-  const [isPatching, setIsPatching] = useState(false);
+  const [isSwitchingLocale, setIsSwitchingLocale] = useState(false);
 
   useEffect(() => {
     return landingAudio.subscribe((muted) => setIsMuted(muted));
@@ -24,117 +24,132 @@ export function TopNav({ locale, setLocale, t, onRomSwapped }: TopNavProps) {
 
   const handleToggleLocale = () => {
     const nextLocale: Locale = locale === 'en' ? 'es' : 'en';
-    setIsPatching(true);
+    setIsSwitchingLocale(true);
     landingAudio.playRomInject();
     setLocale(nextLocale);
 
-    const patchMsg = nextLocale === 'es' ? '[PATCHING_ROM: ES-MX...]' : '[INJECTING_LOCALE: EN-US...]';
+    const patchMsg = nextLocale === 'es' ? '[PATCHING_ROM: ES-MX...]' : '[PATCHING_ROM: EN-US...]';
     if (onRomSwapped) {
       onRomSwapped(patchMsg);
     }
 
     setTimeout(() => {
-      setIsPatching(false);
-    }, 1200);
+      setIsSwitchingLocale(false);
+    }, 1000);
+  };
+
+  const handleJackInClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    landingAudio.playJackInSwell();
+    setTimeout(() => {
+      window.location.href = '/game.html';
+    }, 280);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#030609]/90 border-b border-[#142330] px-4 lg:px-8 py-3 transition-colors">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#020408]/85 border-b border-[#111e2a] px-4 lg:px-8 py-3.5 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand Terminal Header */}
         <a
           href="#"
           onClick={() => landingAudio.playClick(1100)}
-          className="flex items-center gap-2.5 text-slate-100 hover:text-[#00f0ff] transition-colors group"
+          className="flex items-center gap-3 text-slate-100 hover:text-[#00e5ff] transition-colors group"
         >
-          <div className="w-2.5 h-2.5 rounded-full bg-[#00ff66] shadow-[0_0_8px_#00ff66] animate-pulse" />
-          <div className="flex items-center gap-1.5 font-mono text-sm tracking-widest font-bold">
-            <Terminal className="w-4 h-4 text-[#00f0ff]" />
-            <span className="text-[#00f0ff]">{t.nav.title}</span>
+          <div className="relative flex items-center justify-center">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff9f1c] shadow-[0_0_10px_#ff9f1c]" />
+            <span className="absolute w-4 h-4 rounded-full bg-[#ff9f1c]/30 animate-ping" />
           </div>
-          <span className="hidden sm:inline-block text-[10px] tracking-widest text-[#4b5c6b] font-mono border border-[#142330] px-1.5 py-0.5 rounded bg-[#060c12]">
-            {t.meta.sublevel}
-          </span>
+          <div className="flex items-center gap-2 font-mono text-sm tracking-widest font-black">
+            <Terminal className="w-4 h-4 text-[#00e5ff]" />
+            <span className="tracking-wider text-white group-hover:text-[#00e5ff] transition-colors">
+              {t.nav.title}
+            </span>
+          </div>
         </a>
 
-        {/* Anchor Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider text-slate-400">
+        {/* Anchor Navigation Links (Minimalist & Roomy) */}
+        <nav className="hidden md:flex items-center gap-7 text-xs font-mono tracking-widest text-slate-400">
           <a
             href="#genesis"
             onClick={() => landingAudio.playClick(900)}
-            className="hover:text-[#00f0ff] transition-colors"
+            className="hover:text-[#ff9f1c] transition-colors"
           >
             // {t.nav.story}
           </a>
           <a
-            href="#manuals"
+            href="#grimoires"
             onClick={() => landingAudio.playClick(900)}
-            className="hover:text-[#00f0ff] transition-colors"
+            className="hover:text-[#00e5ff] transition-colors"
           >
             // {t.nav.manuals}
           </a>
           <a
             href="#tech"
             onClick={() => landingAudio.playClick(900)}
-            className="hover:text-[#00f0ff] transition-colors"
+            className="hover:text-[#ff9f1c] transition-colors"
           >
             // {t.nav.tech}
           </a>
           <a
-            href="#operator"
+            href="#architect"
             onClick={() => landingAudio.playClick(900)}
-            className="hover:text-[#00ff66] transition-colors"
+            className="hover:text-[#00e5ff] transition-colors"
           >
             // {t.nav.operator}
           </a>
         </nav>
 
-        {/* Controls: Audio Toggle, ROM Switcher, Jack In */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Controls: Audio Toggle, Language Switcher, Direct Jack In */}
+        <div className="flex items-center gap-2.5 sm:gap-3 font-mono text-xs">
           {/* Audio Ambient Synth Toggle */}
           <button
             onClick={handleToggleAudio}
-            title={isMuted ? 'Unmute Ambient WebAudio' : 'Mute Ambient WebAudio'}
+            title={isMuted ? 'Enable Ambient Synth (Vangelis CS-80 pad)' : 'Mute Ambient Synth'}
             className={`
-              flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-mono border transition-all
+              flex items-center gap-1.5 px-3 py-1.5 rounded-md border transition-all cursor-pointer
               ${
                 !isMuted
-                  ? 'border-[#00ff66] text-[#00ff66] bg-[#00ff66]/10 shadow-[0_0_12px_rgba(0,255,102,0.2)]'
-                  : 'border-[#1b2a36] text-slate-400 hover:text-slate-200 hover:border-slate-500 bg-[#070e14]'
+                  ? 'border-[#ff9f1c] text-[#ff9f1c] bg-[#ff9f1c]/10 shadow-[0_0_12px_rgba(255,159,28,0.25)]'
+                  : 'border-[#1b2b3a] text-slate-400 hover:text-slate-200 hover:border-slate-500 bg-[#060c12]'
               }
             `}
           >
-            {!isMuted ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5 text-slate-500" />}
-            <span className="hidden sm:inline text-[11px] font-semibold">
+            {!isMuted ? (
+              <Volume2 className="w-3.5 h-3.5 animate-pulse text-[#ff9f1c]" />
+            ) : (
+              <VolumeX className="w-3.5 h-3.5 text-slate-500" />
+            )}
+            <span className="hidden sm:inline text-[11px] font-semibold tracking-wider">
               {!isMuted ? t.meta.audioActive : t.meta.audioMuted}
             </span>
           </button>
 
-          {/* Diegetic ROM Cartridge Language Switch */}
+          {/* Language Switch */}
           <button
             onClick={handleToggleLocale}
-            title="Swap Locale ROM Module"
+            title="Toggle Language (ES / EN)"
             className={`
-              flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-mono border transition-all relative overflow-hidden
+              flex items-center gap-1.5 px-3 py-1.5 rounded-md border transition-all cursor-pointer
               ${
-                isPatching
-                  ? 'border-[#ffb000] text-[#ffb000] bg-[#ffb000]/20 animate-pulse'
-                  : 'border-[#1e3444] text-[#00e5ff] hover:border-[#00e5ff] bg-[#08121a]'
+                isSwitchingLocale
+                  ? 'border-[#00e5ff] text-[#00e5ff] bg-[#00e5ff]/20 animate-pulse'
+                  : 'border-[#1b2b3a] text-slate-300 hover:border-[#00e5ff] hover:text-[#00e5ff] bg-[#060c12]'
               }
             `}
           >
-            <Cpu className={`w-3.5 h-3.5 ${isPatching ? 'animate-spin text-[#ffb000]' : 'text-[#00e5ff]'}`} />
+            <Languages className="w-3.5 h-3.5 text-[#00e5ff]" />
             <span className="font-bold text-[11px] tracking-wider">
-              {locale === 'en' ? 'ROM: EN-US' : 'ROM: ES-MX'}
+              {locale === 'en' ? 'EN' : 'ES'}
             </span>
           </button>
 
           {/* Direct Jack In to Game */}
           <a
             href="/game.html"
-            onClick={() => landingAudio.playClick(1400)}
-            className="flex items-center gap-1 px-3 py-1.5 rounded text-xs font-mono font-bold tracking-wider bg-[#00f0ff] hover:bg-[#38f8ff] text-[#03070b] shadow-[0_0_15px_rgba(0,240,255,0.4)] transition-all hover:scale-105 active:scale-95"
+            onClick={handleJackInClick}
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-md font-bold tracking-widest text-[#020408] bg-gradient-to-r from-[#ff9f1c] to-[#00e5ff] hover:from-[#ffb703] hover:to-[#38f8ff] shadow-[0_0_18px_rgba(255,159,28,0.35)] transition-all hover:scale-105 active:scale-95"
           >
+            <Play className="w-3 h-3 fill-current" />
             <span>{t.meta.jackIn}</span>
           </a>
         </div>
